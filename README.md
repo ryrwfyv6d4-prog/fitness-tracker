@@ -23,12 +23,33 @@ Full design: [`docs/fitness-nutrition-tracker-spec.md`](docs/fitness-nutrition-t
 
 ```sh
 npm install
-npx wrangler d1 execute fitness-tracker --local --file=./migrations/0001_init.sql
-npx wrangler d1 execute fitness-tracker --local --file=./seed/seed.sql
+npm run db:migrate:local
+npm run db:seed:local
 
 npm run dev:api    # API + built UI at http://localhost:8787
 npm run dev        # (separate terminal) Vite dev server with HMR at :5173, proxies /api → :8787
 ```
+
+All data lives in `.wrangler/state/` next to the code — it persists between
+restarts, and backing up the app is just copying that folder.
+
+## Opening on your phone (local, same Wi-Fi)
+
+```sh
+npm run serve      # builds the UI and serves everything on your local network
+```
+
+Then on the phone, open `http://<your-computer-ip>:8787` — both devices must
+be on the same Wi-Fi. Find the computer's IP with `ipconfig` (Windows) or
+`ipconfig getifaddr en0` (Mac). Use the browser's "Add to Home Screen" to get
+an app-style icon.
+
+Notes:
+
+- Your OS firewall may ask to allow incoming connections the first time —
+  accept for private/home networks.
+- The computer needs to be on (and the command running) for the app to work;
+  for an always-available version, deploy to Cloudflare below (free tier).
 
 ## Deploying to Cloudflare
 

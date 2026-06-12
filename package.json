@@ -8,6 +8,7 @@
     "test": "node --test shared/engine.test.js",
     "dev": "vite",
     "dev:api": "wrangler dev",
+    "serve": "vite build && wrangler dev --ip 0.0.0.0 --port 8787",
     "build": "vite build",
     "deploy": "npm run build && wrangler deploy",
     "db:create": "wrangler d1 create fitness-tracker",
