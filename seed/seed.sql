@@ -1,0 +1,68 @@
+-- Starter data: common whole foods (per 100 g/ml) and a MET exercise compendium.
+-- Safe to re-run: INSERT OR IGNORE on stable ids.
+
+INSERT OR IGNORE INTO foods (id, name, source, base_unit, kcal_per_100, protein_g, carbs_g, fat_g, fiber_g, sugar_g) VALUES
+('food_chicken_breast', 'Chicken Breast, cooked', 'verified', 'g', 165, 31.0, 0.0, 3.6, 0, 0),
+('food_rolled_oats',    'Rolled Oats, dry',       'verified', 'g', 379, 13.2, 67.7, 6.5, 10.1, 1.0),
+('food_white_rice',     'White Rice, cooked',     'verified', 'g', 130, 2.7, 28.2, 0.3, 0.4, 0.1),
+('food_egg',            'Egg, whole',             'verified', 'g', 143, 12.6, 0.7, 9.5, 0, 0.4),
+('food_whole_milk',     'Whole Milk',             'verified', 'ml', 61, 3.2, 4.8, 3.3, 0, 4.8),
+('food_banana',         'Banana',                 'verified', 'g', 89, 1.1, 22.8, 0.3, 2.6, 12.2),
+('food_apple',          'Apple',                  'verified', 'g', 52, 0.3, 13.8, 0.2, 2.4, 10.4),
+('food_ww_bread',       'Whole Wheat Bread',      'verified', 'g', 247, 13.0, 41.0, 3.4, 6.0, 4.3),
+('food_peanut_butter',  'Peanut Butter',          'verified', 'g', 588, 25.0, 20.0, 50.0, 6.0, 9.2),
+('food_olive_oil',      'Olive Oil',              'verified', 'ml', 884, 0.0, 0.0, 100.0, 0, 0),
+('food_cheddar',        'Cheddar Cheese',         'verified', 'g', 403, 25.0, 1.3, 33.0, 0, 0.5),
+('food_salmon',         'Salmon, cooked',         'verified', 'g', 208, 20.4, 0.0, 13.4, 0, 0),
+('food_broccoli',       'Broccoli, raw',          'verified', 'g', 34, 2.8, 6.6, 0.4, 2.6, 1.7),
+('food_potato',         'Potato, boiled',         'verified', 'g', 87, 1.9, 20.1, 0.1, 1.8, 0.9),
+('food_pasta',          'Pasta, cooked',          'verified', 'g', 158, 5.8, 30.9, 0.9, 1.8, 0.6),
+('food_greek_yogurt',   'Greek Yogurt, plain',    'verified', 'g', 97, 9.0, 3.9, 5.0, 0, 3.9),
+('food_whey',           'Whey Protein Powder',    'verified', 'g', 400, 80.0, 8.0, 5.0, 0, 5.0),
+('food_almonds',        'Almonds',                'verified', 'g', 579, 21.2, 21.6, 49.9, 12.5, 4.4),
+('food_avocado',        'Avocado',                'verified', 'g', 160, 2.0, 8.5, 14.7, 6.7, 0.7),
+('food_beef_mince',     'Beef Mince 10% fat, cooked', 'verified', 'g', 217, 26.1, 0.0, 11.8, 0, 0);
+
+INSERT OR IGNORE INTO food_servings (id, food_id, label, grams, is_default) VALUES
+('srv_chicken_fillet',  'food_chicken_breast', '1 fillet (120g)',   120, 1),
+('srv_oats_halfcup',    'food_rolled_oats',    '1/2 cup (40g)',      40, 1),
+('srv_rice_cup',        'food_white_rice',     '1 cup (158g)',      158, 1),
+('srv_egg_large',       'food_egg',            '1 large (50g)',      50, 1),
+('srv_milk_glass',      'food_whole_milk',     '1 glass (250ml)',   250, 1),
+('srv_milk_splash',     'food_whole_milk',     'splash (30ml)',      30, 0),
+('srv_banana_med',      'food_banana',         '1 medium (118g)',   118, 1),
+('srv_apple_med',       'food_apple',          '1 medium (182g)',   182, 1),
+('srv_bread_slice',     'food_ww_bread',       '1 slice (38g)',      38, 1),
+('srv_pb_tbsp',         'food_peanut_butter',  '1 tbsp (16g)',       16, 1),
+('srv_oil_tbsp',        'food_olive_oil',      '1 tbsp (13.5ml)',  13.5, 1),
+('srv_cheddar_slice',   'food_cheddar',        '1 slice (28g)',      28, 1),
+('srv_salmon_fillet',   'food_salmon',         '1 fillet (170g)',   170, 1),
+('srv_broccoli_cup',    'food_broccoli',       '1 cup (91g)',        91, 1),
+('srv_potato_med',      'food_potato',         '1 medium (173g)',   173, 1),
+('srv_pasta_cup',       'food_pasta',          '1 cup (140g)',      140, 1),
+('srv_yogurt_pot',      'food_greek_yogurt',   '1 pot (170g)',      170, 1),
+('srv_whey_scoop',      'food_whey',           '1 scoop (30g)',      30, 1),
+('srv_almonds_handful', 'food_almonds',        '1 handful (28g)',    28, 1),
+('srv_avocado_half',    'food_avocado',        '1/2 medium (100g)', 100, 1),
+('srv_beef_100',        'food_beef_mince',     '100g portion',      100, 1);
+
+-- MET values from the Compendium of Physical Activities
+INSERT OR IGNORE INTO exercises (id, name, category, met) VALUES
+('ex_walk_brisk',     'Walking, brisk (5.6 km/h)',        'cardio', 4.3),
+('ex_run_8',          'Running, 8 km/h',                  'cardio', 8.3),
+('ex_run_11',         'Running, 11 km/h',                 'cardio', 11.0),
+('ex_cycle_moderate', 'Cycling, moderate (19-22 km/h)',   'cardio', 7.5),
+('ex_swim_freestyle', 'Swimming, freestyle moderate',     'cardio', 5.8),
+('ex_rowing',         'Rowing machine, moderate',         'cardio', 7.0),
+('ex_elliptical',     'Elliptical trainer, moderate',     'cardio', 5.0),
+('ex_jump_rope',      'Jump rope',                        'cardio', 11.0),
+('ex_hiit',           'HIIT / circuit training',          'cardio', 8.0),
+('ex_strength_gen',   'Strength training, general',       'strength', 5.0),
+('ex_strength_vig',   'Strength training, vigorous',      'strength', 6.0),
+('ex_yoga',           'Yoga, hatha',                      'strength', 2.5),
+('ex_football',       'Football, casual',                 'sport', 7.0),
+('ex_tennis',         'Tennis, singles',                  'sport', 7.3),
+('ex_basketball',     'Basketball, game',                 'sport', 6.5),
+('ex_hiking',         'Hiking, cross-country',            'sport', 6.0),
+('ex_cleaning',       'House cleaning, vigorous',         'daily_activity', 3.3),
+('ex_gardening',      'Gardening, general',               'daily_activity', 3.8);

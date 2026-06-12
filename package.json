@@ -1,0 +1,28 @@
+{
+  "name": "fitness-tracker",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal fitness & nutrition tracker (MyFitnessPal-style) — React + Cloudflare Worker + D1",
+  "scripts": {
+    "test": "node --test shared/engine.test.js",
+    "dev": "vite",
+    "dev:api": "wrangler dev",
+    "build": "vite build",
+    "deploy": "npm run build && wrangler deploy",
+    "db:create": "wrangler d1 create fitness-tracker",
+    "db:migrate": "wrangler d1 execute fitness-tracker --remote --file=./migrations/0001_init.sql",
+    "db:seed": "wrangler d1 execute fitness-tracker --remote --file=./seed/seed.sql",
+    "db:migrate:local": "wrangler d1 execute fitness-tracker --local --file=./migrations/0001_init.sql",
+    "db:seed:local": "wrangler d1 execute fitness-tracker --local --file=./seed/seed.sql"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.0",
+    "wrangler": "^3.114.0"
+  }
+}
