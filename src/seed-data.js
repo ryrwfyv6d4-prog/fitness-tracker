@@ -1,0 +1,46 @@
+// Starter foods and exercises for local-storage mode.
+// Mirrors seed/seed.sql (per-100g nutrients, MET compendium values).
+
+export const SEED_FOODS = [
+  { id: "food_chicken_breast", name: "Chicken Breast, cooked", kcal_per_100: 165, protein_g: 31.0, carbs_g: 0.0, fat_g: 3.6, servings: [{ id: "srv_chicken_fillet", label: "1 fillet (120g)", grams: 120, is_default: 1 }] },
+  { id: "food_rolled_oats", name: "Rolled Oats, dry", kcal_per_100: 379, protein_g: 13.2, carbs_g: 67.7, fat_g: 6.5, servings: [{ id: "srv_oats_halfcup", label: "1/2 cup (40g)", grams: 40, is_default: 1 }] },
+  { id: "food_white_rice", name: "White Rice, cooked", kcal_per_100: 130, protein_g: 2.7, carbs_g: 28.2, fat_g: 0.3, servings: [{ id: "srv_rice_cup", label: "1 cup (158g)", grams: 158, is_default: 1 }] },
+  { id: "food_egg", name: "Egg, whole", kcal_per_100: 143, protein_g: 12.6, carbs_g: 0.7, fat_g: 9.5, servings: [{ id: "srv_egg_large", label: "1 large (50g)", grams: 50, is_default: 1 }] },
+  { id: "food_whole_milk", name: "Whole Milk", base_unit: "ml", kcal_per_100: 61, protein_g: 3.2, carbs_g: 4.8, fat_g: 3.3, servings: [{ id: "srv_milk_glass", label: "1 glass (250ml)", grams: 250, is_default: 1 }, { id: "srv_milk_splash", label: "splash (30ml)", grams: 30, is_default: 0 }] },
+  { id: "food_banana", name: "Banana", kcal_per_100: 89, protein_g: 1.1, carbs_g: 22.8, fat_g: 0.3, servings: [{ id: "srv_banana_med", label: "1 medium (118g)", grams: 118, is_default: 1 }] },
+  { id: "food_apple", name: "Apple", kcal_per_100: 52, protein_g: 0.3, carbs_g: 13.8, fat_g: 0.2, servings: [{ id: "srv_apple_med", label: "1 medium (182g)", grams: 182, is_default: 1 }] },
+  { id: "food_ww_bread", name: "Whole Wheat Bread", kcal_per_100: 247, protein_g: 13.0, carbs_g: 41.0, fat_g: 3.4, servings: [{ id: "srv_bread_slice", label: "1 slice (38g)", grams: 38, is_default: 1 }] },
+  { id: "food_peanut_butter", name: "Peanut Butter", kcal_per_100: 588, protein_g: 25.0, carbs_g: 20.0, fat_g: 50.0, servings: [{ id: "srv_pb_tbsp", label: "1 tbsp (16g)", grams: 16, is_default: 1 }] },
+  { id: "food_olive_oil", name: "Olive Oil", base_unit: "ml", kcal_per_100: 884, protein_g: 0, carbs_g: 0, fat_g: 100.0, servings: [{ id: "srv_oil_tbsp", label: "1 tbsp (13.5ml)", grams: 13.5, is_default: 1 }] },
+  { id: "food_cheddar", name: "Cheddar Cheese", kcal_per_100: 403, protein_g: 25.0, carbs_g: 1.3, fat_g: 33.0, servings: [{ id: "srv_cheddar_slice", label: "1 slice (28g)", grams: 28, is_default: 1 }] },
+  { id: "food_salmon", name: "Salmon, cooked", kcal_per_100: 208, protein_g: 20.4, carbs_g: 0.0, fat_g: 13.4, servings: [{ id: "srv_salmon_fillet", label: "1 fillet (170g)", grams: 170, is_default: 1 }] },
+  { id: "food_broccoli", name: "Broccoli, raw", kcal_per_100: 34, protein_g: 2.8, carbs_g: 6.6, fat_g: 0.4, servings: [{ id: "srv_broccoli_cup", label: "1 cup (91g)", grams: 91, is_default: 1 }] },
+  { id: "food_potato", name: "Potato, boiled", kcal_per_100: 87, protein_g: 1.9, carbs_g: 20.1, fat_g: 0.1, servings: [{ id: "srv_potato_med", label: "1 medium (173g)", grams: 173, is_default: 1 }] },
+  { id: "food_pasta", name: "Pasta, cooked", kcal_per_100: 158, protein_g: 5.8, carbs_g: 30.9, fat_g: 0.9, servings: [{ id: "srv_pasta_cup", label: "1 cup (140g)", grams: 140, is_default: 1 }] },
+  { id: "food_greek_yogurt", name: "Greek Yogurt, plain", kcal_per_100: 97, protein_g: 9.0, carbs_g: 3.9, fat_g: 5.0, servings: [{ id: "srv_yogurt_pot", label: "1 pot (170g)", grams: 170, is_default: 1 }] },
+  { id: "food_whey", name: "Whey Protein Powder", kcal_per_100: 400, protein_g: 80.0, carbs_g: 8.0, fat_g: 5.0, servings: [{ id: "srv_whey_scoop", label: "1 scoop (30g)", grams: 30, is_default: 1 }] },
+  { id: "food_almonds", name: "Almonds", kcal_per_100: 579, protein_g: 21.2, carbs_g: 21.6, fat_g: 49.9, servings: [{ id: "srv_almonds_handful", label: "1 handful (28g)", grams: 28, is_default: 1 }] },
+  { id: "food_avocado", name: "Avocado", kcal_per_100: 160, protein_g: 2.0, carbs_g: 8.5, fat_g: 14.7, servings: [{ id: "srv_avocado_half", label: "1/2 medium (100g)", grams: 100, is_default: 1 }] },
+  { id: "food_beef_mince", name: "Beef Mince 10% fat, cooked", kcal_per_100: 217, protein_g: 26.1, carbs_g: 0.0, fat_g: 11.8, servings: [{ id: "srv_beef_100", label: "100g portion", grams: 100, is_default: 1 }] },
+].map((f) => ({ brand: null, barcode: null, base_unit: "g", ...f }));
+
+export const SEED_EXERCISES = [
+  { id: "ex_walk_brisk", name: "Walking, brisk (5.6 km/h)", category: "cardio", met: 4.3 },
+  { id: "ex_run_8", name: "Running, 8 km/h", category: "cardio", met: 8.3 },
+  { id: "ex_run_11", name: "Running, 11 km/h", category: "cardio", met: 11.0 },
+  { id: "ex_cycle_moderate", name: "Cycling, moderate (19-22 km/h)", category: "cardio", met: 7.5 },
+  { id: "ex_swim_freestyle", name: "Swimming, freestyle moderate", category: "cardio", met: 5.8 },
+  { id: "ex_rowing", name: "Rowing machine, moderate", category: "cardio", met: 7.0 },
+  { id: "ex_elliptical", name: "Elliptical trainer, moderate", category: "cardio", met: 5.0 },
+  { id: "ex_jump_rope", name: "Jump rope", category: "cardio", met: 11.0 },
+  { id: "ex_hiit", name: "HIIT / circuit training", category: "cardio", met: 8.0 },
+  { id: "ex_strength_gen", name: "Strength training, general", category: "strength", met: 5.0 },
+  { id: "ex_strength_vig", name: "Strength training, vigorous", category: "strength", met: 6.0 },
+  { id: "ex_yoga", name: "Yoga, hatha", category: "strength", met: 2.5 },
+  { id: "ex_football", name: "Football, casual", category: "sport", met: 7.0 },
+  { id: "ex_tennis", name: "Tennis, singles", category: "sport", met: 7.3 },
+  { id: "ex_basketball", name: "Basketball, game", category: "sport", met: 6.5 },
+  { id: "ex_hiking", name: "Hiking, cross-country", category: "sport", met: 6.0 },
+  { id: "ex_cleaning", name: "House cleaning, vigorous", category: "daily_activity", met: 3.3 },
+  { id: "ex_gardening", name: "Gardening, general", category: "daily_activity", met: 3.8 },
+];

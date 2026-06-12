@@ -1,3 +1,5 @@
+import { localApi } from "./localStore.js";
+
 const BASE = "/api/v1";
 
 async function req(path, opts = {}) {
@@ -16,7 +18,7 @@ async function req(path, opts = {}) {
   return data;
 }
 
-export const api = {
+const remoteApi = {
   getProfile: () => req("/me"),
   saveProfile: (p) => req("/me", { method: "PUT", body: p }),
   logWeight: (date, weight_kg) =>
@@ -47,6 +49,10 @@ export const api = {
   reportCalories: (from, to) => req(`/me/reports/calories?from=${from}&to=${to}`),
   reportMacros: (from, to) => req(`/me/reports/macros?from=${from}&to=${to}`),
 };
+
+// Static builds (VITE_STORAGE=local, e.g. GitHub Pages) persist to
+// localStorage on the device; otherwise talk to the Worker API.
+export const api = import.meta.env.VITE_STORAGE === "local" ? localApi : remoteApi;
 
 // Local-date helpers (the client owns "what day is it" — spec §8)
 export const todayStr = () => new Date().toLocaleDateString("en-CA");
