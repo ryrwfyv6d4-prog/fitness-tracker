@@ -77,6 +77,46 @@ export function useLibrary() {
   return state;
 }
 
+const FAV_KEY = `norm-archive:favs:${ARCHIVE_IDENTIFIER}:v1`;
+const POS_KEY = `norm-archive:positions:${ARCHIVE_IDENTIFIER}:v1`;
+
+// Favorites and watch positions live in localStorage — per-device, no account.
+export function useFavorites() {
+  const [favs, setFavs] = useState(() => new Set());
+  useEffect(() => {
+    try { setFavs(new Set(JSON.parse(localStorage.getItem(FAV_KEY) || "[]"))); } catch {}
+  }, []);
+  const toggleFav = (id) =>
+    setFavs((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      try { localStorage.setItem(FAV_KEY, JSON.stringify([...next])); } catch {}
+      return next;
+    });
+  return [favs, toggleFav];
+}
+
+export function usePositions() {
+  const [positions, setPositions] = useState({});
+  useEffect(() => {
+    try { setPositions(JSON.parse(localStorage.getItem(POS_KEY) || "{}")); } catch {}
+  }, []);
+  const savePosition = (id, t, d) => {
+    if (!(t > 5) || !d) return;
+    setPositions((prev) => {
+      const next = { ...prev, [id]: { t: Math.floor(t), d: Math.floor(d), at: Date.now() } };
+      try { localStorage.setItem(POS_KEY, JSON.stringify(next)); } catch {}
+      return next;
+    });
+  };
+  return [positions, savePosition];
+}
+
+export function progressOf(positions, id) {
+  const p = positions[id];
+  return p && p.d ? Math.min(p.t / p.d, 1) : 0;
+}
+
 export function formatDuration(seconds) {
   if (seconds == null || Number.isNaN(seconds)) return null;
   const h = Math.floor(seconds / 3600);

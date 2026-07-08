@@ -18,11 +18,15 @@ html {
 body {
   background-color: var(--color-ink-900);
   color: #e5e9ee;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
   font-feature-settings: "tnum";
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Plyr accent to match the theme */
-:root {
-  --plyr-color-main: var(--color-accent-400);
-  --plyr-video-background: #000;
+.no-scrollbar {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

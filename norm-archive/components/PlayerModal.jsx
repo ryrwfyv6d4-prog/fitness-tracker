@@ -1,88 +1,122 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import "plyr/dist/plyr.css";
 import { formatDuration, formatSize } from "../lib/useLibrary";
 
-export default function PlayerModal({ video, archiveUrl, onClose }) {
+// Native HTML5 player on purpose: on iOS it provides AirPlay, PiP, fullscreen,
+// gesture seeking, and lock-screen controls that custom JS players lose.
+export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggleFav, resumeAt, onProgress }) {
   const videoRef = useRef(null);
-  const plyrRef = useRef(null);
+  const lastSaveRef = useRef(0);
+
+  const saveNow = () => {
+    const el = videoRef.current;
+    if (el && el.duration) onProgress(video.id, el.currentTime, el.duration);
+  };
+
+  const close = () => {
+    saveNow();
+    videoRef.current?.pause();
+    onClose();
+  };
 
   useEffect(() => {
-    let disposed = false;
-    // Plyr touches window at import time, so load it only in the browser.
-    import("plyr").then(({ default: Plyr }) => {
-      if (disposed || !videoRef.current) return;
-      plyrRef.current = new Plyr(videoRef.current, {
-        // Self-hosted sprite (copied from the plyr package) — avoids the
-        // default cdn.plyr.io dependency.
-        iconUrl: "/plyr.svg",
-        controls: [
-          "play-large", "play", "progress", "current-time", "duration",
-          "mute", "volume", "settings", "pip", "fullscreen",
-        ],
-        settings: ["speed"],
-        speed: { selected: 1, options: [0.75, 1, 1.25, 1.5, 2] },
-      });
-    });
-    return () => {
-      disposed = true;
-      plyrRef.current?.destroy();
-      plyrRef.current = null;
-    };
+    if (resumeAt && videoRef.current) {
+      const el = videoRef.current;
+      const seek = () => { try { el.currentTime = resumeAt; } catch {} };
+      if (el.readyState >= 1) seek();
+      else el.addEventListener("loadedmetadata", seek, { once: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [video.id]);
 
   useEffect(() => {
-    const onKey = (e) => e.key === "Escape" && onClose();
+    const onKey = (e) => e.key === "Escape" && close();
+    // iPhone swipe-back / browser back closes the player instead of leaving the site
+    const onPop = () => { saveNow(); videoRef.current?.pause(); onClose(); };
+    window.history.pushState({ np: video.id }, "");
     document.addEventListener("keydown", onKey);
+    window.addEventListener("popstate", onPop);
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
+      window.removeEventListener("popstate", onPop);
       document.body.style.overflow = "";
+      if (window.history.state?.np === video.id) window.history.back();
     };
-  }, [onClose]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [video.id]);
 
-  const duration = formatDuration(video.durationSeconds);
-  const size = formatSize(video.sizeBytes);
+  const handleTimeUpdate = () => {
+    const now = Date.now();
+    if (now - lastSaveRef.current > 5000) {
+      lastSaveRef.current = now;
+      saveNow();
+    }
+  };
+
+  const meta = [video.category, video.year, formatDuration(video.durationSeconds), formatSize(video.sizeBytes)]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 sm:p-8"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+      onClick={(e) => e.target === e.currentTarget && close()}
       role="dialog"
       aria-modal="true"
       aria-label={video.title}
       data-testid="player-modal"
     >
-      <div className="w-full max-w-4xl overflow-hidden rounded-xl bg-ink-950 ring-1 ring-ink-700 shadow-2xl">
+      <button
+        type="button"
+        onClick={close}
+        aria-label="Close"
+        className="absolute right-3 top-[max(env(safe-area-inset-top),12px)] z-10 flex h-[38px] w-[38px] items-center justify-center rounded-full bg-ink-800/90 text-white ring-1 ring-white/10 backdrop-blur"
+      >
+        ✕
+      </button>
+      <div className="w-full max-w-4xl md:m-6 md:overflow-hidden md:rounded-2xl md:bg-ink-950 md:shadow-2xl md:ring-1 md:ring-ink-700">
         <div className="aspect-video bg-black">
-          <video ref={videoRef} playsInline controls autoPlay preload="metadata" className="h-full w-full">
-            <source src={video.url} type="video/mp4" />
-          </video>
+          <video
+            ref={videoRef}
+            src={video.url}
+            poster={video.thumbnailUrl}
+            controls
+            playsInline
+            autoPlay
+            preload="metadata"
+            x-webkit-airplay="allow"
+            onTimeUpdate={handleTimeUpdate}
+            onPause={saveNow}
+            className="h-full w-full"
+            data-testid="player"
+          />
         </div>
-        <div className="flex flex-wrap items-start justify-between gap-3 p-4 sm:p-5">
+        <div className="flex flex-wrap items-start justify-between gap-3 p-4 pb-[max(env(safe-area-inset-bottom),16px)] sm:p-5">
           <div className="min-w-0">
-            <h2 className="text-base sm:text-lg font-semibold text-white">{video.title}</h2>
-            <p className="mt-1 text-xs text-ink-400">
-              {[video.category, duration, size].filter(Boolean).join(" · ")}
-            </p>
+            <h2 className="text-base font-semibold text-white sm:text-lg">{video.title}</h2>
+            <p className="mt-1 text-xs text-ink-400">{meta}</p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={() => onToggleFav(video.id)}
+              className={`rounded-lg px-3 py-2 text-xs font-semibold ring-1 ring-ink-700 transition-colors ${
+                isFav ? "text-accent-400" : "text-ink-300 hover:text-white"
+              }`}
+              data-testid="modal-fav"
+            >
+              {isFav ? "♥ Favorited" : "♡ Favorite"}
+            </button>
             <a
               href={archiveUrl}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md px-3 py-1.5 text-xs font-medium text-ink-300 ring-1 ring-ink-700 hover:text-white hover:ring-ink-400 transition-colors"
+              className="rounded-lg px-3 py-2 text-xs font-semibold text-ink-300 ring-1 ring-ink-700 hover:text-white transition-colors"
             >
-              View on archive.org
+              archive.org ↗
             </a>
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-md bg-ink-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-ink-400/40 transition-colors"
-            >
-              Close
-            </button>
           </div>
         </div>
       </div>

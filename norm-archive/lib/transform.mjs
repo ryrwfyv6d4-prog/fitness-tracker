@@ -120,6 +120,7 @@ export function transformMetadata(meta, identifier) {
         thumbnailUrl: thumbIndex.get(base) || fallbackThumb,
         durationSeconds: parseDurationSeconds(file.length),
         sizeBytes: file.size ? Number(file.size) : null,
+        year: (file.name.match(/(19[4-9]\d|20[0-2]\d)/) || [])[1] || null,
         category,
         tags,
       };
