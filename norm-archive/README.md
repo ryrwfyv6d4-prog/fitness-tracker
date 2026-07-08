@@ -1,64 +1,65 @@
-# Norm Macdonald Archive — data extraction
+# Norm Macdonald Archive — library
 
-Pulls video metadata + direct stream URLs from the Internet Archive item
-[`NormMacDonaldArchive1`](https://archive.org/details/NormMacDonaldArchive1)
-via IA's public metadata API (`archive.org/metadata/{identifier}`), then
-categorizes each clip by filename keywords and writes structured JSON.
+A minimalist, Letterboxd-style library for browsing, searching, and watching
+the [`NormMacDonaldArchive1`](https://archive.org/details/NormMacDonaldArchive1)
+Internet Archive collection. Next.js (static export) + Tailwind CSS + Plyr.
 
-No video files are downloaded or hosted — only metadata. The generated
-`url` fields point straight at `archive.org/download/...` so playback
-streams directly from Internet Archive's CDN.
+**No video files are hosted or proxied.** Every stream, thumbnail, and byte of
+media comes straight from `archive.org`'s CDN. This site ships only HTML/JS/CSS.
 
-## Usage
+## How data loading works
 
-Requires Node 18+ (uses built-in `fetch`, no dependencies).
+The Internet Archive metadata API (`archive.org/metadata/{id}`) is public and
+CORS-enabled, so the app needs **no backend and no build-time data**:
+
+1. **Bundled snapshot** — if `public/data/videos.json` exists (see below), it's
+   used first: instant load, pinned data.
+2. **localStorage cache** — a previous runtime fetch, refreshed daily.
+3. **Live fetch** — the visitor's browser calls the IA metadata API directly
+   and transforms it client-side.
+
+Both the snapshot script and the client use the same logic
+(`lib/transform.mjs`): filter to playable `.mp4` derivatives, build direct
+`archive.org/download/...` URLs, pick per-video thumbnail stills from IA's
+`.thumbs/` derivatives, derive clean titles from filenames, and categorize by
+keyword (SNL, Talk Shows, Stand-Up, Roasts, Norm Macdonald Live, Interviews,
+Other — rules in `CATEGORY_RULES`).
+
+## Develop
 
 ```sh
-node scripts/fetch-archive.mjs
-# or: npm run fetch:archive
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Writes `data/videos.json`. Options:
+## Optional: pin a data snapshot
+
+From any machine with internet access:
 
 ```sh
-node scripts/fetch-archive.mjs --identifier NormMacDonaldArchive1 --out ./data/videos.json
+npm run fetch:archive    # writes public/data/videos.json
 ```
 
-## Output shape
+Commit the file. The app then skips the runtime API call. After a real run,
+skim the JSON for clips that landed in `"Other"` and extend `CATEGORY_RULES`
+in `lib/transform.mjs` for any filename patterns worth their own category.
 
-```json
-{
-  "source": { "identifier": "...", "itemUrl": "...", "title": "..." },
-  "generatedAt": "2026-...",
-  "videoCount": 412,
-  "categories": ["Interviews", "Norm Macdonald Live", "Roasts", "SNL", "Stand-Up", "Talk Shows", "Other"],
-  "videos": [
-    {
-      "id": "...",
-      "title": "...",
-      "filename": "...",
-      "url": "https://archive.org/download/NormMacDonaldArchive1/....mp4",
-      "thumbnailUrl": "https://archive.org/services/img/NormMacDonaldArchive1",
-      "durationSeconds": 272,
-      "sizeBytes": 104857600,
-      "category": "SNL",
-      "tags": ["SNL"]
-    }
-  ]
-}
+## Deploy (static)
+
+```sh
+npm run build      # outputs a fully static site to out/
 ```
+
+Deploy `out/` anywhere static — Vercel (framework preset: Next.js, it detects
+`output: "export"`), Netlify (publish directory `out`), GitHub Pages, etc.
+No server, no environment variables.
 
 ## Notes
 
-- Categorization is keyword-based on filename (see `CATEGORY_RULES` in
-  `scripts/fetch-archive.mjs`) — after a real run, skim `data/videos.json`
-  for clips that landed in `"Other"` and add keywords for any patterns
-  worth splitting out.
-- Filters to browser-playable `.mp4` files (`format` containing `MPEG4` /
-  `h.264`), skipping thumbnails, original non-mp4 source files, and other
-  non-video assets on the item.
-- This script was validated against a mocked IA metadata response
-  (dedupe, prefix-stripping, category assignment all confirmed correct),
-  but hasn't yet been run against the live API — this sandbox's network
-  policy blocks `archive.org`. Run it from an environment with internet
-  access.
+- Plyr's icon sprite is self-hosted (`public/plyr.svg`, copied from the npm
+  package) so the site makes no third-party requests besides archive.org.
+- Seeking works because archive.org serves MP4s with HTTP range support.
+- Verified end-to-end with Playwright against a mocked IA metadata response
+  (grid, search, category filters, player modal, mobile layout). The live
+  API couldn't be reached from the sandbox this was built in — after first
+  deploy, sanity-check that the collection loads and categories look sane.

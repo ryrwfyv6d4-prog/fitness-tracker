@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #0e1114;
+  --color-ink-900: #14181c;
+  --color-ink-800: #1c2228;
+  --color-ink-700: #2c3440;
+  --color-ink-400: #678;
+  --color-ink-300: #9ab;
+  --color-accent-400: #f5c518;
+  --color-accent-500: #e0b010;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-ink-900);
+  color: #e5e9ee;
+  font-feature-settings: "tnum";
+}
+
+/* Plyr accent to match the theme */
+:root {
+  --plyr-color-main: var(--color-accent-400);
+  --plyr-video-background: #000;
+}
