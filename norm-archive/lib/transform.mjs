@@ -70,10 +70,10 @@ function encodePath(name) {
   return name.split("/").map(encodeURIComponent).join("/");
 }
 
-// IA generates per-video thumbnail strips under a ".thumbs/" folder, but the
-// folder prefix varies by item ("<base>.thumbs/" or "<base>.mp4.thumbs/").
-// Older items instead carry sibling "Animated GIF"/"Thumbnail" derivatives
-// named after the video. Index every variant so cards get real stills.
+// IA thumbnail derivatives live in one shared "<identifier>.thumbs/" folder
+// (not per-video folders) but each entry carries an explicit "original"
+// field naming the exact source video it was extracted from — match on
+// that instead of trying to infer a relationship from paths.
 function buildThumbnailIndex(files, identifier) {
   const stripExt = (n) => n.replace(/\.[^./]+$/, "");
   const byKey = new Map();
@@ -86,14 +86,21 @@ function buildThumbnailIndex(files, identifier) {
   for (const file of files) {
     const name = file.name || "";
     if (!/\.(jpe?g|png|gif)$/i.test(name)) continue;
-    const thumbsIdx = name.indexOf(".thumbs/");
-    if (thumbsIdx !== -1) {
-      const prefix = name.slice(0, thumbsIdx);
-      add(prefix, name);
-      if (stripExt(prefix) !== prefix) add(stripExt(prefix), name);
+    const format = (file.format || "").toLowerCase();
+    if (!format.includes("thumb") && !format.includes("gif")) continue;
+    if (name.startsWith("__ia_thumb")) continue;
+
+    if (file.original) {
+      add(stripExt(file.original), name);
     } else {
-      const format = (file.format || "").toLowerCase();
-      if ((format.includes("thumb") || format.includes("gif")) && !name.startsWith("__ia_thumb")) {
+      // Fallback for items without an "original" field: infer from a
+      // per-video thumbs folder, if this item happens to use one.
+      const thumbsIdx = name.indexOf(".thumbs/");
+      if (thumbsIdx !== -1) {
+        const prefix = name.slice(0, thumbsIdx);
+        add(prefix, name);
+        if (stripExt(prefix) !== prefix) add(stripExt(prefix), name);
+      } else {
         add(stripExt(name), name);
       }
     }
@@ -103,7 +110,7 @@ function buildThumbnailIndex(files, identifier) {
   for (const [key, names] of byKey) {
     names.sort();
     // Prefer JPEG stills over (potentially heavy) animated GIFs, and take a
-    // middle frame: first frames are often black/title cards.
+    // late-ish frame: first frames are often black/title cards.
     const jpgs = names.filter((n) => /\.jpe?g$/i.test(n));
     const pool = jpgs.length ? jpgs : names;
     const chosen = pool[Math.floor(pool.length / 2)];

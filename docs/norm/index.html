@@ -314,6 +314,9 @@ function transform(meta) {
   const files = Array.isArray(meta && meta.files) ? meta.files : [];
   const fallbackThumb = "https://archive.org/services/img/" + IDENT;
 
+  // IA thumbnails live in one shared "<identifier>.thumbs/" folder, but each
+  // entry's "original" field names the exact source video it came from —
+  // match on that instead of inferring a relationship from paths.
   const stripExt = n => n.replace(/\.[^./]+$/, "");
   const thumbs = new Map();
   const addThumb = (key, name) => {
@@ -324,14 +327,18 @@ function transform(meta) {
   for (const f of files) {
     const name = f.name || "";
     if (!/\.(jpe?g|png|gif)$/i.test(name)) continue;
-    const ti = name.indexOf(".thumbs/");
-    if (ti !== -1) {
-      const prefix = name.slice(0, ti);
-      addThumb(prefix, name);
-      if (stripExt(prefix) !== prefix) addThumb(stripExt(prefix), name);
+    const fmt = (f.format || "").toLowerCase();
+    if (!fmt.includes("thumb") && !fmt.includes("gif")) continue;
+    if (name.startsWith("__ia_thumb")) continue;
+    if (f.original) {
+      addThumb(stripExt(f.original), name);
     } else {
-      const fmt = (f.format || "").toLowerCase();
-      if ((fmt.includes("thumb") || fmt.includes("gif")) && !name.startsWith("__ia_thumb")) {
+      const ti = name.indexOf(".thumbs/");
+      if (ti !== -1) {
+        const prefix = name.slice(0, ti);
+        addThumb(prefix, name);
+        if (stripExt(prefix) !== prefix) addThumb(stripExt(prefix), name);
+      } else {
         addThumb(stripExt(name), name);
       }
     }
