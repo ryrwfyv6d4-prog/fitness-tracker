@@ -259,7 +259,7 @@
 /* ================= data layer (mirrors norm-archive/lib/transform.mjs) ================= */
 
 const IDENT = "NormMacDonaldArchive1";
-const K_LIB = "na:lib:v1", K_POS = "na:pos:v1", K_FAV = "na:fav:v1";
+const K_LIB = "na:lib:v2", K_POS = "na:pos:v1", K_FAV = "na:fav:v1";
 const LIB_TTL = 24 * 60 * 60 * 1000;
 
 const CATEGORY_RULES = [
@@ -314,11 +314,27 @@ function transform(meta) {
   const files = Array.isArray(meta && meta.files) ? meta.files : [];
   const fallbackThumb = "https://archive.org/services/img/" + IDENT;
 
+  const stripExt = n => n.replace(/\.[^./]+$/, "");
   const thumbs = new Map();
+  const addThumb = (key, name) => {
+    if (!key) return;
+    if (!thumbs.has(key)) thumbs.set(key, []);
+    thumbs.get(key).push(name);
+  };
   for (const f of files) {
-    const m = (f.name || "").match(/^(.+)\.thumbs\//);
-    if (!m || !/\.(jpe?g|png|gif)$/i.test(f.name)) continue;
-    (thumbs.get(m[1]) || thumbs.set(m[1], []).get(m[1])).push(f.name);
+    const name = f.name || "";
+    if (!/\.(jpe?g|png|gif)$/i.test(name)) continue;
+    const ti = name.indexOf(".thumbs/");
+    if (ti !== -1) {
+      const prefix = name.slice(0, ti);
+      addThumb(prefix, name);
+      if (stripExt(prefix) !== prefix) addThumb(stripExt(prefix), name);
+    } else {
+      const fmt = (f.format || "").toLowerCase();
+      if ((fmt.includes("thumb") || fmt.includes("gif")) && !name.startsWith("__ia_thumb")) {
+        addThumb(stripExt(name), name);
+      }
+    }
   }
 
   const seen = new Map();
@@ -334,8 +350,13 @@ function transform(meta) {
     const { category, tags } = categorize(f.name + " " + title);
     const yr = (f.name.match(/(19[4-9]\d|20[0-2]\d)/) || [])[1] || null;
     let thumb = fallbackThumb;
-    const t = thumbs.get(base);
-    if (t) { t.sort(); thumb = "https://archive.org/download/" + IDENT + "/" + encPath(t[Math.floor(t.length / 2)]); }
+    const t = thumbs.get(base) || thumbs.get(f.name);
+    if (t) {
+      t.sort();
+      const jpgs = t.filter(n => /\.jpe?g$/i.test(n));
+      const pool = jpgs.length ? jpgs : t;
+      thumb = "https://archive.org/download/" + IDENT + "/" + encPath(pool[Math.floor(pool.length / 2)]);
+    }
     return {
       id: base, title, filename: f.name,
       url: "https://archive.org/download/" + IDENT + "/" + encPath(f.name),

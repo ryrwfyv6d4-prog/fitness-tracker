@@ -70,24 +70,44 @@ function encodePath(name) {
   return name.split("/").map(encodeURIComponent).join("/");
 }
 
-// IA generates per-video thumbnail strips as "<base>.thumbs/<base>_000001.jpg".
-// Map each video basename to its thumbnail files so cards get real stills.
+// IA generates per-video thumbnail strips under a ".thumbs/" folder, but the
+// folder prefix varies by item ("<base>.thumbs/" or "<base>.mp4.thumbs/").
+// Older items instead carry sibling "Animated GIF"/"Thumbnail" derivatives
+// named after the video. Index every variant so cards get real stills.
 function buildThumbnailIndex(files, identifier) {
-  const index = new Map();
+  const stripExt = (n) => n.replace(/\.[^./]+$/, "");
+  const byKey = new Map();
+  const add = (key, name) => {
+    if (!key) return;
+    if (!byKey.has(key)) byKey.set(key, []);
+    byKey.get(key).push(name);
+  };
+
   for (const file of files) {
     const name = file.name || "";
-    const match = name.match(/^(.+)\.thumbs\//);
-    if (!match || !/\.(jpe?g|png|gif)$/i.test(name)) continue;
-    const base = match[1];
-    if (!index.has(base)) index.set(base, []);
-    index.get(base).push(name);
+    if (!/\.(jpe?g|png|gif)$/i.test(name)) continue;
+    const thumbsIdx = name.indexOf(".thumbs/");
+    if (thumbsIdx !== -1) {
+      const prefix = name.slice(0, thumbsIdx);
+      add(prefix, name);
+      if (stripExt(prefix) !== prefix) add(stripExt(prefix), name);
+    } else {
+      const format = (file.format || "").toLowerCase();
+      if ((format.includes("thumb") || format.includes("gif")) && !name.startsWith("__ia_thumb")) {
+        add(stripExt(name), name);
+      }
+    }
   }
+
   const pick = new Map();
-  for (const [base, thumbs] of index) {
-    thumbs.sort();
-    // Middle frame: first frames are often black/title cards.
-    const chosen = thumbs[Math.floor(thumbs.length / 2)];
-    pick.set(base, `https://archive.org/download/${identifier}/${encodePath(chosen)}`);
+  for (const [key, names] of byKey) {
+    names.sort();
+    // Prefer JPEG stills over (potentially heavy) animated GIFs, and take a
+    // middle frame: first frames are often black/title cards.
+    const jpgs = names.filter((n) => /\.jpe?g$/i.test(n));
+    const pool = jpgs.length ? jpgs : names;
+    const chosen = pool[Math.floor(pool.length / 2)];
+    pick.set(key, `https://archive.org/download/${identifier}/${encodePath(chosen)}`);
   }
   return pick;
 }
@@ -117,7 +137,7 @@ export function transformMetadata(meta, identifier) {
         title,
         filename: file.name,
         url: `https://archive.org/download/${identifier}/${encodePath(file.name)}`,
-        thumbnailUrl: thumbIndex.get(base) || fallbackThumb,
+        thumbnailUrl: thumbIndex.get(base) || thumbIndex.get(file.name) || fallbackThumb,
         durationSeconds: parseDurationSeconds(file.length),
         sizeBytes: file.size ? Number(file.size) : null,
         year: (file.name.match(/(19[4-9]\d|20[0-2]\d)/) || [])[1] || null,
