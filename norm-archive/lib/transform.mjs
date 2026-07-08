@@ -199,10 +199,12 @@ export function transformMetadata(meta, identifier) {
         thumbnailUrl: thumbIndex.get(base) || thumbIndex.get(file.name) || fallbackThumb,
         durationSeconds: parseDurationSeconds(file.length),
         sizeBytes: file.size ? Number(file.size) : null,
+        md5: file.md5 || null,
         year: dateYear || (file.name.match(/(19[4-9]\d|20[0-2]\d)/) || [])[1] || null,
         iconic: isIconic(`${file.name} ${title}`),
         category,
         tags,
+        sourceIdentifier: identifier,
       };
     })
     .sort((a, b) => a.title.localeCompare(b.title));
@@ -216,6 +218,65 @@ export function transformMetadata(meta, identifier) {
       itemUrl: `https://archive.org/details/${identifier}`,
       title: itemTitle,
     },
+    generatedAt: new Date().toISOString(),
+    videoCount: videos.length,
+    categories: Object.keys(categoryCounts).sort(),
+    categoryCounts,
+    videos,
+  };
+}
+
+function normalizeTitleKey(title) {
+  return (title || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+// Merges transformMetadata() results from multiple archive.org items into
+// one library. Two-tier dedup:
+//   1. Exact file match via md5 (the same physical file re-uploaded to a
+//      second item — e.g. an SNL clip present in both the main archive and
+//      the SNL-specific one).
+//   2. Same-title-and-length match (normalized title + duration rounded to
+//      5s) for cases where the same clip was re-encoded/re-uploaded with a
+//      different filename, so md5 differs but it's clearly the same video.
+// Earlier entries in `results` win on both id (unqualified base filename,
+// preserving existing favorites/watch-progress keys for the original
+// single-source app) and dedup precedence — list the primary/original
+// source first.
+export function mergeLibraries(results, labelsByIdentifier = {}) {
+  const seenMd5 = new Set();
+  const seenTitleKey = new Set();
+  const seenIds = new Set();
+  const videos = [];
+
+  for (const result of results) {
+    for (const v of result.videos) {
+      if (v.md5) {
+        if (seenMd5.has(v.md5)) continue;
+        seenMd5.add(v.md5);
+      }
+      const key = v.durationSeconds
+        ? `${normalizeTitleKey(v.title)}::${Math.round(v.durationSeconds / 5) * 5}`
+        : null;
+      if (key) {
+        if (seenTitleKey.has(key)) continue;
+        seenTitleKey.add(key);
+      }
+
+      let id = v.id;
+      if (seenIds.has(id)) id = `${v.sourceIdentifier}::${v.id}`;
+      seenIds.add(id);
+
+      videos.push({ ...v, id, sourceLabel: labelsByIdentifier[v.sourceIdentifier] || v.sourceIdentifier });
+    }
+  }
+
+  videos.sort((a, b) => a.title.localeCompare(b.title));
+
+  const categoryCounts = {};
+  for (const v of videos) categoryCounts[v.category] = (categoryCounts[v.category] || 0) + 1;
+
+  return {
+    sources: results.map((r) => r.source),
     generatedAt: new Date().toISOString(),
     videoCount: videos.length,
     categories: Object.keys(categoryCounts).sort(),

@@ -81,7 +81,7 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
     }
   };
 
-  const meta = [video.category, video.year, formatDuration(video.durationSeconds), formatSize(video.sizeBytes)]
+  const meta = [video.category, video.year, formatDuration(video.durationSeconds), formatSize(video.sizeBytes), video.sourceLabel]
     .filter(Boolean)
     .join(" · ");
 
@@ -123,7 +123,7 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
         <div className="flex flex-wrap items-start justify-between gap-3 p-4 pb-[max(env(safe-area-inset-bottom),16px)] sm:p-5">
           <div className="min-w-0">
             <h2 className="text-base font-semibold text-white sm:text-lg">{video.title}</h2>
-            <p className="mt-1 text-xs text-ink-400">{meta}</p>
+            <p className="mt-1 text-xs text-ink-400" data-testid="player-meta">{meta}</p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
             {pipSupported && (

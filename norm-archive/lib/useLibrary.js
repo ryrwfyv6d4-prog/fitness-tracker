@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { transformMetadata } from "./transform.mjs";
+import { transformMetadata, mergeLibraries } from "./transform.mjs";
+import { BULK_ITEMS, EXPLICIT_ITEMS, SEARCH_PREFIXES } from "./sources.mjs";
 
-export const ARCHIVE_IDENTIFIER = "NormMacDonaldArchive1";
+export const ARCHIVE_IDENTIFIER = "NormMacDonaldArchive1"; // primary source; cache key + fallback id-space
 
-const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v3`;
+const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v4`;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // refresh from IA once a day
 
 function readCache() {
@@ -29,9 +30,58 @@ function writeCache(data) {
   }
 }
 
+async function fetchItemMetadata(identifier) {
+  const res = await fetch(`https://archive.org/metadata/${encodeURIComponent(identifier)}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+// Sports Show (and similar) is uploaded as one archive.org item per episode.
+// Rather than guess identifiers, discover them via IA's public search API —
+// best-effort: if search is unreachable or returns nothing, that source
+// simply contributes zero extra videos instead of breaking the app.
+async function discoverPrefixedItems({ prefix, label }) {
+  try {
+    const q = encodeURIComponent(`identifier:${prefix}*`);
+    const res = await fetch(`https://archive.org/advancedsearch.php?q=${q}&fl[]=identifier&rows=200&output=json`);
+    if (!res.ok) return [];
+    const json = await res.json();
+    const ids = (json?.response?.docs || []).map((d) => d.identifier).filter(Boolean);
+    return ids.map((identifier) => ({ identifier, label }));
+  } catch {
+    return [];
+  }
+}
+
+// Fetches every known source in parallel and merges them. One dead source
+// (renamed item, temporary outage, search API hiccup) doesn't take down the
+// rest — Promise.allSettled + per-source try/catch throughout.
+async function loadAllSources() {
+  const discovered = (await Promise.all(SEARCH_PREFIXES.map(discoverPrefixedItems))).flat();
+  const targets = [...BULK_ITEMS, ...EXPLICIT_ITEMS, ...discovered];
+
+  const settled = await Promise.allSettled(
+    targets.map(async ({ identifier, label }) => {
+      const meta = await fetchItemMetadata(identifier);
+      const result = transformMetadata(meta, identifier);
+      return { result, label };
+    })
+  );
+
+  const fulfilled = settled.filter((s) => s.status === "fulfilled").map((s) => s.value);
+  if (!fulfilled.length) {
+    const firstError = settled.find((s) => s.status === "rejected");
+    throw new Error(firstError?.reason?.message || "Couldn't reach any Internet Archive source.");
+  }
+
+  const labelsByIdentifier = Object.fromEntries(fulfilled.map(({ result, label }) => [result.source.identifier, label]));
+  return mergeLibraries(fulfilled.map((f) => f.result), labelsByIdentifier);
+}
+
 // Load order: bundled snapshot (if the fetch script was run at build time),
-// then localStorage cache, then live fetch from the CORS-enabled IA metadata
-// API. The site therefore works with zero build-time data.
+// then localStorage cache, then a live multi-source fetch from archive.org's
+// CORS-enabled metadata API. The site therefore works with zero build-time
+// data, and degrades gracefully if some (not all) sources are unreachable.
 async function loadLibrary() {
   try {
     const res = await fetch("/data/videos.json");
@@ -46,12 +96,9 @@ async function loadLibrary() {
   const cached = readCache();
   if (cached) return { data: cached, from: "cache" };
 
-  const res = await fetch(`https://archive.org/metadata/${ARCHIVE_IDENTIFIER}`);
-  if (!res.ok) throw new Error(`Internet Archive responded with HTTP ${res.status}`);
-  const meta = await res.json();
-  const data = transformMetadata(meta, ARCHIVE_IDENTIFIER);
+  const data = await loadAllSources();
   if (!data.videos.length) {
-    throw new Error("No playable videos found in the archive item.");
+    throw new Error("No playable videos found in any source.");
   }
   writeCache(data);
   return { data, from: "live" };

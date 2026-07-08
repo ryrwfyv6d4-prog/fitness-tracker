@@ -7,6 +7,28 @@ Internet Archive collection. Next.js (static export) + Tailwind CSS + Plyr.
 **No video files are hosted or proxied.** Every stream, thumbnail, and byte of
 media comes straight from `archive.org`'s CDN. This site ships only HTML/JS/CSS.
 
+## Sources
+
+The library pulls from every known Norm Macdonald archive.org collection,
+curated from a fan-maintained tracking spreadsheet ("The Norm Project") —
+see `lib/sources.mjs`:
+
+- **Bulk collections** (`BULK_ITEMS`): the original main archive plus SNL,
+  Weekend Update, Norm Macdonald Live, The Norm Show, "I'm Not Norm", and a
+  bootlegs collection.
+- **Explicit one-off items** (`EXPLICIT_ITEMS`): standalone items the
+  spreadsheet names directly.
+- **Search-discovered items** (`SEARCH_PREFIXES`): some shows (e.g. Sports
+  Show) are uploaded one archive.org item per episode. Rather than guess
+  identifiers, matching items are discovered at runtime via IA's public
+  `advancedsearch.php` API by identifier prefix.
+
+All sources are fetched in parallel and merged (`mergeLibraries` in
+`lib/transform.mjs`) with two-tier dedup: exact-file matches via md5, and
+same-title-and-duration matches for re-encoded re-uploads. One dead source
+doesn't break the app — `Promise.allSettled` means it just contributes zero
+videos.
+
 ## How data loading works
 
 The Internet Archive metadata API (`archive.org/metadata/{id}`) is public and
@@ -15,15 +37,17 @@ CORS-enabled, so the app needs **no backend and no build-time data**:
 1. **Bundled snapshot** — if `public/data/videos.json` exists (see below), it's
    used first: instant load, pinned data.
 2. **localStorage cache** — a previous runtime fetch, refreshed daily.
-3. **Live fetch** — the visitor's browser calls the IA metadata API directly
-   and transforms it client-side.
+3. **Live fetch** — the visitor's browser fetches every source in parallel
+   and merges them client-side.
 
 Both the snapshot script and the client use the same logic
 (`lib/transform.mjs`): filter to playable `.mp4` derivatives, build direct
 `archive.org/download/...` URLs, pick per-video thumbnail stills from IA's
-`.thumbs/` derivatives, derive clean titles from filenames, and categorize by
-keyword (SNL, Talk Shows, Stand-Up, Roasts, Norm Macdonald Live, Interviews,
-Other — rules in `CATEGORY_RULES`).
+`.thumbs/` derivatives (matched via each thumbnail's `original` field), derive
+clean titles from filenames (stripping date stamps, track numbers, upload
+counters), flag famous moments as `iconic`, and categorize by keyword (SNL,
+Talk Shows, Radio & Podcasts, Game Shows, TV & Movies, Stand-Up, Roasts, Norm
+Macdonald Live, Interviews, Other — rules in `CATEGORY_RULES`).
 
 ## Develop
 
