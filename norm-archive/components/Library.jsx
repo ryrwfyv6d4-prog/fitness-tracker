@@ -88,7 +88,7 @@ export default function Library() {
         <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
           Norm Macdonald Archive
         </h1>
-        <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-ink-300">
+        <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-ink-300" data-testid="header-subtitle">
           {data ? `${data.videoCount} clips, streamed directly from the ` : "A curated library for the "}
           <a
             href="https://archive.org/details/NormMacDonaldArchive1"
@@ -234,11 +234,22 @@ export default function Library() {
               </p>
             )}
 
-            <footer className="mt-14 border-t border-ink-800 pt-6 text-[11.5px] leading-relaxed text-ink-400">
-              All videos are hosted by and streamed from the{" "}
-              <a href={data.source.itemUrl} target="_blank" rel="noreferrer" className="underline decoration-ink-700 underline-offset-2 hover:text-ink-300">
-                Internet Archive
-              </a>
+            <footer className="mt-14 border-t border-ink-800 pt-6 text-[11.5px] leading-relaxed text-ink-400" data-testid="sources-footer">
+              All videos are hosted by and streamed from {data.sources.length} Internet Archive
+              {data.sources.length === 1 ? " source" : " sources"}:{" "}
+              {data.sources.map((s, i) => (
+                <span key={s.identifier}>
+                  <a
+                    href={s.itemUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline decoration-ink-700 underline-offset-2 hover:text-ink-300"
+                  >
+                    {s.title || s.identifier}
+                  </a>
+                  {i < data.sources.length - 1 ? ", " : ""}
+                </span>
+              ))}
               . Favorites and watch progress are saved on this device only.
             </footer>
           </div>
@@ -248,7 +259,7 @@ export default function Library() {
       {playing && (
         <PlayerModal
           video={playing}
-          archiveUrl={data?.source.itemUrl}
+          archiveUrl={`https://archive.org/details/${playing.sourceIdentifier}`}
           onClose={() => setPlaying(null)}
           isFav={favs.has(playing.id)}
           onToggleFav={toggleFav}

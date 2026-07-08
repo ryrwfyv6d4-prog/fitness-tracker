@@ -1,48 +1,84 @@
 #!/usr/bin/env node
-// Optional build-time snapshot: fetches Internet Archive metadata and writes
-// public/data/videos.json so the app can skip the runtime API call. The app
-// works without this — it falls back to fetching the (CORS-enabled) metadata
-// API directly from the browser using the same transform logic.
+// Optional build-time snapshot: fetches every known Norm Macdonald source
+// on archive.org (see lib/sources.mjs), merges + dedupes them, and writes
+// public/data/videos.json so the app can skip the runtime API calls. The
+// app works without this — it falls back to fetching (CORS-enabled) IA
+// metadata directly from the browser using the same transform logic.
 //
 // Usage:
 //   node scripts/fetch-archive.mjs
-//   node scripts/fetch-archive.mjs --identifier NormMacDonaldArchive1 --out ./public/data/videos.json
+//   node scripts/fetch-archive.mjs --out ./public/data/videos.json
 //
 // Requires Node 18+ (built-in fetch). No dependencies.
 
 import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { transformMetadata } from "../lib/transform.mjs";
+import { transformMetadata, mergeLibraries } from "../lib/transform.mjs";
+import { BULK_ITEMS, EXPLICIT_ITEMS, SEARCH_PREFIXES } from "../lib/sources.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function parseArgs(argv) {
-  const args = {
-    identifier: "NormMacDonaldArchive1",
-    out: resolve(__dirname, "../public/data/videos.json"),
-  };
+  const args = { out: resolve(__dirname, "../public/data/videos.json") };
   for (let i = 0; i < argv.length; i++) {
-    if (argv[i] === "--identifier" && argv[i + 1]) args.identifier = argv[++i];
-    else if (argv[i] === "--out" && argv[i + 1]) args.out = resolve(process.cwd(), argv[++i]);
+    if (argv[i] === "--out" && argv[i + 1]) args.out = resolve(process.cwd(), argv[++i]);
   }
   return args;
 }
 
-async function main() {
-  const { identifier, out } = parseArgs(process.argv.slice(2));
-  console.log(`Fetching metadata for "${identifier}"...`);
-
+async function fetchItemMetadata(identifier) {
   const res = await fetch(`https://archive.org/metadata/${encodeURIComponent(identifier)}`);
-  if (!res.ok) throw new Error(`Failed to fetch metadata for "${identifier}": HTTP ${res.status}`);
-  const meta = await res.json();
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
 
-  const output = transformMetadata(meta, identifier);
+async function discoverPrefixedItems({ prefix, label }) {
+  try {
+    const q = encodeURIComponent(`identifier:${prefix}*`);
+    const res = await fetch(`https://archive.org/advancedsearch.php?q=${q}&fl[]=identifier&rows=200&output=json`);
+    if (!res.ok) return [];
+    const json = await res.json();
+    const ids = (json?.response?.docs || []).map((d) => d.identifier).filter(Boolean);
+    return ids.map((identifier) => ({ identifier, label }));
+  } catch {
+    return [];
+  }
+}
+
+async function main() {
+  const { out } = parseArgs(process.argv.slice(2));
+
+  console.log(`Discovering per-episode items for: ${SEARCH_PREFIXES.map((s) => s.label).join(", ")}...`);
+  const discovered = (await Promise.all(SEARCH_PREFIXES.map(discoverPrefixedItems))).flat();
+  const targets = [...BULK_ITEMS, ...EXPLICIT_ITEMS, ...discovered];
+  console.log(`Fetching ${targets.length} source items: ${targets.map((t) => t.identifier).join(", ")}`);
+
+  const settled = await Promise.allSettled(
+    targets.map(async ({ identifier, label }) => {
+      const meta = await fetchItemMetadata(identifier);
+      return { result: transformMetadata(meta, identifier), label };
+    })
+  );
+
+  for (const [i, s] of settled.entries()) {
+    if (s.status === "rejected") console.warn(`  ✗ ${targets[i].identifier}: ${s.reason?.message || s.reason}`);
+    else console.log(`  ✓ ${targets[i].identifier}: ${s.value.result.videoCount} videos`);
+  }
+
+  const fulfilled = settled.filter((s) => s.status === "fulfilled").map((s) => s.value);
+  if (!fulfilled.length) throw new Error("All sources failed — nothing to write.");
+
+  const labelsByIdentifier = Object.fromEntries(fulfilled.map(({ result, label }) => [result.source.identifier, label]));
+  const output = mergeLibraries(
+    fulfilled.map((f) => f.result),
+    labelsByIdentifier
+  );
 
   await mkdir(dirname(out), { recursive: true });
   await writeFile(out, JSON.stringify(output, null, 2) + "\n", "utf-8");
 
-  console.log(`Wrote ${output.videoCount} videos to ${out}`);
+  console.log(`\nWrote ${output.videoCount} deduped videos (from ${fulfilled.length} sources) to ${out}`);
   console.log("By category:", output.categoryCounts);
 }
 
