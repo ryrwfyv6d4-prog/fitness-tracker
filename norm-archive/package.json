@@ -1,0 +1,8 @@
+{
+  "name": "norm-archive",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fetch:archive": "node scripts/fetch-archive.mjs"
+  }
+}
