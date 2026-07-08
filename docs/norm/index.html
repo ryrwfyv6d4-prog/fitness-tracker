@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e1114">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Norm Archive">
+<link rel="preconnect" href="https://archive.org">
+<title>Norm Macdonald Archive</title>
+<style>
+  :root {
+    --ink-950: #0e1114;
+    --ink-900: #14181c;
+    --ink-800: #1c2228;
+    --ink-700: #2c3440;
+    --ink-400: #667788;
+    --ink-300: #99aabb;
+    --gold: #f5c518;
+    --text: #e5e9ee;
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html { height: 100%; }
+  body {
+    background: var(--ink-900);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
+    font-feature-settings: "tnum";
+    min-height: 100%;
+    padding-left: var(--sal);
+    padding-right: var(--sar);
+  }
+  body.locked { overflow: hidden; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  a { color: var(--ink-300); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    padding: calc(var(--sat) + 28px) 16px 14px;
+    background: radial-gradient(120% 90% at 20% 0%, #1d242c 0%, var(--ink-900) 65%);
+  }
+  .kicker { font-size: 11px; font-weight: 700; letter-spacing: .22em; color: var(--gold); }
+  h1 { font-size: 28px; font-weight: 800; letter-spacing: -.02em; margin-top: 4px; color: #fff; }
+  .sub { margin-top: 6px; font-size: 13px; color: var(--ink-300); line-height: 1.5; }
+  .sub a { text-decoration-color: var(--ink-700); text-underline-offset: 2px; }
+
+  /* ---------- sticky control bar ---------- */
+  .bar {
+    position: sticky; top: 0; z-index: 30;
+    padding: calc(var(--sat) + 10px) 16px 0;
+    margin-top: -var(--sat);
+    background: color-mix(in srgb, var(--ink-900) 82%, transparent);
+    -webkit-backdrop-filter: saturate(1.4) blur(18px);
+    backdrop-filter: saturate(1.4) blur(18px);
+    border-bottom: 1px solid rgba(44,52,64,.6);
+  }
+  .searchrow { display: flex; gap: 8px; }
+  .searchwrap { position: relative; flex: 1; }
+  .searchwrap svg {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    width: 15px; height: 15px; color: var(--ink-400); pointer-events: none;
+  }
+  #search {
+    width: 100%; height: 42px; border: 0; border-radius: 12px;
+    background: var(--ink-800); color: #fff; font-size: 16px; /* 16px stops iOS zoom-on-focus */
+    padding: 0 12px 0 36px; outline: none;
+    box-shadow: inset 0 0 0 1px rgba(44,52,64,.7);
+    -webkit-appearance: none; appearance: none;
+  }
+  #search::placeholder { color: var(--ink-400); }
+  #search:focus { box-shadow: inset 0 0 0 2px var(--gold); }
+  #randomBtn {
+    height: 42px; padding: 0 14px; border-radius: 12px; flex-shrink: 0;
+    background: var(--ink-800); box-shadow: inset 0 0 0 1px rgba(44,52,64,.7);
+    font-size: 13px; font-weight: 600; color: var(--ink-300);
+    display: flex; align-items: center; gap: 6px;
+  }
+  #randomBtn:active { transform: scale(.96); color: #fff; }
+  .pills {
+    display: flex; gap: 8px; overflow-x: auto; padding: 10px 0 12px;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .pills::-webkit-scrollbar { display: none; }
+  .pill {
+    flex-shrink: 0; border-radius: 999px; padding: 9px 14px;
+    font-size: 13px; font-weight: 600; white-space: nowrap;
+    background: var(--ink-800); color: var(--ink-300);
+    box-shadow: inset 0 0 0 1px rgba(44,52,64,.7);
+    transition: transform .1s;
+  }
+  .pill:active { transform: scale(.95); }
+  .pill .n { opacity: .55; margin-left: 5px; font-weight: 500; }
+  .pill.on { background: var(--gold); color: #141000; box-shadow: none; }
+  .pill.on .n { opacity: .6; }
+
+  /* ---------- main ---------- */
+  main { padding: 14px 16px calc(var(--sab) + 32px); max-width: 1280px; margin: 0 auto; }
+  .metarow { display: flex; align-items: center; justify-content: space-between; margin: 2px 0 12px; }
+  .count { font-size: 12px; color: var(--ink-400); }
+  #sort {
+    background: transparent; color: var(--ink-300); border: 0; font: inherit; font-size: 12px;
+    font-weight: 600; -webkit-appearance: none; appearance: none; text-align: right; outline: none;
+  }
+  h2 { font-size: 15px; font-weight: 700; color: #fff; margin: 4px 0 10px; }
+
+  /* continue watching */
+  .cw { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 18px;
+        scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .cw::-webkit-scrollbar { display: none; }
+  .cw .card { width: 236px; flex-shrink: 0; }
+
+  /* grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px 12px; }
+  @media (min-width: 640px) { .grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 18px 16px; } }
+
+  .card { text-align: left; display: block; width: 100%; }
+  .card:active .thumb { transform: scale(.97); }
+  .thumb {
+    display: block; position: relative; aspect-ratio: 16/9; border-radius: 12px; overflow: hidden;
+    background: var(--ink-950); box-shadow: inset 0 0 0 1px rgba(44,52,64,.5);
+    transition: transform .12s ease;
+  }
+  .thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .thumb .ph {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: var(--ink-700); font-size: 34px; font-weight: 900;
+  }
+  .dur {
+    position: absolute; right: 6px; bottom: 6px; border-radius: 6px;
+    background: rgba(0,0,0,.78); color: #fff; font-size: 11px; font-weight: 600;
+    padding: 2px 6px;
+  }
+  .fav {
+    position: absolute; left: 4px; top: 4px; width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .fav svg { width: 19px; height: 19px; color: rgba(255,255,255,.82); filter: drop-shadow(0 1px 3px rgba(0,0,0,.9)); }
+  .fav.on svg { color: var(--gold); fill: var(--gold); }
+  .prog { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.22); }
+  .prog i { display: block; height: 100%; background: var(--gold); }
+  .ct { display: block; margin-top: 8px; padding: 0 2px; }
+  .ct h3 {
+    font-size: 13px; font-weight: 600; color: #eef1f5; line-height: 1.35;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .ct p { margin-top: 3px; font-size: 10.5px; font-weight: 600; letter-spacing: .08em;
+          text-transform: uppercase; color: var(--ink-400); }
+  @media (hover: hover) {
+    .card:hover .thumb { transform: scale(1.02); box-shadow: inset 0 0 0 1px var(--gold); }
+  }
+
+  /* skeleton / states */
+  .sk { border-radius: 12px; aspect-ratio: 16/9; background: linear-gradient(100deg, var(--ink-800) 40%, #232b33 50%, var(--ink-800) 60%);
+        background-size: 200% 100%; animation: sh 1.4s infinite linear; }
+  @keyframes sh { to { background-position: -200% 0; } }
+  .state { text-align: center; padding: 64px 24px; color: var(--ink-400); font-size: 14px; line-height: 1.6; }
+  .state button {
+    margin-top: 14px; background: var(--gold); color: #141000; font-weight: 700;
+    font-size: 13px; border-radius: 10px; padding: 10px 20px;
+  }
+
+  footer { padding: 0 16px calc(var(--sab) + 28px); max-width: 1280px; margin: 0 auto;
+           font-size: 11.5px; color: var(--ink-400); line-height: 1.6; }
+
+  /* ---------- player ---------- */
+  #modal { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.92);
+           -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+           display: flex; align-items: center; justify-content: center; }
+  #modal[hidden] { display: none; }
+  .sheet { width: 100%; max-width: 920px; padding: 0; }
+  .vwrap { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; }
+  .vwrap video { width: 100%; height: 100%; display: block; }
+  .pmeta { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
+           gap: 10px 14px; padding: 14px 16px calc(var(--sab) + 14px); }
+  .pmeta h2 { font-size: 16px; margin: 0; }
+  .pmeta .m { margin-top: 4px; font-size: 12px; color: var(--ink-400); }
+  .pacts { display: flex; gap: 8px; flex-shrink: 0; }
+  .pacts .b {
+    font-size: 12px; font-weight: 600; border-radius: 9px; padding: 8px 12px;
+    background: var(--ink-800); color: var(--ink-300);
+    box-shadow: inset 0 0 0 1px rgba(44,52,64,.8); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .pacts .b.on { color: var(--gold); }
+  #closeBtn {
+    position: absolute; top: calc(var(--sat) + 10px); right: calc(var(--sar) + 12px); z-index: 60;
+    width: 38px; height: 38px; border-radius: 999px; background: rgba(28,34,40,.85);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center; font-size: 15px; color: #fff;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+  }
+  @media (min-width: 768px) {
+    .sheet { border-radius: 16px; overflow: hidden; background: var(--ink-950);
+             box-shadow: 0 24px 80px rgba(0,0,0,.6), inset 0 0 0 1px var(--ink-700); margin: 24px; }
+    .vwrap { aspect-ratio: 16/9; }
+    #closeBtn { position: absolute; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero">
+    <p class="kicker">THE LIBRARY</p>
+    <h1>Norm Macdonald Archive</h1>
+    <p class="sub" id="sub">Streamed directly from the
+      <a href="https://archive.org/details/NormMacDonaldArchive1" target="_blank" rel="noreferrer">Internet Archive</a>.
+      Nothing is hosted here.</p>
+  </div>
+  <div class="bar">
+    <div class="searchrow">
+      <div class="searchwrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/>
+        </svg>
+        <input id="search" type="search" placeholder="Search clips…" autocomplete="off">
+      </div>
+      <button id="randomBtn" title="Play a random clip">🎲 Random</button>
+    </div>
+    <div class="pills" id="pills"></div>
+  </div>
+</header>
+
+<main id="main"></main>
+
+<footer id="foot" hidden>
+  All videos are hosted by and streamed from the
+  <a href="https://archive.org/details/NormMacDonaldArchive1" target="_blank" rel="noreferrer">Internet Archive</a>.
+  Favorites and watch progress are saved on this device only.
+</footer>
+
+<div id="modal" hidden>
+  <button id="closeBtn" aria-label="Close">✕</button>
+  <div class="sheet">
+    <div class="vwrap">
+      <video id="player" controls playsinline autoplay preload="metadata" x-webkit-airplay="allow"></video>
+    </div>
+    <div class="pmeta">
+      <div style="min-width:0">
+        <h2 id="ptitle"></h2>
+        <p class="m" id="pmeta"></p>
+      </div>
+      <div class="pacts">
+        <button class="b" id="pfav"></button>
+        <a class="b" id="plink" target="_blank" rel="noreferrer">archive.org ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ================= data layer (mirrors norm-archive/lib/transform.mjs) ================= */
+
+const IDENT = "NormMacDonaldArchive1";
+const K_LIB = "na:lib:v1", K_POS = "na:pos:v1", K_FAV = "na:fav:v1";
+const LIB_TTL = 24 * 60 * 60 * 1000;
+
+const CATEGORY_RULES = [
+  { category: "SNL", keywords: ["snl", "saturday night live", "weekend update"] },
+  { category: "Talk Shows", keywords: [
+      "letterman", "conan", "kimmel", "fallon", "leno", "carson", "tonight show", "late show",
+      "late night", "colbert", "maher", "regis", "the view", "ellen", "graham norton",
+      "howard stern", "daily show", "larry king", "dennis miller"] },
+  { category: "Stand-Up", keywords: ["stand up", "stand-up", "standup", "comedy special", "hitler's dog", "me doing standup", "ridiculous"] },
+  { category: "Roasts", keywords: ["roast"] },
+  { category: "Norm Macdonald Live", keywords: ["norm macdonald live", "nml", "sports show", "norm show"] },
+  { category: "Interviews", keywords: ["interview", "sit down", "sit-down", "q&a", "press junket", "podcast"] },
+];
+
+function categorize(text) {
+  const lower = text.toLowerCase();
+  const tags = [];
+  for (const r of CATEGORY_RULES) if (r.keywords.some(k => lower.includes(k))) tags.push(r.category);
+  return { category: tags[0] || "Other", tags: tags.length ? tags : ["Other"] };
+}
+
+function titleFromFilename(filename) {
+  let base = filename.replace(/\.[^./]+$/, "");
+  base = base.replace(new RegExp("^" + IDENT + "[_\\-\\s]*", "i"), "");
+  base = base.replace(/_+/g, " ").replace(/\s{2,}/g, " ").trim();
+  return base.split(" ").map(w => {
+    if (!w) return w;
+    if (w === w.toUpperCase() && /[A-Z]/.test(w)) return w;
+    return w[0].toUpperCase() + w.slice(1).toLowerCase();
+  }).join(" ");
+}
+
+function parseDur(len) {
+  if (len == null) return null;
+  if (typeof len === "number") return len;
+  const s = String(len).trim();
+  if (/^\d+(\.\d+)?$/.test(s)) return Math.round(parseFloat(s));
+  const p = s.split(":").map(Number);
+  if (p.some(Number.isNaN)) return null;
+  return p.reduce((a, x) => a * 60 + x, 0);
+}
+
+function isPlayable(f) {
+  const n = (f.name || "").toLowerCase(), fmt = (f.format || "").toLowerCase();
+  if (!n.endsWith(".mp4") || fmt.includes("thumb")) return false;
+  return fmt.includes("mpeg4") || fmt.includes("h.264") || fmt.includes("h264");
+}
+
+const encPath = n => n.split("/").map(encodeURIComponent).join("/");
+
+function transform(meta) {
+  const files = Array.isArray(meta && meta.files) ? meta.files : [];
+  const fallbackThumb = "https://archive.org/services/img/" + IDENT;
+
+  const thumbs = new Map();
+  for (const f of files) {
+    const m = (f.name || "").match(/^(.+)\.thumbs\//);
+    if (!m || !/\.(jpe?g|png|gif)$/i.test(f.name)) continue;
+    (thumbs.get(m[1]) || thumbs.set(m[1], []).get(m[1])).push(f.name);
+  }
+
+  const seen = new Map();
+  for (const f of files) {
+    if (!isPlayable(f)) continue;
+    const ex = seen.get(f.name);
+    if (!ex || (f.source === "derivative" && ex.source !== "derivative")) seen.set(f.name, f);
+  }
+
+  const videos = [...seen.values()].map(f => {
+    const base = f.name.replace(/\.[^./]+$/, "");
+    const title = titleFromFilename(f.name);
+    const { category, tags } = categorize(f.name + " " + title);
+    const yr = (f.name.match(/(19[4-9]\d|20[0-2]\d)/) || [])[1] || null;
+    let thumb = fallbackThumb;
+    const t = thumbs.get(base);
+    if (t) { t.sort(); thumb = "https://archive.org/download/" + IDENT + "/" + encPath(t[Math.floor(t.length / 2)]); }
+    return {
+      id: base, title, filename: f.name,
+      url: "https://archive.org/download/" + IDENT + "/" + encPath(f.name),
+      thumbnailUrl: thumb,
+      durationSeconds: parseDur(f.length),
+      sizeBytes: f.size ? Number(f.size) : null,
+      year: yr, category, tags,
+    };
+  }).sort((a, b) => a.title.localeCompare(b.title));
+
+  const counts = {};
+  for (const v of videos) counts[v.category] = (counts[v.category] || 0) + 1;
+
+  return {
+    source: { identifier: IDENT, itemUrl: "https://archive.org/details/" + IDENT, title: (meta.metadata && meta.metadata.title) || IDENT },
+    generatedAt: new Date().toISOString(),
+    videoCount: videos.length,
+    categories: Object.keys(counts).sort(),
+    categoryCounts: counts,
+    videos,
+  };
+}
+
+async function loadLibrary() {
+  try { // optional pinned snapshot sitting next to this file
+    const r = await fetch("videos.json");
+    if (r.ok) { const d = await r.json(); if (d && d.videos && d.videos.length) return d; }
+  } catch (e) {}
+  try {
+    const raw = localStorage.getItem(K_LIB);
+    if (raw) {
+      const { savedAt, data } = JSON.parse(raw);
+      if (data && data.videos && data.videos.length && Date.now() - savedAt < LIB_TTL) return data;
+    }
+  } catch (e) {}
+  const r = await fetch("https://archive.org/metadata/" + IDENT);
+  if (!r.ok) throw new Error("Internet Archive responded with HTTP " + r.status);
+  const data = transform(await r.json());
+  if (!data.videos.length) throw new Error("No playable videos found in the archive item.");
+  try { localStorage.setItem(K_LIB, JSON.stringify({ savedAt: Date.now(), data })); } catch (e) {}
+  return data;
+}
+
+/* ================= app state ================= */
+
+let lib = null;
+let q = "", cat = "All", sortMode = "az";
+let favs, positions;
+try { favs = new Set(JSON.parse(localStorage.getItem(K_FAV) || "[]")); } catch (e) { favs = new Set(); }
+try { positions = JSON.parse(localStorage.getItem(K_POS) || "{}"); } catch (e) { positions = {}; }
+
+const $ = s => document.querySelector(s);
+const main = $("#main"), pillsEl = $("#pills"), subEl = $("#sub");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+const fmtDur = s => {
+  if (s == null || isNaN(s)) return null;
+  const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = Math.round(s % 60);
+  return h ? h + ":" + String(m).padStart(2, "0") + ":" + String(x).padStart(2, "0")
+           : m + ":" + String(x).padStart(2, "0");
+};
+const fmtSize = b => !b ? null : b >= 1e9 ? (b / 1e9).toFixed(1) + " GB" : Math.round(b / 1e6) + " MB";
+
+const saveFavs = () => { try { localStorage.setItem(K_FAV, JSON.stringify([...favs])); } catch (e) {} };
+const savePositions = () => { try { localStorage.setItem(K_POS, JSON.stringify(positions)); } catch (e) {} };
+const progressOf = v => {
+  const p = positions[v.id];
+  if (!p || !p.d) return 0;
+  return Math.min(p.t / p.d, 1);
+};
+
+/* ================= rendering ================= */
+
+const HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.7-10-9.3C.6 8.6 2.6 4.5 6.6 4.5c2.2 0 3.9 1.2 5.4 3 1.5-1.8 3.2-3 5.4-3 4 0 6 4.1 4.6 7.2C19.5 16.3 12 21 12 21z" stroke-linejoin="round"/></svg>';
+
+function skeleton() {
+  main.innerHTML = '<div class="metarow"><span class="count">Loading the archive…</span></div><div class="grid">'
+    + '<div class="sk"></div>'.repeat(10) + "</div>";
+}
+
+function errorState(err) {
+  main.innerHTML = '<div class="state">Couldn’t reach the Internet Archive.<br><small>'
+    + esc(err && err.message || err) + '</small><br><button onclick="location.reload()">Retry</button></div>';
+}
+
+function renderPills() {
+  const items = [["All", lib.videoCount]];
+  if (favs.size) items.push(["♥ Favorites", favs.size]);
+  for (const c of lib.categories) items.push([c, lib.categoryCounts[c]]);
+  pillsEl.innerHTML = items.map(([name, n]) =>
+    '<button class="pill' + (cat === name ? " on" : "") + '" data-cat="' + esc(name) + '">'
+    + esc(name) + '<span class="n">' + n + "</span></button>").join("");
+}
+
+function cardHTML(v, showProg) {
+  const dur = fmtDur(v.durationSeconds);
+  const prog = progressOf(v);
+  const fav = favs.has(v.id);
+  return '<button class="card" data-id="' + esc(v.id) + '">'
+    + '<span class="thumb">'
+    +   '<span class="ph">N</span>'
+    +   '<img loading="lazy" src="' + esc(v.thumbnailUrl) + '" alt="" onerror="this.remove()">'
+    +   '<span class="fav' + (fav ? " on" : "") + '" data-fav="' + esc(v.id) + '" role="button" aria-label="Favorite">' + HEART + "</span>"
+    +   (dur ? '<span class="dur">' + dur + "</span>" : "")
+    +   (showProg && prog > 0.02 && prog < 0.97 ? '<span class="prog"><i style="width:' + (prog * 100).toFixed(1) + '%"></i></span>' : "")
+    + "</span>"
+    + '<span class="ct"><h3>' + esc(v.title) + "</h3><p>"
+    +   esc(v.category) + (v.year ? " · " + v.year : "") + "</p></span>"
+    + "</button>";
+}
+
+function currentList() {
+  const query = q.trim().toLowerCase();
+  let arr = lib.videos.filter(v => {
+    if (cat === "♥ Favorites") { if (!favs.has(v.id)) return false; }
+    else if (cat !== "All" && v.category !== cat) return false;
+    if (!query) return true;
+    return v.title.toLowerCase().includes(query) || v.filename.toLowerCase().includes(query);
+  });
+  if (sortMode === "long") arr = arr.slice().sort((a, b) => (b.durationSeconds || 0) - (a.durationSeconds || 0));
+  else if (sortMode === "short") arr = arr.slice().sort((a, b) => (a.durationSeconds || 1e9) - (b.durationSeconds || 1e9));
+  return arr;
+}
+
+function continueList() {
+  return Object.entries(positions)
+    .map(([id, p]) => ({ v: lib.videos.find(x => x.id === id), p }))
+    .filter(x => x.v && x.p.d && x.p.t / x.p.d > 0.02 && x.p.t / x.p.d < 0.97)
+    .sort((a, b) => (b.p.at || 0) - (a.p.at || 0))
+    .slice(0, 12).map(x => x.v);
+}
+
+function render() {
+  renderPills();
+  const arr = currentList();
+  const cw = (cat === "All" && !q.trim()) ? continueList() : [];
+  let html = "";
+  if (cw.length) html += "<h2>Continue watching</h2><div class='cw'>" + cw.map(v => cardHTML(v, true)).join("") + "</div>";
+  html += '<div class="metarow"><span class="count">' + arr.length + (arr.length === 1 ? " clip" : " clips") + "</span>"
+    + '<select id="sort" aria-label="Sort">'
+    + '<option value="az"' + (sortMode === "az" ? " selected" : "") + ">A – Z</option>"
+    + '<option value="long"' + (sortMode === "long" ? " selected" : "") + ">Longest first</option>"
+    + '<option value="short"' + (sortMode === "short" ? " selected" : "") + ">Shortest first</option>"
+    + "</select></div>";
+  html += arr.length
+    ? '<div class="grid">' + arr.map(v => cardHTML(v, true)).join("") + "</div>"
+    : '<div class="state">No clips match' + (q.trim() ? " “" + esc(q.trim()) + "”" : "") + (cat !== "All" ? " in " + esc(cat) : "") + ".</div>";
+  main.innerHTML = html;
+  $("#sort").addEventListener("change", e => { sortMode = e.target.value; render(); });
+}
+
+/* ================= player ================= */
+
+const modal = $("#modal"), player = $("#player");
+let nowPlaying = null, lastSave = 0;
+
+function openVideo(v, viaHistory) {
+  nowPlaying = v;
+  player.src = v.url;
+  player.poster = v.thumbnailUrl;
+  $("#ptitle").textContent = v.title;
+  $("#pmeta").textContent = [v.category, v.year, fmtDur(v.durationSeconds), fmtSize(v.sizeBytes)].filter(Boolean).join(" · ");
+  $("#plink").href = "https://archive.org/details/" + IDENT;
+  updateFavBtn();
+  const p = positions[v.id];
+  if (p && p.t > 10 && (!p.d || p.t / p.d < 0.95)) {
+    player.addEventListener("loadedmetadata", function once() {
+      player.removeEventListener("loadedmetadata", once);
+      try { player.currentTime = p.t; } catch (e) {}
+    });
+  }
+  modal.hidden = false;
+  document.body.classList.add("locked");
+  if (!viaHistory) history.pushState({ na: v.id }, "");
+}
+
+function saveNow() {
+  if (!nowPlaying) return;
+  const t = player.currentTime, d = player.duration;
+  if (t > 5 && d) { positions[nowPlaying.id] = { t: Math.floor(t), d: Math.floor(d), at: Date.now() }; savePositions(); }
+}
+
+function closeVideo(viaHistory) {
+  if (modal.hidden) return;
+  saveNow();
+  player.pause();
+  player.removeAttribute("src");
+  player.load();
+  nowPlaying = null;
+  modal.hidden = true;
+  document.body.classList.remove("locked");
+  if (!viaHistory && history.state && history.state.na) history.back();
+  render(); // refresh progress bars / continue-watching
+}
+
+function updateFavBtn() {
+  const on = nowPlaying && favs.has(nowPlaying.id);
+  const b = $("#pfav");
+  b.className = "b" + (on ? " on" : "");
+  b.innerHTML = HEART + (on ? " Favorited" : " Favorite");
+}
+
+/* ================= events ================= */
+
+$("#search").addEventListener("input", e => { q = e.target.value; render(); });
+
+pillsEl.addEventListener("click", e => {
+  const b = e.target.closest("[data-cat]");
+  if (!b) return;
+  cat = b.dataset.cat;
+  render();
+});
+
+main.addEventListener("click", e => {
+  const favEl = e.target.closest("[data-fav]");
+  if (favEl) {
+    e.stopPropagation();
+    const id = favEl.dataset.fav;
+    favs.has(id) ? favs.delete(id) : favs.add(id);
+    if (!favs.size && cat === "♥ Favorites") cat = "All";
+    saveFavs();
+    render();
+    return;
+  }
+  const card = e.target.closest(".card");
+  if (card) {
+    const v = lib.videos.find(x => x.id === card.dataset.id);
+    if (v) openVideo(v);
+  }
+});
+
+$("#randomBtn").addEventListener("click", () => {
+  if (!lib) return;
+  const arr = currentList();
+  const pool = arr.length ? arr : lib.videos;
+  openVideo(pool[Math.floor(Math.random() * pool.length)]);
+});
+
+$("#pfav").addEventListener("click", () => {
+  if (!nowPlaying) return;
+  favs.has(nowPlaying.id) ? favs.delete(nowPlaying.id) : favs.add(nowPlaying.id);
+  saveFavs();
+  updateFavBtn();
+});
+
+$("#closeBtn").addEventListener("click", () => closeVideo(false));
+modal.addEventListener("click", e => { if (e.target === modal) closeVideo(false); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeVideo(false); });
+window.addEventListener("popstate", () => closeVideo(true)); // iPhone swipe-back closes the player
+
+player.addEventListener("timeupdate", () => {
+  const now = Date.now();
+  if (now - lastSave > 5000) { lastSave = now; saveNow(); }
+});
+document.addEventListener("visibilitychange", () => { if (document.hidden) saveNow(); });
+
+/* ================= boot ================= */
+
+skeleton();
+loadLibrary().then(data => {
+  lib = data;
+  subEl.innerHTML = data.videoCount + ' clips, streamed directly from the <a href="'
+    + esc(data.source.itemUrl) + '" target="_blank" rel="noreferrer">Internet Archive</a>. Nothing is hosted here.';
+  $("#foot").hidden = false;
+  render();
+}).catch(errorState);
+</script>
+</body>
+</html>
