@@ -5,7 +5,7 @@ import { transformMetadata } from "./transform.mjs";
 
 export const ARCHIVE_IDENTIFIER = "NormMacDonaldArchive1";
 
-const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v1`;
+const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v2`;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // refresh from IA once a day
 
 function readCache() {
