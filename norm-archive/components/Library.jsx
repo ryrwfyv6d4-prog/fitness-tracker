@@ -1,11 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useLibrary, useFavorites, usePositions, progressOf } from "../lib/useLibrary";
+import { useLibrary, useFavorites, usePositions, progressOf, isWatched } from "../lib/useLibrary";
 import VideoCard from "./VideoCard";
 import PlayerModal from "./PlayerModal";
 
 const FAV_CAT = "♥ Favorites";
+const ICONIC_CAT = "★ Iconic";
+const WATCHED_CAT = "✓ Watched";
 
 export default function Library() {
   const { status, data, error } = useLibrary();
@@ -21,14 +23,18 @@ export default function Library() {
     const q = query.trim().toLowerCase();
     let arr = data.videos.filter((v) => {
       if (category === FAV_CAT) { if (!favs.has(v.id)) return false; }
+      else if (category === ICONIC_CAT) { if (!v.iconic) return false; }
+      else if (category === WATCHED_CAT) { if (!isWatched(positions, v.id)) return false; }
       else if (category !== "All" && v.category !== category) return false;
       if (!q) return true;
       return v.title.toLowerCase().includes(q) || v.filename.toLowerCase().includes(q);
     });
     if (sortMode === "long") arr = [...arr].sort((a, b) => (b.durationSeconds || 0) - (a.durationSeconds || 0));
     else if (sortMode === "short") arr = [...arr].sort((a, b) => (a.durationSeconds || 1e9) - (b.durationSeconds || 1e9));
+    else if (sortMode === "new") arr = [...arr].sort((a, b) => (b.year || 0) - (a.year || 0));
+    else if (sortMode === "old") arr = [...arr].sort((a, b) => (a.year || 9999) - (b.year || 9999));
     return arr;
-  }, [data, query, category, sortMode, favs]);
+  }, [data, query, category, sortMode, favs, positions]);
 
   const continueWatching = useMemo(() => {
     if (!data || query.trim() || category !== "All") return [];
@@ -45,10 +51,18 @@ export default function Library() {
     if (pool.length) setPlaying(pool[Math.floor(Math.random() * pool.length)]);
   };
 
+  const iconicCount = useMemo(() => (data ? data.videos.filter((v) => v.iconic).length : 0), [data]);
+  const watchedCount = useMemo(
+    () => (data ? data.videos.filter((v) => isWatched(positions, v.id)).length : 0),
+    [data, positions]
+  );
+
   const pills = data
     ? [
         ["All", data.videoCount],
+        ...(iconicCount ? [[ICONIC_CAT, iconicCount]] : []),
         ...(favs.size ? [[FAV_CAT, favs.size]] : []),
+        ...(watchedCount ? [[WATCHED_CAT, watchedCount]] : []),
         ...data.categories.map((c) => [c, data.categoryCounts?.[c]]),
       ]
     : [];
@@ -64,6 +78,7 @@ export default function Library() {
     isFav: favs.has(v.id),
     onToggleFav: toggleFav,
     progress: progressOf(positions, v.id),
+    watched: isWatched(positions, v.id),
   });
 
   return (
@@ -150,7 +165,7 @@ export default function Library() {
                   <button
                     key={cat}
                     type="button"
-                    onClick={() => setCategory(active && cat === FAV_CAT ? "All" : cat)}
+                    onClick={() => setCategory(active && cat !== "All" ? "All" : cat)}
                     aria-pressed={active}
                     className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-[13px] font-semibold transition active:scale-95 ${
                       active
@@ -181,18 +196,26 @@ export default function Library() {
               </section>
             )}
 
-            <div className="mb-3 flex items-center justify-between">
-              <span className="text-xs text-ink-400">
-                {filtered.length} {filtered.length === 1 ? "clip" : "clips"}
-              </span>
+            <div className="mb-3 flex items-end justify-between gap-3">
+              <div className="min-w-0">
+                <h2 className="text-[15px] font-bold text-white" data-testid="section-heading">
+                  {category === "All" ? "All clips" : category}
+                </h2>
+                <p className="mt-0.5 text-xs text-ink-400">
+                  {filtered.length} {filtered.length === 1 ? "clip" : "clips"}
+                  {query.trim() ? ` matching “${query.trim()}”` : ""}
+                </p>
+              </div>
               <select
                 value={sortMode}
                 onChange={(e) => setSortMode(e.target.value)}
                 aria-label="Sort"
-                className="appearance-none bg-transparent text-right text-xs font-semibold text-ink-300 outline-none"
+                className="shrink-0 appearance-none bg-transparent text-right text-xs font-semibold text-ink-300 outline-none"
                 data-testid="sort"
               >
                 <option value="az">A – Z</option>
+                <option value="new">Newest first</option>
+                <option value="old">Oldest first</option>
                 <option value="long">Longest first</option>
                 <option value="short">Shortest first</option>
               </select>

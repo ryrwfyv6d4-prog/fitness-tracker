@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { formatDuration, formatSize } from "../lib/useLibrary";
 
 // Native HTML5 player on purpose: on iOS it provides AirPlay, PiP, fullscreen,
@@ -8,6 +8,32 @@ import { formatDuration, formatSize } from "../lib/useLibrary";
 export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggleFav, resumeAt, onProgress }) {
   const videoRef = useRef(null);
   const lastSaveRef = useRef(0);
+  const [pipSupported, setPipSupported] = useState(false);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    setPipSupported(
+      !!document.pictureInPictureEnabled ||
+        !!(el && typeof el.webkitSupportsPresentationMode === "function" && el.webkitSupportsPresentationMode("picture-in-picture"))
+    );
+  }, []);
+
+  const togglePip = async () => {
+    const el = videoRef.current;
+    if (!el) return;
+    try {
+      // iOS Safari uses its own presentation-mode API
+      if (typeof el.webkitSetPresentationMode === "function" && !document.pictureInPictureEnabled) {
+        el.webkitSetPresentationMode(el.webkitPresentationMode === "picture-in-picture" ? "inline" : "picture-in-picture");
+      } else if (document.pictureInPictureElement) {
+        await document.exitPictureInPicture();
+      } else {
+        await el.requestPictureInPicture();
+      }
+    } catch {
+      // PiP can be rejected (no video frames yet, low-power mode) — non-fatal
+    }
+  };
 
   const saveNow = () => {
     const el = videoRef.current;
@@ -89,6 +115,7 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
             x-webkit-airplay="allow"
             onTimeUpdate={handleTimeUpdate}
             onPause={saveNow}
+            onEnded={saveNow}
             className="h-full w-full"
             data-testid="player"
           />
@@ -99,6 +126,17 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
             <p className="mt-1 text-xs text-ink-400">{meta}</p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
+            {pipSupported && (
+              <button
+                type="button"
+                onClick={togglePip}
+                title="Picture in Picture"
+                className="rounded-lg px-3 py-2 text-xs font-semibold text-ink-300 ring-1 ring-ink-700 hover:text-white transition-colors"
+                data-testid="pip-button"
+              >
+                ⧉ PiP
+              </button>
+            )}
             <button
               type="button"
               onClick={() => onToggleFav(video.id)}

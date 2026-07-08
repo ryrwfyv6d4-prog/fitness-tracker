@@ -12,7 +12,7 @@ const HEART = (
   </svg>
 );
 
-export default function VideoCard({ video, onPlay, isFav, onToggleFav, progress = 0 }) {
+export default function VideoCard({ video, onPlay, isFav, onToggleFav, progress = 0, watched = false }) {
   const [thumbFailed, setThumbFailed] = useState(false);
   const duration = formatDuration(video.durationSeconds);
 
@@ -49,6 +49,18 @@ export default function VideoCard({ video, onPlay, isFav, onToggleFav, progress 
           }`}
         >
           {HEART}
+        </span>
+        <span className="absolute right-1.5 top-1.5 flex flex-col items-end gap-1">
+          {video.iconic && (
+            <span className="rounded-md bg-black/80 px-1.5 py-0.5 text-[11px] font-bold text-accent-400" data-testid="iconic-badge" title="Iconic clip">
+              ★
+            </span>
+          )}
+          {watched && (
+            <span className="rounded-md bg-black/80 px-1.5 py-0.5 text-[11px] font-bold text-emerald-400" data-testid="watched-badge" title="Watched">
+              ✓
+            </span>
+          )}
         </span>
         {duration && (
           <span className="absolute bottom-1.5 right-1.5 rounded-md bg-black/80 px-1.5 py-0.5 text-[11px] font-semibold text-white">

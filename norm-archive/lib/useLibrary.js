@@ -5,7 +5,7 @@ import { transformMetadata } from "./transform.mjs";
 
 export const ARCHIVE_IDENTIFIER = "NormMacDonaldArchive1";
 
-const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v2`;
+const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v3`;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // refresh from IA once a day
 
 function readCache() {
@@ -115,6 +115,13 @@ export function usePositions() {
 export function progressOf(positions, id) {
   const p = positions[id];
   return p && p.d ? Math.min(p.t / p.d, 1) : 0;
+}
+
+// A clip counts as watched once ~97% has played; the continue-watching row
+// uses the complementary range so a clip is never in both.
+export const WATCHED_AT = 0.97;
+export function isWatched(positions, id) {
+  return progressOf(positions, id) >= WATCHED_AT;
 }
 
 export function formatDuration(seconds) {
