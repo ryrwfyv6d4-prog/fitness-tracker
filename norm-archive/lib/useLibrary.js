@@ -64,6 +64,26 @@ async function discoverPrefixedItems({ prefix, label }) {
   }
 }
 
+// Internet Archive tracks view/download counts per ITEM, not per individual
+// file within a multi-file item — so this is collection-level popularity
+// ("the SNL collection has 12k views"), not per-clip. There's no API that
+// exposes finer granularity than that; a per-clip "most viewed" isn't
+// something IA's data actually supports for multi-file items. Best-effort:
+// a failed lookup just means that source shows no view count, same pattern
+// as everything else here.
+async function fetchSourceViews(identifier) {
+  try {
+    const q = encodeURIComponent(`identifier:${identifier}`);
+    const res = await fetch(`https://archive.org/advancedsearch.php?q=${q}&fl[]=identifier&fl[]=downloads&rows=1&output=json`);
+    if (!res.ok) return null;
+    const json = await res.json();
+    const views = json?.response?.docs?.[0]?.downloads;
+    return typeof views === "number" ? views : null;
+  } catch {
+    return null;
+  }
+}
+
 // Fetches every known source in parallel and merges them. One dead source
 // (renamed item, temporary outage, search API hiccup) doesn't take down the
 // rest — Promise.allSettled + per-source try/catch throughout. Every
@@ -93,13 +113,33 @@ async function loadAllSources() {
 
   const countsByIdentifier = {};
   for (const v of merged.videos) countsByIdentifier[v.sourceIdentifier] = (countsByIdentifier[v.sourceIdentifier] || 0) + 1;
-  merged.sourceStatus = targets.map(({ identifier, label }, i) => {
+  const statusEntries = targets.map(({ identifier, label }, i) => {
     const s = settled[i];
     if (s.status === "fulfilled") {
       return { identifier, label, ok: true, rawCount: s.value.result.videoCount, keptCount: countsByIdentifier[identifier] || 0 };
     }
     return { identifier, label, ok: false, error: s.reason?.message || String(s.reason) };
   });
+
+  // View counts for successful sources only, fetched in parallel — best
+  // effort, doesn't block or fail the library load if archive.org's search
+  // API is unreachable.
+  const viewsResults = await Promise.allSettled(
+    statusEntries.filter((s) => s.ok).map(async (s) => ({ identifier: s.identifier, views: await fetchSourceViews(s.identifier) }))
+  );
+  const viewsByIdentifier = {};
+  for (const r of viewsResults) {
+    if (r.status === "fulfilled" && r.value.views != null) viewsByIdentifier[r.value.identifier] = r.value.views;
+  }
+
+  // Most popular first, so the ranking is visible at a glance; failed
+  // sources (nothing to rank) trail at the end in their original order.
+  merged.sourceStatus = statusEntries
+    .map((s) => ({ ...s, views: s.ok ? viewsByIdentifier[s.identifier] ?? null : null }))
+    .sort((a, b) => {
+      if (a.ok !== b.ok) return a.ok ? -1 : 1;
+      return (b.views || 0) - (a.views || 0);
+    });
 
   return merged;
 }
@@ -301,4 +341,11 @@ export function formatSize(bytes) {
   if (!bytes) return null;
   if (bytes >= 1e9) return `${(bytes / 1e9).toFixed(1)} GB`;
   return `${Math.round(bytes / 1e6)} MB`;
+}
+
+export function formatViews(views) {
+  if (views == null) return null;
+  if (views >= 1e6) return `${(views / 1e6).toFixed(1)}M views`;
+  if (views >= 1e3) return `${(views / 1e3).toFixed(1)}k views`;
+  return `${views} view${views === 1 ? "" : "s"}`;
 }

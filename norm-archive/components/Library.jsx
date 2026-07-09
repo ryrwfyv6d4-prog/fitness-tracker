@@ -10,6 +10,7 @@ import {
   progressOf,
   isWatched,
   isRecentlyAdded,
+  formatViews,
 } from "../lib/useLibrary";
 import VideoCard from "./VideoCard";
 import PlayerModal from "./PlayerModal";
@@ -302,7 +303,14 @@ export default function Library() {
               . Favorites and watch progress are saved on this device only.
               {data.sourceStatus && (
                 <details className="mt-3" data-testid="source-status">
-                  <summary className="cursor-pointer text-ink-400 hover:text-ink-300">Source status</summary>
+                  <summary className="cursor-pointer text-ink-400 hover:text-ink-300">
+                    Source status &amp; popularity
+                  </summary>
+                  <p className="mt-2 text-[10.5px] text-ink-400">
+                    Views are tracked by archive.org per collection, not per clip — a per-clip view
+                    count isn't something Internet Archive's data supports for multi-file collections.
+                    Sorted most-viewed first.
+                  </p>
                   <ul className="mt-2 space-y-1">
                     {data.sourceStatus.map((s) => (
                       <li key={s.identifier} data-testid={`source-status-${s.identifier}`}>
@@ -316,6 +324,7 @@ export default function Library() {
                         {s.ok ? (
                           <span>
                             — {s.keptCount} kept{s.keptCount !== s.rawCount ? ` of ${s.rawCount}` : ""}
+                            {formatViews(s.views) ? ` · ${formatViews(s.views)}` : ""}
                           </span>
                         ) : (
                           <span className="text-red-400">— {s.error}</span>
