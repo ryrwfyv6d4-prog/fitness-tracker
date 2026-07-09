@@ -15,6 +15,7 @@ import {
 import VideoCard from "./VideoCard";
 import PlayerModal from "./PlayerModal";
 import CardMenu from "./CardMenu";
+import ScrollToTopButton from "./ScrollToTopButton";
 
 const FAV_CAT = "♥ Favorites";
 const ICONIC_CAT = "★ Iconic";
@@ -370,6 +371,8 @@ export default function Library() {
           onClose={() => setMenuVideo(null)}
         />
       )}
+
+      <ScrollToTopButton />
     </div>
   );
 }
