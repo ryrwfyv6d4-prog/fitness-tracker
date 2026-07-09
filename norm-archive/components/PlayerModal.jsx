@@ -21,6 +21,7 @@ export default function PlayerModal({
   const videoRef = useRef(null);
   const lastSaveRef = useRef(0);
   const [pipSupported, setPipSupported] = useState(false);
+  const [pipFallbackUrl, setPipFallbackUrl] = useState(null);
   const [shareCopied, setShareCopied] = useState(false);
 
   useEffect(() => {
@@ -32,23 +33,16 @@ export default function PlayerModal({
     try {
       el.autoPictureInPicture = true;
     } catch {}
+    setPipFallbackUrl(null);
     // iOS Safari's webkitSupportsPresentationMode isn't reliable until the
     // video has loaded metadata — checking only on mount is why PiP looked
     // "available for some clips but not others" (pure load-timing race, not
     // a per-video difference). Check on mount AND after metadata loads.
-    //
-    // iOS also reports webkitSupportsPresentationMode(true) even when the
-    // page is running as an installed home-screen app — but Apple blocks
-    // *invoking* PiP from that standalone context (webkitSetPresentationMode
-    // is silently a no-op there), so the button would show and do nothing.
-    // Only the standard (non-webkit) PiP API actually works in standalone
-    // mode; the webkit-prefixed path only works in a real Safari tab.
     const check = () => {
       const hasStandardPip = !!document.pictureInPictureEnabled;
       const hasWebkitPip =
         typeof el.webkitSupportsPresentationMode === "function" && el.webkitSupportsPresentationMode("picture-in-picture");
-      const isIosStandalone = typeof navigator !== "undefined" && navigator.standalone === true;
-      setPipSupported(hasStandardPip || (hasWebkitPip && !isIosStandalone));
+      setPipSupported(hasStandardPip || hasWebkitPip);
     };
     check();
     el.addEventListener("loadedmetadata", check);
@@ -58,14 +52,45 @@ export default function PlayerModal({
   const togglePip = async () => {
     const el = videoRef.current;
     if (!el) return;
+    setPipFallbackUrl(null);
     try {
-      // iOS Safari uses its own presentation-mode API
-      if (typeof el.webkitSetPresentationMode === "function" && !document.pictureInPictureEnabled) {
-        el.webkitSetPresentationMode(el.webkitPresentationMode === "picture-in-picture" ? "inline" : "picture-in-picture");
-      } else if (document.pictureInPictureElement) {
+      if (document.pictureInPictureElement) {
         await document.exitPictureInPicture();
-      } else {
+        return;
+      }
+      if (typeof el.requestPictureInPicture === "function" && document.pictureInPictureEnabled) {
         await el.requestPictureInPicture();
+        return;
+      }
+      // iOS Safari uses its own presentation-mode API instead of the
+      // standard one. On some iOS versions, invoking it from a page running
+      // as an installed Home Screen app is a silent no-op — the call
+      // "succeeds" but nothing happens. Rather than assume that's always
+      // true (it's inconsistent across iOS versions), actually confirm the
+      // mode change happened before deciding it's broken.
+      if (typeof el.webkitSetPresentationMode === "function") {
+        if (el.webkitPresentationMode === "picture-in-picture") {
+          el.webkitSetPresentationMode("inline");
+          return;
+        }
+        const confirmed = await new Promise((resolve) => {
+          const onChange = () => {
+            el.removeEventListener("webkitpresentationmodechanged", onChange);
+            resolve(el.webkitPresentationMode === "picture-in-picture");
+          };
+          el.addEventListener("webkitpresentationmodechanged", onChange);
+          el.webkitSetPresentationMode("picture-in-picture");
+          setTimeout(() => {
+            el.removeEventListener("webkitpresentationmodechanged", onChange);
+            resolve(el.webkitPresentationMode === "picture-in-picture");
+          }, 700);
+        });
+        if (!confirmed) {
+          // Genuinely blocked here — offer a real working path instead of a
+          // dead button: opening the same clip in an actual Safari tab (not
+          // the installed app) reliably supports PiP.
+          setPipFallbackUrl(`${location.origin}${location.pathname}#v=${encodeURIComponent(video.id)}`);
+        }
       }
     } catch {
       // PiP can be rejected (no video frames yet, low-power mode) — non-fatal
@@ -274,6 +299,18 @@ export default function PlayerModal({
               >
                 ⧉ PiP
               </button>
+            )}
+            {pipFallbackUrl && (
+              <a
+                href={pipFallbackUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setPipFallbackUrl(null)}
+                className="rounded-lg px-3 py-2 text-xs font-semibold text-amber-400 ring-1 ring-amber-400/40 hover:text-amber-300 transition-colors"
+                data-testid="pip-fallback-link"
+              >
+                PiP blocked here — Open in Safari ↗
+              </a>
             )}
             <button
               type="button"
