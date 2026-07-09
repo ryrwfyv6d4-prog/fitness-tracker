@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLibrary, useFavorites, usePositions, progressOf, isWatched } from "../lib/useLibrary";
 import VideoCard from "./VideoCard";
 import PlayerModal from "./PlayerModal";
@@ -63,9 +63,31 @@ export default function Library() {
         ...(iconicCount ? [[ICONIC_CAT, iconicCount]] : []),
         ...(favs.size ? [[FAV_CAT, favs.size]] : []),
         ...(watchedCount ? [[WATCHED_CAT, watchedCount]] : []),
-        ...data.categories.map((c) => [c, data.categoryCounts?.[c]]),
+        // Biggest categories first — alphabetical buries the categories
+        // people actually want (SNL, Talk Shows) behind small ones.
+        ...data.categories
+          .map((c) => [c, data.categoryCounts?.[c] || 0])
+          .sort((a, b) => b[1] - a[1]),
       ]
     : [];
+
+  // Deep link: /#v=<id> opens straight to that clip (for sharing). Checked
+  // on initial load AND on 'hashchange' — visiting a second share link
+  // without a full page reload (a same-document fragment navigation) only
+  // fires 'hashchange', not a fresh mount. (The player's own pushState calls
+  // don't trigger 'hashchange', so this can't fight with its own history use.)
+  useEffect(() => {
+    if (!data) return;
+    const openFromHash = () => {
+      const id = location.hash.match(/^#v=(.+)$/)?.[1];
+      if (!id) return;
+      const v = data.videos.find((x) => x.id === decodeURIComponent(id));
+      if (v) setPlaying(v);
+    };
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    return () => window.removeEventListener("hashchange", openFromHash);
+  }, [data]);
 
   const resumeAt = (v) => {
     const p = positions[v.id];
@@ -84,21 +106,23 @@ export default function Library() {
   return (
     <div className="mx-auto max-w-7xl pb-[max(env(safe-area-inset-bottom),32px)]">
       <header className="px-4 pt-[max(env(safe-area-inset-top),28px)] pb-3 sm:px-6 lg:px-8">
-        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-accent-400">The Library</p>
+        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-accent-400">Every bit. No ads.</p>
         <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-          Norm Macdonald Archive
+          Norm<span className="text-accent-400">Tube</span>
         </h1>
         <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-ink-300" data-testid="header-subtitle">
-          {data ? `${data.videoCount} clips, streamed directly from the ` : "A curated library for the "}
+          {data
+            ? `${data.videoCount} bits, roasts, and interviews, pulled straight off `
+            : "Every Norm Macdonald bit the internet has, pulled straight off "}
           <a
-            href="https://archive.org/details/NormMacDonaldArchive1"
+            href="https://archive.org"
             target="_blank"
             rel="noreferrer"
             className="underline decoration-ink-700 underline-offset-2 hover:text-white"
           >
-            Internet Archive
+            the Internet Archive
           </a>
-          . Nothing is hosted here.
+          . We host nothing — it streams straight from there to you.
         </p>
       </header>
 

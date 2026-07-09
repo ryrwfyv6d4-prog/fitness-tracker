@@ -1,10 +1,10 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Norm Macdonald Archive",
+  title: "NormTube",
   description:
-    "A curated library for browsing and streaming the Norm Macdonald Archive, served directly from the Internet Archive.",
-  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "Norm Archive" },
+    "Every Norm Macdonald bit, roast, and interview the internet has, in one place. Streamed straight off the Internet Archive — nothing hosted, nothing to buffer through ads.",
+  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "NormTube" },
 };
 
 export const viewport = {

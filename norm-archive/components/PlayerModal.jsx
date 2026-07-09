@@ -9,14 +9,25 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
   const videoRef = useRef(null);
   const lastSaveRef = useRef(0);
   const [pipSupported, setPipSupported] = useState(false);
+  const [shareCopied, setShareCopied] = useState(false);
 
   useEffect(() => {
     const el = videoRef.current;
-    setPipSupported(
-      !!document.pictureInPictureEnabled ||
-        !!(el && typeof el.webkitSupportsPresentationMode === "function" && el.webkitSupportsPresentationMode("picture-in-picture"))
-    );
-  }, []);
+    if (!el) return;
+    // iOS Safari's webkitSupportsPresentationMode isn't reliable until the
+    // video has loaded metadata — checking only on mount is why PiP looked
+    // "available for some clips but not others" (pure load-timing race, not
+    // a per-video difference). Check on mount AND after metadata loads.
+    const check = () => {
+      setPipSupported(
+        !!document.pictureInPictureEnabled ||
+          (typeof el.webkitSupportsPresentationMode === "function" && el.webkitSupportsPresentationMode("picture-in-picture"))
+      );
+    };
+    check();
+    el.addEventListener("loadedmetadata", check);
+    return () => el.removeEventListener("loadedmetadata", check);
+  }, [video.id]);
 
   const togglePip = async () => {
     const el = videoRef.current;
@@ -32,6 +43,25 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
       }
     } catch {
       // PiP can be rejected (no video frames yet, low-power mode) — non-fatal
+    }
+  };
+
+  const share = async () => {
+    const url = `${location.origin}${location.pathname}#v=${encodeURIComponent(video.id)}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: `${video.title} — NormTube`, url });
+      } catch {
+        // user cancelled the share sheet — not an error
+      }
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareCopied(true);
+      setTimeout(() => setShareCopied(false), 1800);
+    } catch {
+      // clipboard unavailable — link is still visible in the address bar
     }
   };
 
@@ -60,7 +90,7 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
     const onKey = (e) => e.key === "Escape" && close();
     // iPhone swipe-back / browser back closes the player instead of leaving the site
     const onPop = () => { saveNow(); videoRef.current?.pause(); onClose(); };
-    window.history.pushState({ np: video.id }, "");
+    window.history.pushState({ np: video.id }, "", `#v=${encodeURIComponent(video.id)}`);
     document.addEventListener("keydown", onKey);
     window.addEventListener("popstate", onPop);
     document.body.style.overflow = "hidden";
@@ -112,6 +142,7 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
             playsInline
             autoPlay
             preload="metadata"
+            autoPictureInPicture
             x-webkit-airplay="allow"
             onTimeUpdate={handleTimeUpdate}
             onPause={saveNow}
@@ -126,6 +157,15 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
             <p className="mt-1 text-xs text-ink-400" data-testid="player-meta">{meta}</p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={share}
+              title="Share"
+              className="rounded-lg px-3 py-2 text-xs font-semibold text-ink-300 ring-1 ring-ink-700 hover:text-white transition-colors"
+              data-testid="share-button"
+            >
+              {shareCopied ? "Copied!" : "↗ Share"}
+            </button>
             {pipSupported && (
               <button
                 type="button"
