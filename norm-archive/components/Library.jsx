@@ -1,31 +1,46 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useLibrary, useFavorites, usePositions, progressOf, isWatched, isRecentlyAdded } from "../lib/useLibrary";
+import {
+  useLibrary,
+  useFavorites,
+  useWatchLater,
+  useManualWatched,
+  usePositions,
+  progressOf,
+  isWatched,
+  isRecentlyAdded,
+} from "../lib/useLibrary";
 import VideoCard from "./VideoCard";
 import PlayerModal from "./PlayerModal";
+import CardMenu from "./CardMenu";
 
 const FAV_CAT = "♥ Favorites";
 const ICONIC_CAT = "★ Iconic";
 const WATCHED_CAT = "✓ Watched";
 const NEW_CAT = "🆕 New";
+const WATCHLATER_CAT = "⏱ Watch Later";
 
 export default function Library() {
   const { status, data, error } = useLibrary();
   const [favs, toggleFav] = useFavorites();
+  const [watchLater, toggleWatchLater] = useWatchLater();
+  const [manualWatched, setManualWatched] = useManualWatched();
   const [positions, savePosition] = usePositions();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [sortMode, setSortMode] = useState("az");
   const [playing, setPlaying] = useState(null);
+  const [menuVideo, setMenuVideo] = useState(null);
 
   const filtered = useMemo(() => {
     if (!data) return [];
     const q = query.trim().toLowerCase();
     let arr = data.videos.filter((v) => {
       if (category === FAV_CAT) { if (!favs.has(v.id)) return false; }
+      else if (category === WATCHLATER_CAT) { if (!watchLater.has(v.id)) return false; }
       else if (category === ICONIC_CAT) { if (!v.iconic) return false; }
-      else if (category === WATCHED_CAT) { if (!isWatched(positions, v.id)) return false; }
+      else if (category === WATCHED_CAT) { if (!isWatched(positions, manualWatched, v.id)) return false; }
       else if (category === NEW_CAT) { if (!isRecentlyAdded(v)) return false; }
       else if (category !== "All" && v.category !== category) return false;
       if (!q) return true;
@@ -38,7 +53,7 @@ export default function Library() {
     else if (sortMode === "added") arr = [...arr].sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
     if (category === NEW_CAT && sortMode === "az") arr = [...arr].sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
     return arr;
-  }, [data, query, category, sortMode, favs, positions]);
+  }, [data, query, category, sortMode, favs, watchLater, positions, manualWatched]);
 
   const continueWatching = useMemo(() => {
     if (!data || query.trim() || category !== "All") return [];
@@ -57,8 +72,8 @@ export default function Library() {
 
   const iconicCount = useMemo(() => (data ? data.videos.filter((v) => v.iconic).length : 0), [data]);
   const watchedCount = useMemo(
-    () => (data ? data.videos.filter((v) => isWatched(positions, v.id)).length : 0),
-    [data, positions]
+    () => (data ? data.videos.filter((v) => isWatched(positions, manualWatched, v.id)).length : 0),
+    [data, positions, manualWatched]
   );
   const newCount = useMemo(() => (data ? data.videos.filter((v) => isRecentlyAdded(v)).length : 0), [data]);
 
@@ -68,6 +83,7 @@ export default function Library() {
         ...(newCount ? [[NEW_CAT, newCount]] : []),
         ...(iconicCount ? [[ICONIC_CAT, iconicCount]] : []),
         ...(favs.size ? [[FAV_CAT, favs.size]] : []),
+        ...(watchLater.size ? [[WATCHLATER_CAT, watchLater.size]] : []),
         ...(watchedCount ? [[WATCHED_CAT, watchedCount]] : []),
         // Biggest categories first — alphabetical buries the categories
         // people actually want (SNL, Talk Shows) behind small ones.
@@ -106,8 +122,9 @@ export default function Library() {
     isFav: favs.has(v.id),
     onToggleFav: toggleFav,
     progress: progressOf(positions, v.id),
-    watched: isWatched(positions, v.id),
+    watched: isWatched(positions, manualWatched, v.id),
     isNew: isRecentlyAdded(v),
+    onLongPress: setMenuVideo,
   });
 
   return (
@@ -320,8 +337,26 @@ export default function Library() {
           onClose={() => setPlaying(null)}
           isFav={favs.has(playing.id)}
           onToggleFav={toggleFav}
+          isWatchLater={watchLater.has(playing.id)}
+          onToggleWatchLater={toggleWatchLater}
+          watched={isWatched(positions, manualWatched, playing.id)}
+          onSetWatched={setManualWatched}
           resumeAt={resumeAt(playing)}
           onProgress={savePosition}
+        />
+      )}
+
+      {menuVideo && (
+        <CardMenu
+          video={menuVideo}
+          isFav={favs.has(menuVideo.id)}
+          onToggleFav={toggleFav}
+          isWatchLater={watchLater.has(menuVideo.id)}
+          onToggleWatchLater={toggleWatchLater}
+          watched={isWatched(positions, manualWatched, menuVideo.id)}
+          onSetWatched={setManualWatched}
+          onPlay={setPlaying}
+          onClose={() => setMenuVideo(null)}
         />
       )}
     </div>

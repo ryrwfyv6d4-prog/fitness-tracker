@@ -1,11 +1,23 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { formatDuration, formatSize, formatAddedAt } from "../lib/useLibrary";
+import { formatDuration, formatSize, formatAddedAt, shareVideo } from "../lib/useLibrary";
 
 // Native HTML5 player on purpose: on iOS it provides AirPlay, PiP, fullscreen,
 // gesture seeking, and lock-screen controls that custom JS players lose.
-export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggleFav, resumeAt, onProgress }) {
+export default function PlayerModal({
+  video,
+  archiveUrl,
+  onClose,
+  isFav,
+  onToggleFav,
+  isWatchLater,
+  onToggleWatchLater,
+  watched,
+  onSetWatched,
+  resumeAt,
+  onProgress,
+}) {
   const videoRef = useRef(null);
   const lastSaveRef = useRef(0);
   const [pipSupported, setPipSupported] = useState(false);
@@ -53,21 +65,10 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
   };
 
   const share = async () => {
-    const url = `${location.origin}${location.pathname}#v=${encodeURIComponent(video.id)}`;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: `${video.title} — NormTube`, url });
-      } catch {
-        // user cancelled the share sheet — not an error
-      }
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(url);
+    const result = await shareVideo(video);
+    if (result === "copied") {
       setShareCopied(true);
       setTimeout(() => setShareCopied(false), 1800);
-    } catch {
-      // clipboard unavailable — link is still visible in the address bar
     }
   };
 
@@ -275,6 +276,26 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
               data-testid="modal-fav"
             >
               {isFav ? "♥ Favorited" : "♡ Favorite"}
+            </button>
+            <button
+              type="button"
+              onClick={() => onToggleWatchLater(video.id)}
+              className={`rounded-lg px-3 py-2 text-xs font-semibold ring-1 ring-ink-700 transition-colors ${
+                isWatchLater ? "text-accent-400" : "text-ink-300 hover:text-white"
+              }`}
+              data-testid="modal-watchlater"
+            >
+              {isWatchLater ? "⏱ In Watch Later" : "⏱ Watch Later"}
+            </button>
+            <button
+              type="button"
+              onClick={() => onSetWatched(video.id, !watched)}
+              className={`rounded-lg px-3 py-2 text-xs font-semibold ring-1 ring-ink-700 transition-colors ${
+                watched ? "text-emerald-400" : "text-ink-300 hover:text-white"
+              }`}
+              data-testid="modal-watched"
+            >
+              {watched ? "✓ Watched" : "Mark Watched"}
             </button>
             <a
               href={archiveUrl}
