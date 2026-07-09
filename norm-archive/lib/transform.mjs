@@ -70,6 +70,20 @@ export function categorize(text) {
   return { category: tags[0] ?? "Other", tags: tags.length ? tags : ["Other"] };
 }
 
+// Title-polish vocabulary: words kept lowercase mid-title, and acronyms
+// restored to caps regardless of how the filename spelled them.
+const SMALL_WORDS = new Set([
+  "a", "an", "and", "as", "at", "but", "by", "for", "from", "in", "into",
+  "nor", "of", "on", "or", "the", "to", "vs", "via", "with",
+]);
+const ACRONYMS = new Map(
+  Object.entries({
+    snl: "SNL", nml: "NML", tv: "TV", hbo: "HBO", cbc: "CBC", espn: "ESPN",
+    nbc: "NBC", abc: "ABC", cbs: "CBS", mtv: "MTV", oj: "OJ", jfl: "JFL",
+    sctv: "SCTV", wtf: "WTF", ufc: "UFC", cnn: "CNN", pga: "PGA", nyc: "NYC",
+  })
+);
+
 export function titleFromFilename(filename, identifier) {
   // Basename only: YouTube-channel rips (e.g. "I'm Not Norm") nest files as
   // "<date> <channel> <channelId> <videoId>/<date> <real title>.mp4" — the
@@ -82,24 +96,49 @@ export function titleFromFilename(filename, identifier) {
   // (year is extracted separately into the `year` field).
   base = base.replace(/^\s*(?:19|20)\d{2}[ ._-]+\d{1,2}[ ._-]+\d{1,2}\s*[-–—]?\s*/, "");
   base = base.replace(/^\s*(?:19|20)\d{6}\s*[-–—]?\s*/, "");
-  // YouTube channel/video ID tokens ("Ucjnky9lm9wx0cmwfrg5eucw", "4cj0om3mh4e"):
-  // long unspaced letter+digit mixes that never occur in real titles.
-  base = base.replace(/(^|\s)(?=\S*\d)(?=\S*[a-z])\S{11,}(?=\s|$)/gi, " ");
   // Leading track numbers: "13 - Title", "07. Title", "1 3 Title" (but not
   // legitimate number-led titles like "60 Minutes" — only strip a lone number
   // when a second number group follows it).
   base = base.replace(/^\s*\d{1,3}\s*[-–—.]\s+/, "");
   base = base.replace(/^\s*\d{1,2}\s+\d{1,2}\s+(?=[A-Za-z])/, "");
-  // Trailing upload/copy counters: "Title-2", "Title (3)".
+  // Trailing upload/copy counters: "Title-2", "Title (3)". Must run before
+  // the word-joining-hyphen conversion below, or the "-2" is consumed as a
+  // hyphen-joined word instead of recognized as a counter.
   base = base.replace(/\s*[-–—]\s*\d{1,2}$/, "").replace(/\s*\(\d\)$/, "");
+  // Word-joining hyphens ("norm-on-letterman") → spaces, but leave spaced
+  // dashes (" - ") alone — those are real title punctuation, not slug glue.
+  // Must run before YouTube-ID stripping, or "Millionaire-1" (id already
+  // handled above) and hyphenated slugs read as one long junk token.
+  base = base.replace(/([a-zA-Z0-9])-(?=[a-zA-Z0-9])/g, "$1 ");
+  // YouTube channel/video ID tokens ("Ucjnky9lm9wx0cmwfrg5eucw", "4cj0om3mh4e"):
+  // long pure-alphanumeric runs with ≥2 interspersed digits. Real-word tokens
+  // survive: punctuation breaks the run, and tokens ending in a year
+  // ("Letterman1997") are explicitly protected.
+  base = base.replace(
+    /(^|\s)(?=[A-Za-z0-9]*\d[A-Za-z0-9]*\d)(?![A-Za-z0-9]*(?:19|20)\d{2}(?=\s|$))[A-Za-z0-9]{11,}(?=\s|$)/g,
+    " "
+  );
+  // Season/episode markers → canonical form: "S01ep13" / "s1 ep 3" → "S01E13".
+  base = base.replace(/\bs(\d{1,2})\s*[.\- ]?\s*ep?\.?\s*(\d{1,3})\b/gi, (m, s, e) => `S${s.padStart(2, "0")}E${e.padStart(2, "0")}`);
   base = base.replace(/\s{2,}/g, " ").trim();
-  return base
-    .split(" ")
-    .map((word) => {
-      if (!word) return word;
-      // Preserve existing all-caps tokens (acronyms like SNL) as-is.
-      if (word === word.toUpperCase() && /[A-Z]/.test(word)) return word;
-      return word[0].toUpperCase() + word.slice(1).toLowerCase();
+  // Trailing year duplicated in the year tag ("Moth Joke 1997" → "Moth Joke")
+  // — but keep it when it's part of the phrase ("Best of 1994").
+  const ym = base.match(/^(.*\S)[\s\-–—]+(?:19[4-9]|20[0-2])\d$/);
+  if (ym && ym[1].trim().split(/\s+/).length >= 2 && !/\b(of|in|from|since|circa)$/i.test(ym[1].trim())) {
+    base = ym[1].trim();
+  }
+
+  const words = base.split(" ").filter(Boolean);
+  return words
+    .map((word, i) => {
+      const core = word.replace(/[^a-zA-Z0-9']/g, "");
+      const acronym = ACRONYMS.get(core.toLowerCase());
+      if (acronym) return word.replace(core, acronym);
+      // Preserve existing all-caps tokens (S01E13, HDTV) as-is.
+      if (word === word.toUpperCase() && /[A-Z]/.test(word) && core.length > 1) return word;
+      if (i !== 0 && i !== words.length - 1 && SMALL_WORDS.has(core.toLowerCase())) return word.toLowerCase();
+      // Capitalize the first LETTER (not first char — handles "(second Time)").
+      return word.toLowerCase().replace(/[a-z]/, (c) => c.toUpperCase());
     })
     .join(" ");
 }
