@@ -275,6 +275,31 @@ export default function Library() {
                 </span>
               ))}
               . Favorites and watch progress are saved on this device only.
+              {data.sourceStatus && (
+                <details className="mt-3" data-testid="source-status">
+                  <summary className="cursor-pointer text-ink-400 hover:text-ink-300">Source status</summary>
+                  <ul className="mt-2 space-y-1">
+                    {data.sourceStatus.map((s) => (
+                      <li key={s.identifier} data-testid={`source-status-${s.identifier}`}>
+                        {s.ok ? (
+                          <span className="text-emerald-400">✓</span>
+                        ) : (
+                          <span className="text-red-400">✗</span>
+                        )}{" "}
+                        <span className="text-ink-300">{s.label}</span>{" "}
+                        <span className="text-ink-400">({s.identifier})</span>{" "}
+                        {s.ok ? (
+                          <span>
+                            — {s.keptCount} kept{s.keptCount !== s.rawCount ? ` of ${s.rawCount}` : ""}
+                          </span>
+                        ) : (
+                          <span className="text-red-400">— {s.error}</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
             </footer>
           </div>
         </>
