@@ -11,6 +11,7 @@ import {
   isWatched,
   isRecentlyAdded,
   formatViews,
+  scrollToTop,
 } from "../lib/useLibrary";
 import VideoCard from "./VideoCard";
 import PlayerModal from "./PlayerModal";
@@ -178,7 +179,19 @@ export default function Library() {
 
       {status === "ready" && (
         <>
-          <div className="sticky top-0 z-30 border-b border-ink-700/60 bg-ink-900/80 px-4 pt-[max(env(safe-area-inset-top),10px)] backdrop-blur-xl backdrop-saturate-150 sm:px-6 lg:px-8">
+          <div className="sticky top-0 z-30 border-b border-ink-700/60 bg-ink-900/80 px-4 pt-[max(env(safe-area-inset-top),6px)] backdrop-blur-xl backdrop-saturate-150 sm:px-6 lg:px-8">
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="-mx-1 mb-1.5 px-1 py-0.5 text-left"
+              aria-label="Back to top"
+              title="Back to top"
+              data-testid="scroll-top-wordmark"
+            >
+              <span className="text-[13px] font-extrabold tracking-tight text-white">
+                Norm<span className="text-accent-400">Tube</span>
+              </span>
+            </button>
             <div className="flex gap-2">
               <div className="relative flex-1 max-w-md">
                 <svg
