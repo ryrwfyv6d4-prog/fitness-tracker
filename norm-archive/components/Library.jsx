@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useLibrary, useFavorites, usePositions, progressOf, isWatched } from "../lib/useLibrary";
+import { useLibrary, useFavorites, usePositions, progressOf, isWatched, isRecentlyAdded } from "../lib/useLibrary";
 import VideoCard from "./VideoCard";
 import PlayerModal from "./PlayerModal";
 
 const FAV_CAT = "♥ Favorites";
 const ICONIC_CAT = "★ Iconic";
 const WATCHED_CAT = "✓ Watched";
+const NEW_CAT = "🆕 New";
 
 export default function Library() {
   const { status, data, error } = useLibrary();
@@ -25,6 +26,7 @@ export default function Library() {
       if (category === FAV_CAT) { if (!favs.has(v.id)) return false; }
       else if (category === ICONIC_CAT) { if (!v.iconic) return false; }
       else if (category === WATCHED_CAT) { if (!isWatched(positions, v.id)) return false; }
+      else if (category === NEW_CAT) { if (!isRecentlyAdded(v)) return false; }
       else if (category !== "All" && v.category !== category) return false;
       if (!q) return true;
       return v.title.toLowerCase().includes(q) || v.filename.toLowerCase().includes(q);
@@ -33,6 +35,8 @@ export default function Library() {
     else if (sortMode === "short") arr = [...arr].sort((a, b) => (a.durationSeconds || 1e9) - (b.durationSeconds || 1e9));
     else if (sortMode === "new") arr = [...arr].sort((a, b) => (b.year || 0) - (a.year || 0));
     else if (sortMode === "old") arr = [...arr].sort((a, b) => (a.year || 9999) - (b.year || 9999));
+    else if (sortMode === "added") arr = [...arr].sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
+    if (category === NEW_CAT && sortMode === "az") arr = [...arr].sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
     return arr;
   }, [data, query, category, sortMode, favs, positions]);
 
@@ -56,10 +60,12 @@ export default function Library() {
     () => (data ? data.videos.filter((v) => isWatched(positions, v.id)).length : 0),
     [data, positions]
   );
+  const newCount = useMemo(() => (data ? data.videos.filter((v) => isRecentlyAdded(v)).length : 0), [data]);
 
   const pills = data
     ? [
         ["All", data.videoCount],
+        ...(newCount ? [[NEW_CAT, newCount]] : []),
         ...(iconicCount ? [[ICONIC_CAT, iconicCount]] : []),
         ...(favs.size ? [[FAV_CAT, favs.size]] : []),
         ...(watchedCount ? [[WATCHED_CAT, watchedCount]] : []),
@@ -101,6 +107,7 @@ export default function Library() {
     onToggleFav: toggleFav,
     progress: progressOf(positions, v.id),
     watched: isWatched(positions, v.id),
+    isNew: isRecentlyAdded(v),
   });
 
   return (
@@ -238,6 +245,7 @@ export default function Library() {
                 data-testid="sort"
               >
                 <option value="az">A – Z</option>
+                <option value="added">Recently added</option>
                 <option value="new">Newest first</option>
                 <option value="old">Oldest first</option>
                 <option value="long">Longest first</option>

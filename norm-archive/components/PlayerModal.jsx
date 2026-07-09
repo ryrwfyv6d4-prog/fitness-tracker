@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { formatDuration, formatSize } from "../lib/useLibrary";
+import { formatDuration, formatSize, formatAddedAt } from "../lib/useLibrary";
 
 // Native HTML5 player on purpose: on iOS it provides AirPlay, PiP, fullscreen,
 // gesture seeking, and lock-screen controls that custom JS players lose.
@@ -193,7 +193,15 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
     }
   };
 
-  const meta = [video.category, video.year, formatDuration(video.durationSeconds), formatSize(video.sizeBytes), video.sourceLabel]
+  const addedLabel = formatAddedAt(video.addedAt);
+  const meta = [
+    video.category,
+    video.year,
+    formatDuration(video.durationSeconds),
+    formatSize(video.sizeBytes),
+    video.sourceLabel,
+    addedLabel ? `added ${addedLabel}` : null,
+  ]
     .filter(Boolean)
     .join(" · ");
 

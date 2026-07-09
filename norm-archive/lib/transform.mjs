@@ -251,6 +251,9 @@ export function transformMetadata(meta, identifier) {
         durationSeconds: parseDurationSeconds(file.length),
         sizeBytes: file.size ? Number(file.size) : null,
         md5: file.md5 || null,
+        // When this file was actually added to archive.org (its own upload
+        // date), distinct from `year` (when the depicted event happened).
+        addedAt: file.mtime && /^\d+$/.test(String(file.mtime)) ? Number(file.mtime) * 1000 : null,
         year: dateYear || (file.name.match(/(19[4-9]\d|20[0-2]\d)/) || [])[1] || null,
         iconic: isIconic(`${baseName} ${title}`),
         category,
