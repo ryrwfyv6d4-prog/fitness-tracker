@@ -33,13 +33,23 @@ async function fetchItemMetadata(identifier) {
   return res.json();
 }
 
+// See lib/useLibrary.js for why: archive.org search isn't guaranteed to be a
+// strict identifier-prefix match, so filter client-side and distrust an
+// implausibly large result rather than flood the library with junk.
+const MAX_DISCOVERED_ITEMS = 20;
 async function discoverPrefixedItems({ prefix, label }) {
   try {
     const q = encodeURIComponent(`identifier:${prefix}*`);
     const res = await fetch(`https://archive.org/advancedsearch.php?q=${q}&fl[]=identifier&rows=200&output=json`);
     if (!res.ok) return [];
     const json = await res.json();
-    const ids = (json?.response?.docs || []).map((d) => d.identifier).filter(Boolean);
+    const ids = (json?.response?.docs || [])
+      .map((d) => d.identifier)
+      .filter((id) => typeof id === "string" && id.toLowerCase().startsWith(prefix.toLowerCase()));
+    if (ids.length > MAX_DISCOVERED_ITEMS) {
+      console.warn(`  ✗ search "${prefix}*" returned ${ids.length} matches (>${MAX_DISCOVERED_ITEMS}) — distrusted, skipping`);
+      return [];
+    }
     return ids.map((identifier) => ({ identifier, label }));
   } catch {
     return [];

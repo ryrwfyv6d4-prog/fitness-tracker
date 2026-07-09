@@ -6,7 +6,7 @@ import { BULK_ITEMS, EXPLICIT_ITEMS, SEARCH_PREFIXES } from "./sources.mjs";
 
 export const ARCHIVE_IDENTIFIER = "NormMacDonaldArchive1"; // primary source; cache key + fallback id-space
 
-const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v5`;
+const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v6`;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // refresh from IA once a day
 
 function readCache() {
@@ -40,13 +40,24 @@ async function fetchItemMetadata(identifier) {
 // Rather than guess identifiers, discover them via IA's public search API —
 // best-effort: if search is unreachable or returns nothing, that source
 // simply contributes zero extra videos instead of breaking the app.
+//
+// Safety net: archive.org's search doesn't guarantee a strict identifier
+// prefix match the way a client might assume, so (a) filter results to
+// identifiers that literally start with the prefix regardless of what the
+// API returns, and (b) if it still comes back with far more than a handful
+// of per-episode items, distrust it and skip entirely rather than flood the
+// library — and the user's browser with hundreds of extra requests.
+const MAX_DISCOVERED_ITEMS = 20;
 async function discoverPrefixedItems({ prefix, label }) {
   try {
     const q = encodeURIComponent(`identifier:${prefix}*`);
     const res = await fetch(`https://archive.org/advancedsearch.php?q=${q}&fl[]=identifier&rows=200&output=json`);
     if (!res.ok) return [];
     const json = await res.json();
-    const ids = (json?.response?.docs || []).map((d) => d.identifier).filter(Boolean);
+    const ids = (json?.response?.docs || [])
+      .map((d) => d.identifier)
+      .filter((id) => typeof id === "string" && id.toLowerCase().startsWith(prefix.toLowerCase()));
+    if (ids.length > MAX_DISCOVERED_ITEMS) return [];
     return ids.map((identifier) => ({ identifier, label }));
   } catch {
     return [];
@@ -55,7 +66,10 @@ async function discoverPrefixedItems({ prefix, label }) {
 
 // Fetches every known source in parallel and merges them. One dead source
 // (renamed item, temporary outage, search API hiccup) doesn't take down the
-// rest — Promise.allSettled + per-source try/catch throughout.
+// rest — Promise.allSettled + per-source try/catch throughout. Every
+// target's outcome (video count, or why it failed) is kept on the result so
+// the UI can show exactly what did and didn't load instead of failing
+// silently.
 async function loadAllSources() {
   const discovered = (await Promise.all(SEARCH_PREFIXES.map(discoverPrefixedItems))).flat();
   const targets = [...BULK_ITEMS, ...EXPLICIT_ITEMS, ...discovered];
@@ -75,7 +89,19 @@ async function loadAllSources() {
   }
 
   const labelsByIdentifier = Object.fromEntries(fulfilled.map(({ result, label }) => [result.source.identifier, label]));
-  return mergeLibraries(fulfilled.map((f) => f.result), labelsByIdentifier);
+  const merged = mergeLibraries(fulfilled.map((f) => f.result), labelsByIdentifier);
+
+  const countsByIdentifier = {};
+  for (const v of merged.videos) countsByIdentifier[v.sourceIdentifier] = (countsByIdentifier[v.sourceIdentifier] || 0) + 1;
+  merged.sourceStatus = targets.map(({ identifier, label }, i) => {
+    const s = settled[i];
+    if (s.status === "fulfilled") {
+      return { identifier, label, ok: true, rawCount: s.value.result.videoCount, keptCount: countsByIdentifier[identifier] || 0 };
+    }
+    return { identifier, label, ok: false, error: s.reason?.message || String(s.reason) };
+  });
+
+  return merged;
 }
 
 // Load order: bundled snapshot (if the fetch script was run at build time),
