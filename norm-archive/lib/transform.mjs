@@ -71,13 +71,20 @@ export function categorize(text) {
 }
 
 export function titleFromFilename(filename, identifier) {
-  let base = filename.replace(/\.[^./]+$/, "");
+  // Basename only: YouTube-channel rips (e.g. "I'm Not Norm") nest files as
+  // "<date> <channel> <channelId> <videoId>/<date> <real title>.mp4" — the
+  // folder is all junk, the real title lives in the last path segment.
+  let base = filename.split("/").pop().replace(/\.[^./]+$/, "");
   // Strip a leading item-identifier prefix some IA uploads carry.
   base = base.replace(new RegExp(`^${identifier}[_\\-\\s]*`, "i"), "");
   base = base.replace(/[_]+/g, " ");
-  // Leading date stamps: "1996.09.30 - ", "1999 09 22 " → drop (year is
-  // extracted separately into the `year` field).
+  // Leading date stamps: "1996.09.30 - ", "1999 09 22 ", "20181025 " → drop
+  // (year is extracted separately into the `year` field).
   base = base.replace(/^\s*(?:19|20)\d{2}[ ._-]+\d{1,2}[ ._-]+\d{1,2}\s*[-–—]?\s*/, "");
+  base = base.replace(/^\s*(?:19|20)\d{6}\s*[-–—]?\s*/, "");
+  // YouTube channel/video ID tokens ("Ucjnky9lm9wx0cmwfrg5eucw", "4cj0om3mh4e"):
+  // long unspaced letter+digit mixes that never occur in real titles.
+  base = base.replace(/(^|\s)(?=\S*\d)(?=\S*[a-z])\S{11,}(?=\s|$)/gi, " ");
   // Leading track numbers: "13 - Title", "07. Title", "1 3 Title" (but not
   // legitimate number-led titles like "60 Minutes" — only strip a lone number
   // when a second number group follows it).
@@ -186,11 +193,16 @@ export function transformMetadata(meta, identifier) {
   const videos = [...seen.values()]
     .map((file) => {
       const base = file.name.replace(/\.[^./]+$/, "");
+      // Categorize/date on the basename — folder names in channel-rip
+      // collections are junk (channel name + YouTube IDs), not signal.
+      const baseName = file.name.split("/").pop();
       const title = titleFromFilename(file.name, identifier);
-      const { category, tags } = categorize(`${file.name} ${title}`);
-      // Prefer the year from a leading date stamp; fall back to any year-like
-      // number anywhere in the filename.
-      const dateYear = (file.name.match(/(?:^|\/)\s*((?:19|20)\d{2})[ ._-]+\d{1,2}[ ._-]+\d{1,2}/) || [])[1];
+      const { category, tags } = categorize(`${baseName} ${title}`);
+      // Prefer the year from a leading date stamp ("1996.09.30", "20181025");
+      // fall back to any year-like number in the basename.
+      const dateYear =
+        (baseName.match(/^\s*((?:19|20)\d{2})[ ._-]+\d{1,2}[ ._-]+\d{1,2}/) || [])[1] ||
+        (baseName.match(/^\s*((?:19|20)\d{2})\d{4}\b/) || [])[1];
       return {
         id: base,
         title,
@@ -201,7 +213,7 @@ export function transformMetadata(meta, identifier) {
         sizeBytes: file.size ? Number(file.size) : null,
         md5: file.md5 || null,
         year: dateYear || (file.name.match(/(19[4-9]\d|20[0-2]\d)/) || [])[1] || null,
-        iconic: isIconic(`${file.name} ${title}`),
+        iconic: isIconic(`${baseName} ${title}`),
         category,
         tags,
         sourceIdentifier: identifier,
@@ -230,6 +242,41 @@ function normalizeTitleKey(title) {
   return (title || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
 }
 
+// Words too common in this corpus to signal identity — nearly every clip
+// title contains them, so they'd inflate overlap scores.
+const TOKEN_STOPWORDS = new Set([
+  "the", "and", "with", "norm", "macdonald", "mcdonald", "for", "his", "her",
+  "from", "that", "this", "into", "you", "your",
+]);
+
+function titleTokens(title) {
+  return new Set(
+    (title || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]+/g, " ")
+      .split(/\s+/)
+      .filter((t) => t.length > 2 && !TOKEN_STOPWORDS.has(t))
+  );
+}
+
+// Re-uploads of the same clip across collections (e.g. a YouTube-channel rip
+// duplicating a main-archive clip) have near-identical durations but freely
+// reworded titles. Treat as duplicate when durations are within 3 seconds
+// AND the significant title words strongly overlap.
+function isFuzzyDuplicate(tokens, dur, accepted) {
+  if (!dur || tokens.size < 2) return false;
+  for (let d = dur - 3; d <= dur + 3; d++) {
+    const bucket = accepted.get(d);
+    if (!bucket) continue;
+    for (const other of bucket) {
+      let overlap = 0;
+      for (const t of tokens) if (other.has(t)) overlap++;
+      if (overlap >= 2 && overlap / Math.min(tokens.size, other.size) >= 0.6) return true;
+    }
+  }
+  return false;
+}
+
 // Merges transformMetadata() results from multiple archive.org items into
 // one library. Two-tier dedup:
 //   1. Exact file match via md5 (the same physical file re-uploaded to a
@@ -246,6 +293,7 @@ export function mergeLibraries(results, labelsByIdentifier = {}) {
   const seenMd5 = new Set();
   const seenTitleKey = new Set();
   const seenIds = new Set();
+  const acceptedTokensByDuration = new Map(); // durationSeconds → [Set(tokens)]
   const videos = [];
 
   for (const result of results) {
@@ -260,6 +308,12 @@ export function mergeLibraries(results, labelsByIdentifier = {}) {
       if (key) {
         if (seenTitleKey.has(key)) continue;
         seenTitleKey.add(key);
+      }
+      const tokens = titleTokens(v.title);
+      if (isFuzzyDuplicate(tokens, v.durationSeconds, acceptedTokensByDuration)) continue;
+      if (v.durationSeconds && tokens.size >= 2) {
+        if (!acceptedTokensByDuration.has(v.durationSeconds)) acceptedTokensByDuration.set(v.durationSeconds, []);
+        acceptedTokensByDuration.get(v.durationSeconds).push(tokens);
       }
 
       let id = v.id;

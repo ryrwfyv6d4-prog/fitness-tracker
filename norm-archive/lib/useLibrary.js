@@ -6,7 +6,7 @@ import { BULK_ITEMS, EXPLICIT_ITEMS, SEARCH_PREFIXES } from "./sources.mjs";
 
 export const ARCHIVE_IDENTIFIER = "NormMacDonaldArchive1"; // primary source; cache key + fallback id-space
 
-const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v4`;
+const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v5`;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // refresh from IA once a day
 
 function readCache() {
