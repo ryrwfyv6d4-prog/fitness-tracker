@@ -90,8 +90,10 @@ export default function VideoCard({
             src={video.thumbnailUrl}
             alt=""
             loading="lazy"
+            draggable={false}
             onError={() => setThumbFailed(true)}
-            className="absolute inset-0 h-full w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+            style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none", userSelect: "none" }}
+            className="absolute inset-0 h-full w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity pointer-events-none"
           />
         )}
         <span
