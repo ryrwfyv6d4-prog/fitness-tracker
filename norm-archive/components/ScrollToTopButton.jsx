@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { scrollToTop } from "../lib/useLibrary";
 
 const SHOW_AFTER_PX = 600;
 
@@ -23,7 +24,7 @@ export default function ScrollToTopButton() {
   return (
     <button
       type="button"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      onClick={scrollToTop}
       aria-label="Back to top"
       title="Back to top"
       data-testid="scroll-top-button"

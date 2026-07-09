@@ -49,9 +49,19 @@ export const CATEGORY_RULES = [
 // Famous Norm moments, flagged for the "★ Iconic" filter. Word-boundary
 // regexes where a bare substring would false-positive (moth vs mother).
 const ICONIC_PATTERNS = [
+  // SNL
   /\bmoth\b/, /moth joke/, /bob dole/, /turd ferguson/, /celebrity jeopardy/,
-  /burt reynolds/, /saget/, /carrot top/, /courtney thorne/,
-  /professor of logic/, /final appearance/, /last (show|episode|appearance)/,
+  /burt reynolds/, /carrot top/, /courtney thorne/, /professor of logic/,
+  // the O.J. Simpson Weekend Update jokes that famously got him pulled from
+  // the desk — one of the most-discussed chapters of his entire career
+  /o\.?j\.? simpson/, /weekend update.*(o\.?j\.?\b|simpson)/,
+  // career-defining moments
+  /saget/, // Comedy Central Roast of Bob Saget — the anti-roast that subverted the genre
+  /frank stallone/, // his long-running non-sequitur bit
+  /dirty work/, // his 1998 cult-classic film, signature leading role
+  /based on a true story/, // his acclaimed, genre-bending 2016 memoir
+  /\bespys?\b/, // 1998 ESPY Awards hosting — controversial, widely remembered
+  /final appearance/, /last (show|episode|appearance)/, /final interview/,
 ];
 
 export function isIconic(text) {

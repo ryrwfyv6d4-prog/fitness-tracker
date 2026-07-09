@@ -349,3 +349,12 @@ export function formatViews(views) {
   if (views >= 1e3) return `${(views / 1e3).toFixed(1)}k views`;
   return `${views} view${views === 1 ? "" : "s"}`;
 }
+
+// iOS's native "tap the status bar to scroll to top" is a Safari browser-
+// chrome feature — it doesn't exist at all once a site is launched from a
+// Home Screen icon (standalone/PWA mode has no Safari chrome to tap), which
+// is why it wasn't working. This is the shared behavior behind both the
+// floating button and the tappable wordmark that substitute for it.
+export function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
