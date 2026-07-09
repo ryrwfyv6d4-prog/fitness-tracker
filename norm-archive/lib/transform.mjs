@@ -48,16 +48,35 @@ export const CATEGORY_RULES = [
 
 // Famous Norm moments, flagged for the "★ Iconic" filter. Word-boundary
 // regexes where a bare substring would false-positive (moth vs mother).
+// Curated from a fan-compiled list of his most-cited bits and moments.
 const ICONIC_PATTERNS = [
   // SNL
-  /\bmoth\b/, /moth joke/, /bob dole/, /turd ferguson/, /celebrity jeopardy/,
-  /burt reynolds/, /carrot top/, /courtney thorne/, /professor of logic/,
-  // the O.J. Simpson Weekend Update jokes that famously got him pulled from
-  // the desk — one of the most-discussed chapters of his entire career
+  /bob dole/, /turd ferguson/, /celebrity jeopardy/, /burt reynolds/,
+  // Weekend Update famously got him pulled from the desk — one of the
+  // most-discussed chapters of his career
   /o\.?j\.? simpson/, /weekend update.*(o\.?j\.?\b|simpson)/,
-  // career-defining moments
+  /frank stallone/, /germans would have us believe/, /note to self/,
+
+  // Conan O'Brien
+  /\bmoth\b/, /moth joke/, /courtney thorne/, /carrot top/,
+  /professor of logic/, /frog joke/, /swedish.german/,
+
+  // Norm Macdonald Live
+  /mangrate/, /albert fish/, /ventriloquist/, /super dave/,
+
+  // stand-up
+  /dirty johnny/, /don.?t get to be a country/,
+  /it.?s a draw/, /jacques de gautier/, /shallow grave/, /crocodile hunter/,
+
+  // other appearances
   /saget/, // Comedy Central Roast of Bob Saget — the anti-roast that subverted the genre
-  /frank stallone/, // his long-running non-sequitur bit
+  /comedians in cars/, // Hypocrisy of Bill Cosby bit, with Jerry Seinfeld
+  /blood and bone/, // searching for his brother / 9/11 joke
+  /steve irwin/, // The Daily Show
+  /big live comedy show/, // derailing the 2018 YouTube livestream
+  /oscar pistorius|\bpistorius\b/, // with Stephen Merchant
+
+  // career-defining moments
   /dirty work/, // his 1998 cult-classic film, signature leading role
   /based on a true story/, // his acclaimed, genre-bending 2016 memoir
   /\bespys?\b/, // 1998 ESPY Awards hosting — controversial, widely remembered
