@@ -36,11 +36,19 @@ export default function PlayerModal({
     // video has loaded metadata — checking only on mount is why PiP looked
     // "available for some clips but not others" (pure load-timing race, not
     // a per-video difference). Check on mount AND after metadata loads.
+    //
+    // iOS also reports webkitSupportsPresentationMode(true) even when the
+    // page is running as an installed home-screen app — but Apple blocks
+    // *invoking* PiP from that standalone context (webkitSetPresentationMode
+    // is silently a no-op there), so the button would show and do nothing.
+    // Only the standard (non-webkit) PiP API actually works in standalone
+    // mode; the webkit-prefixed path only works in a real Safari tab.
     const check = () => {
-      setPipSupported(
-        !!document.pictureInPictureEnabled ||
-          (typeof el.webkitSupportsPresentationMode === "function" && el.webkitSupportsPresentationMode("picture-in-picture"))
-      );
+      const hasStandardPip = !!document.pictureInPictureEnabled;
+      const hasWebkitPip =
+        typeof el.webkitSupportsPresentationMode === "function" && el.webkitSupportsPresentationMode("picture-in-picture");
+      const isIosStandalone = typeof navigator !== "undefined" && navigator.standalone === true;
+      setPipSupported(hasStandardPip || (hasWebkitPip && !isIosStandalone));
     };
     check();
     el.addEventListener("loadedmetadata", check);
