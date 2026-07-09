@@ -26,7 +26,7 @@ export default function Library() {
   const [favs, toggleFav] = useFavorites();
   const [watchLater, toggleWatchLater] = useWatchLater();
   const [manualWatched, setManualWatched] = useManualWatched();
-  const [positions, savePosition] = usePositions();
+  const [positions, savePosition, clearPosition] = usePositions();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [sortMode, setSortMode] = useState("az");
@@ -355,6 +355,8 @@ export default function Library() {
           onToggleWatchLater={toggleWatchLater}
           watched={isWatched(positions, manualWatched, menuVideo.id)}
           onSetWatched={setManualWatched}
+          hasProgress={!!positions[menuVideo.id]}
+          onRemoveFromContinueWatching={clearPosition}
           onPlay={setPlaying}
           onClose={() => setMenuVideo(null)}
         />

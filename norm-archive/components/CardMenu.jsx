@@ -21,7 +21,19 @@ function MenuRow({ icon, label, onClick, tone = "default", testId }) {
 
 // Bottom sheet opened by long-pressing (or right-clicking) a card — the
 // alternative to stacking a 4th/5th always-visible icon on every thumbnail.
-export default function CardMenu({ video, isFav, onToggleFav, isWatchLater, onToggleWatchLater, watched, onSetWatched, onPlay, onClose }) {
+export default function CardMenu({
+  video,
+  isFav,
+  onToggleFav,
+  isWatchLater,
+  onToggleWatchLater,
+  watched,
+  onSetWatched,
+  hasProgress,
+  onRemoveFromContinueWatching,
+  onPlay,
+  onClose,
+}) {
   const [shareLabel, setShareLabel] = useState("Share");
 
   const handleShare = async () => {
@@ -80,6 +92,14 @@ export default function CardMenu({ video, isFav, onToggleFav, isWatchLater, onTo
             onClick={() => { onSetWatched(video.id, !watched); onClose(); }}
             testId="menu-watched"
           />
+          {hasProgress && (
+            <MenuRow
+              icon="✕"
+              label="Remove from Continue Watching"
+              onClick={() => { onRemoveFromContinueWatching(video.id); onClose(); }}
+              testId="menu-remove-progress"
+            />
+          )}
           <MenuRow icon="↗" label={shareLabel} onClick={handleShare} testId="menu-share" />
         </div>
         <button

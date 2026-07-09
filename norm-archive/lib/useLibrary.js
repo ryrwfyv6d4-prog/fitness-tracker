@@ -219,7 +219,15 @@ export function usePositions() {
       return next;
     });
   };
-  return [positions, savePosition];
+  const clearPosition = (id) =>
+    setPositions((prev) => {
+      if (!(id in prev)) return prev;
+      const next = { ...prev };
+      delete next[id];
+      try { localStorage.setItem(POS_KEY, JSON.stringify(next)); } catch {}
+      return next;
+    });
+  return [positions, savePosition, clearPosition];
 }
 
 // Builds a #v=<id> deep link and shares it — native share sheet where
