@@ -152,6 +152,8 @@ export function useLibrary() {
 
 const FAV_KEY = `norm-archive:favs:${ARCHIVE_IDENTIFIER}:v1`;
 const POS_KEY = `norm-archive:positions:${ARCHIVE_IDENTIFIER}:v1`;
+const WATCHLATER_KEY = `norm-archive:watchlater:${ARCHIVE_IDENTIFIER}:v1`;
+const WATCHED_OVERRIDE_KEY = `norm-archive:watchedoverride:${ARCHIVE_IDENTIFIER}:v1`;
 
 // Favorites and watch positions live in localStorage — per-device, no account.
 export function useFavorites() {
@@ -167,6 +169,41 @@ export function useFavorites() {
       return next;
     });
   return [favs, toggleFav];
+}
+
+// Same shape as favorites, separate list — "loved it" vs "meant to watch".
+export function useWatchLater() {
+  const [list, setList] = useState(() => new Set());
+  useEffect(() => {
+    try { setList(new Set(JSON.parse(localStorage.getItem(WATCHLATER_KEY) || "[]"))); } catch {}
+  }, []);
+  const toggle = (id) =>
+    setList((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      try { localStorage.setItem(WATCHLATER_KEY, JSON.stringify([...next])); } catch {}
+      return next;
+    });
+  return [list, toggle];
+}
+
+// Manual watched/unwatched override, independent of playback progress —
+// {id: true} forces watched, {id: false} forces unwatched, absent means
+// "use the automatic progress-based detection" (see isWatched below).
+export function useManualWatched() {
+  const [overrides, setOverrides] = useState({});
+  useEffect(() => {
+    try { setOverrides(JSON.parse(localStorage.getItem(WATCHED_OVERRIDE_KEY) || "{}")); } catch {}
+  }, []);
+  const setWatched = (id, value) =>
+    setOverrides((prev) => {
+      const next = { ...prev };
+      if (value == null) delete next[id];
+      else next[id] = value;
+      try { localStorage.setItem(WATCHED_OVERRIDE_KEY, JSON.stringify(next)); } catch {}
+      return next;
+    });
+  return [overrides, setWatched];
 }
 
 export function usePositions() {
@@ -185,15 +222,43 @@ export function usePositions() {
   return [positions, savePosition];
 }
 
+// Builds a #v=<id> deep link and shares it — native share sheet where
+// available, clipboard-copy fallback otherwise. Returns "shared", "copied",
+// or "failed" so callers can show the right confirmation (or none).
+export function videoShareUrl(video) {
+  return `${location.origin}${location.pathname}#v=${encodeURIComponent(video.id)}`;
+}
+export async function shareVideo(video) {
+  const url = videoShareUrl(video);
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: `${video.title} — NormTube`, url });
+      return "shared";
+    } catch {
+      return "failed"; // user cancelled the share sheet — not a real error
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    return "copied";
+  } catch {
+    return "failed";
+  }
+}
+
 export function progressOf(positions, id) {
   const p = positions[id];
   return p && p.d ? Math.min(p.t / p.d, 1) : 0;
 }
 
-// A clip counts as watched once ~97% has played; the continue-watching row
-// uses the complementary range so a clip is never in both.
+// A clip counts as watched once ~97% has played, unless manually overridden
+// (checked first — lets you mark something watched without playing it, or
+// clear a false-positive back to unwatched). The continue-watching row uses
+// the complementary progress range so a clip is never in both, and also
+// respects a manual "mark unwatched" by simply not being progress-based.
 export const WATCHED_AT = 0.97;
-export function isWatched(positions, id) {
+export function isWatched(positions, manualWatched, id) {
+  if (manualWatched && Object.prototype.hasOwnProperty.call(manualWatched, id)) return manualWatched[id];
   return progressOf(positions, id) >= WATCHED_AT;
 }
 
