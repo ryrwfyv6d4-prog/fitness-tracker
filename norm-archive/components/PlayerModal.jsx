@@ -14,6 +14,12 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
   useEffect(() => {
     const el = videoRef.current;
     if (!el) return;
+    // Set imperatively rather than as a JSX attribute: React doesn't
+    // recognize autoPictureInPicture as a known DOM prop and silently drops
+    // it from the rendered element, so the attribute route is unreliable.
+    try {
+      el.autoPictureInPicture = true;
+    } catch {}
     // iOS Safari's webkitSupportsPresentationMode isn't reliable until the
     // video has loaded metadata — checking only on mount is why PiP looked
     // "available for some clips but not others" (pure load-timing race, not
@@ -69,6 +75,82 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
     const el = videoRef.current;
     if (el && el.duration) onProgress(video.id, el.currentTime, el.duration);
   };
+
+  // Media Session: gives the OS lock screen a proper "Now Playing" card
+  // (title, artwork, play/pause/seek controls) and — the important part —
+  // is what tells iOS this is real media playback worth keeping alive when
+  // the screen locks, rather than pausing it like a random backgrounded tab.
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el || !("mediaSession" in navigator) || typeof MediaMetadata === "undefined") return;
+
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: video.title,
+      artist: "NormTube",
+      album: video.category || "NormTube",
+      artwork: video.thumbnailUrl
+        ? [
+            { src: video.thumbnailUrl, sizes: "320x180", type: "image/jpeg" },
+            { src: video.thumbnailUrl, sizes: "640x360", type: "image/jpeg" },
+          ]
+        : [],
+    });
+
+    const seekBy = (delta) => {
+      try {
+        el.currentTime = Math.min(Math.max(el.currentTime + delta, 0), el.duration || Infinity);
+      } catch {}
+    };
+    const handlers = {
+      play: () => el.play(),
+      pause: () => el.pause(),
+      seekbackward: (d) => seekBy(-(d?.seekOffset || 10)),
+      seekforward: (d) => seekBy(d?.seekOffset || 10),
+      seekto: (d) => {
+        if (d?.fastSeek && "fastSeek" in el) el.fastSeek(d.seekTime);
+        else if (d?.seekTime != null) el.currentTime = d.seekTime;
+      },
+    };
+    for (const [action, handler] of Object.entries(handlers)) {
+      try {
+        navigator.mediaSession.setActionHandler(action, handler);
+      } catch {
+        // action unsupported on this browser — fine, others still work
+      }
+    }
+
+    const updatePositionState = () => {
+      if (!el.duration || !("setPositionState" in navigator.mediaSession)) return;
+      try {
+        navigator.mediaSession.setPositionState({
+          duration: el.duration,
+          playbackRate: el.playbackRate || 1,
+          position: Math.min(el.currentTime, el.duration),
+        });
+      } catch {}
+    };
+    const setPlaying = () => { navigator.mediaSession.playbackState = "playing"; updatePositionState(); };
+    const setPaused = () => { navigator.mediaSession.playbackState = "paused"; };
+    el.addEventListener("play", setPlaying);
+    el.addEventListener("playing", setPlaying);
+    el.addEventListener("pause", setPaused);
+    el.addEventListener("timeupdate", updatePositionState);
+
+    return () => {
+      el.removeEventListener("play", setPlaying);
+      el.removeEventListener("playing", setPlaying);
+      el.removeEventListener("pause", setPaused);
+      el.removeEventListener("timeupdate", updatePositionState);
+      for (const action of Object.keys(handlers)) {
+        try {
+          navigator.mediaSession.setActionHandler(action, null);
+        } catch {}
+      }
+      navigator.mediaSession.playbackState = "none";
+      navigator.mediaSession.metadata = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [video.id]);
 
   const close = () => {
     saveNow();
@@ -142,7 +224,6 @@ export default function PlayerModal({ video, archiveUrl, onClose, isFav, onToggl
             playsInline
             autoPlay
             preload="metadata"
-            autoPictureInPicture
             x-webkit-airplay="allow"
             onTimeUpdate={handleTimeUpdate}
             onPause={saveNow}
