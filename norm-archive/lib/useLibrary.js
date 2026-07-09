@@ -6,7 +6,7 @@ import { BULK_ITEMS, EXPLICIT_ITEMS, SEARCH_PREFIXES } from "./sources.mjs";
 
 export const ARCHIVE_IDENTIFIER = "NormMacDonaldArchive1"; // primary source; cache key + fallback id-space
 
-const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v6`;
+const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v7`;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // refresh from IA once a day
 
 function readCache() {
@@ -195,6 +195,23 @@ export function progressOf(positions, id) {
 export const WATCHED_AT = 0.97;
 export function isWatched(positions, id) {
   return progressOf(positions, id) >= WATCHED_AT;
+}
+
+// A clip counts as "new" for badge purposes if archive.org's own upload
+// timestamp for the file is within this window.
+export const NEW_WITHIN_MS = 14 * 24 * 60 * 60 * 1000;
+export function isRecentlyAdded(video) {
+  return !!video.addedAt && Date.now() - video.addedAt < NEW_WITHIN_MS;
+}
+
+export function formatAddedAt(addedAt) {
+  if (!addedAt) return null;
+  const days = Math.floor((Date.now() - addedAt) / (24 * 60 * 60 * 1000));
+  if (days < 1) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 30) return `${days}d ago`;
+  if (days < 365) return `${Math.floor(days / 30)}mo ago`;
+  return `${Math.floor(days / 365)}y ago`;
 }
 
 export function formatDuration(seconds) {
