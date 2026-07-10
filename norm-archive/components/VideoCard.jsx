@@ -2,18 +2,10 @@
 
 import { useRef, useState } from "react";
 import { formatDuration } from "../lib/useLibrary";
+import { HeartIcon, StarIcon, CheckIcon } from "./icons";
 
 const LONG_PRESS_MS = 500;
 const MOVE_CANCEL_PX = 10;
-
-const HEART = (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-[19px] w-[19px]" aria-hidden="true">
-    <path
-      d="M12 21s-7.5-4.7-10-9.3C.6 8.6 2.6 4.5 6.6 4.5c2.2 0 3.9 1.2 5.4 3 1.5-1.8 3.2-3 5.4-3 4 0 6 4.1 4.6 7.2C19.5 16.3 12 21 12 21z"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
 
 export default function VideoCard({
   video,
@@ -104,11 +96,11 @@ export default function VideoCard({
             e.stopPropagation();
             onToggleFav(video.id);
           }}
-          className={`absolute left-1 top-1 flex h-[38px] w-[38px] items-center justify-center drop-shadow-[0_1px_3px_rgba(0,0,0,.9)] ${
-            isFav ? "text-accent-400 [&_path]:fill-accent-400" : "text-white/80"
+          className={`absolute left-1 top-1 flex h-11 w-11 items-center justify-center drop-shadow-[0_1px_3px_rgba(0,0,0,.9)] ${
+            isFav ? "text-accent-400" : "text-white/80"
           }`}
         >
-          {HEART}
+          <HeartIcon filled={isFav} className="h-[19px] w-[19px]" />
         </span>
         <span className="absolute right-1.5 top-1.5 flex flex-col items-end gap-1">
           {isNew && (
@@ -117,13 +109,13 @@ export default function VideoCard({
             </span>
           )}
           {video.iconic && (
-            <span className="rounded-md bg-black/80 px-1.5 py-0.5 text-[11px] font-bold text-accent-400" data-testid="iconic-badge" title="Iconic clip">
-              ★
+            <span className="flex items-center rounded-md bg-black/80 px-1.5 py-0.5 text-accent-400" data-testid="iconic-badge" title="Iconic clip">
+              <StarIcon className="h-[11px] w-[11px]" />
             </span>
           )}
           {watched && (
-            <span className="rounded-md bg-black/80 px-1.5 py-0.5 text-[11px] font-bold text-emerald-400" data-testid="watched-badge" title="Watched">
-              ✓
+            <span className="flex items-center rounded-md bg-black/80 px-1.5 py-0.5 text-emerald-400" data-testid="watched-badge" title="Watched">
+              <CheckIcon className="h-[11px] w-[11px]" />
             </span>
           )}
         </span>

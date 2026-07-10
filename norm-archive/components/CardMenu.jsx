@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { formatDuration, shareVideo } from "../lib/useLibrary";
+import { PlayIcon, ClockIcon, HeartIcon, CheckIcon, CloseIcon, ShareIcon } from "./icons";
 
 function MenuRow({ icon, label, onClick, tone = "default", testId }) {
   return (
@@ -13,11 +14,13 @@ function MenuRow({ icon, label, onClick, tone = "default", testId }) {
         tone === "accent" ? "text-accent-400" : tone === "watched" ? "text-emerald-400" : "text-gray-100"
       }`}
     >
-      <span className="w-5 shrink-0 text-center">{icon}</span>
+      <span className="flex w-5 shrink-0 justify-center">{icon}</span>
       {label}
     </button>
   );
 }
+
+const ICON_CLS = "h-[17px] w-[17px]";
 
 // Bottom sheet opened by long-pressing (or right-clicking) a card — the
 // alternative to stacking a 4th/5th always-visible icon on every thumbnail.
@@ -48,7 +51,7 @@ export default function CardMenu({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 sm:items-center"
+      className="fixed inset-0 z-[60] flex items-end justify-center bg-black/60 sm:items-center"
       onClick={(e) => e.target === e.currentTarget && onClose()}
       role="dialog"
       aria-modal="true"
@@ -70,23 +73,23 @@ export default function CardMenu({
           </div>
         </div>
         <div className="p-2">
-          <MenuRow icon="▶" label="Play" onClick={() => { onPlay(video); onClose(); }} testId="menu-play" />
+          <MenuRow icon={<PlayIcon className={ICON_CLS} />} label="Play" onClick={() => { onPlay(video); onClose(); }} testId="menu-play" />
           <MenuRow
-            icon="⏱"
+            icon={<ClockIcon className={ICON_CLS} />}
             label={isWatchLater ? "Remove from Watch Later" : "Add to Watch Later"}
             tone={isWatchLater ? "accent" : "default"}
             onClick={() => { onToggleWatchLater(video.id); onClose(); }}
             testId="menu-watchlater"
           />
           <MenuRow
-            icon={isFav ? "♥" : "♡"}
+            icon={<HeartIcon filled={isFav} className={ICON_CLS} />}
             label={isFav ? "Remove from Favorites" : "Add to Favorites"}
             tone={isFav ? "accent" : "default"}
             onClick={() => { onToggleFav(video.id); onClose(); }}
             testId="menu-fav"
           />
           <MenuRow
-            icon="✓"
+            icon={<CheckIcon className={ICON_CLS} />}
             label={watched ? "Mark as Unwatched" : "Mark as Watched"}
             tone={watched ? "watched" : "default"}
             onClick={() => { onSetWatched(video.id, !watched); onClose(); }}
@@ -94,13 +97,13 @@ export default function CardMenu({
           />
           {hasProgress && (
             <MenuRow
-              icon="✕"
+              icon={<CloseIcon className={ICON_CLS} />}
               label="Remove from Continue Watching"
               onClick={() => { onRemoveFromContinueWatching(video.id); onClose(); }}
               testId="menu-remove-progress"
             />
           )}
-          <MenuRow icon="↗" label={shareLabel} onClick={handleShare} testId="menu-share" />
+          <MenuRow icon={<ShareIcon className={ICON_CLS} />} label={shareLabel} onClick={handleShare} testId="menu-share" />
         </div>
         <button
           type="button"
