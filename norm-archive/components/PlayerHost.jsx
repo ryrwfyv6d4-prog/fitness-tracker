@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePlayer } from "../lib/PlayerContext";
 import { formatDuration, formatSize, formatAddedAt, shareVideo } from "../lib/useLibrary";
-import { PlayIcon, PauseIcon, NextIcon, ExpandIcon, CloseIcon, ClockIcon, HeartIcon, CheckIcon, ShareIcon, MoreIcon, PipIcon } from "./icons";
+import { PlayIcon, PauseIcon, ExpandIcon, CloseIcon, ClockIcon, HeartIcon, CheckIcon, ShareIcon, MoreIcon, PipIcon } from "./icons";
 
 // Single persistent player: the <video> element below is mounted once and
 // never unmounts while something is playing. Only the chrome around it
@@ -21,7 +21,7 @@ export default function PlayerHost({
   resumeAt,
   onProgress,
 }) {
-  const { current, queue, autoplay, sheetOpen, channelActive, playNext, closeSheet, expandSheet, stop } = usePlayer();
+  const { current, sheetOpen, closeSheet, expandSheet, stop } = usePlayer();
   const router = useRouter();
 
   const videoRef = useRef(null);
@@ -144,7 +144,6 @@ export default function PlayerHost({
         if (d?.fastSeek && "fastSeek" in el) el.fastSeek(d.seekTime);
         else if (d?.seekTime != null) el.currentTime = d.seekTime;
       },
-      nexttrack: queue.length ? () => playNext() : null,
     };
     for (const [action, handler] of Object.entries(handlers)) {
       try {
@@ -181,7 +180,7 @@ export default function PlayerHost({
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current?.id, queue.length]);
+  }, [current?.id]);
 
   // Resume playback position on opening a clip (not on every re-render).
   useEffect(() => {
@@ -211,13 +210,10 @@ export default function PlayerHost({
   //
   // Deliberately never calls router.back() itself (including on Escape/the
   // close button): popping is asynchronous, and doing it from an effect
-  // cleanup that also reruns on every queue/autoplay/Channel-Mode skip (any
-  // current?.id change while the sheet stays open) raced the browser's own
-  // navigation — a skip's cleanup-triggered pop would complete just as the
-  // *next* video's listener was registered, minimizing the sheet right after
-  // a skip. Instead: push one entry per open, close via plain state changes,
-  // and only ever treat a *real* popstate (an actual back gesture) as a
-  // reason to minimize. A closed-without-popping entry just sits there
+  // cleanup that could rerun mid-session would race the browser's own
+  // navigation. Instead: push one entry per open, close via plain state
+  // changes, and only ever treat a *real* popstate (an actual back gesture)
+  // as a reason to minimize. A closed-without-popping entry just sits there
   // harmlessly until the user genuinely navigates back.
   useEffect(() => {
     if (!sheetOpen) return;
@@ -249,13 +245,6 @@ export default function PlayerHost({
     if (now - lastSaveRef.current > 5000) {
       lastSaveRef.current = now;
       saveNow();
-    }
-  };
-
-  const handleEnded = () => {
-    saveNow();
-    if (autoplay && (queue.length || channelActive)) {
-      playNext();
     }
   };
 
@@ -306,7 +295,7 @@ export default function PlayerHost({
             x-webkit-airplay="allow"
             onTimeUpdate={handleTimeUpdate}
             onPause={saveNow}
-            onEnded={handleEnded}
+            onEnded={saveNow}
             className="h-full w-full"
             data-testid="player"
           />
@@ -337,20 +326,10 @@ export default function PlayerHost({
         {sheetOpen ? (
           <div className="flex flex-wrap items-start justify-between gap-3 p-4 pb-[max(env(safe-area-inset-bottom),16px)] sm:p-5">
             <div className="min-w-0">
-              {channelActive && (
-                <p className="mb-1 flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.14em] text-accent-400" data-testid="channel-badge">
-                  <span className="h-[6px] w-[6px] rounded-full bg-accent-400" /> Norm Channel
-                </p>
-              )}
               <h2 className="text-base font-semibold text-white sm:text-lg">{current.title}</h2>
               <p className="mt-1 text-xs text-ink-400" data-testid="player-meta">{meta}</p>
             </div>
             <div className="flex shrink-0 items-center gap-2">
-              {channelActive && (
-                <button type="button" onClick={playNext} className="flex h-10 items-center gap-2 rounded-full bg-ink-800 px-4 text-[13px] font-bold text-white ring-1 ring-ink-700" data-testid="channel-skip">
-                  Skip <NextIcon className="h-[14px] w-[14px]" />
-                </button>
-              )}
               <button type="button" onClick={() => onToggleFav(current.id)} aria-pressed={isFav} className={`flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-ink-700 ${isFav ? "text-accent-400" : "text-ink-300 hover:text-white"}`} aria-label={isFav ? "Remove from favorites" : "Add to favorites"} data-testid="modal-fav">
                 <HeartIcon filled={isFav} className="h-[18px] w-[18px]" />
               </button>
@@ -400,11 +379,6 @@ export default function PlayerHost({
               <button type="button" onClick={togglePlayPause} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-ink-300 hover:text-white" aria-label={playing ? "Pause" : "Play"}>
                 {playing ? <PauseIcon className="h-[17px] w-[17px]" /> : <PlayIcon className="h-[17px] w-[17px]" />}
               </button>
-              {(queue.length > 0 || channelActive) && (
-                <button type="button" onClick={playNext} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-ink-300 hover:text-white" aria-label="Next" data-testid="mini-next">
-                  <NextIcon className="h-[17px] w-[17px]" />
-                </button>
-              )}
               <button type="button" onClick={handleMiniClose} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-ink-300 hover:text-white" aria-label="Close" data-testid="mini-close">
                 <CloseIcon className="h-4 w-4" />
               </button>

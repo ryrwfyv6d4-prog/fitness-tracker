@@ -12,7 +12,7 @@ const NEW_CAT = "🆕 New";
 const WATCHLATER_CAT = "⏱ Watch Later";
 
 // The searchable/filterable grid — what NormTube originally was, now living
-// under its own tab alongside Home, Channel, and Timeline.
+// under its own tab alongside Home and Timeline.
 export default function LibraryTab({ data, favs, toggleFav, watchLater, toggleWatchLater, manualWatched, positions, onLongPress, initialCategory }) {
   const { playVideo } = usePlayer();
   const [query, setQuery] = useState("");

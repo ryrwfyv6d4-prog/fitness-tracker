@@ -4,15 +4,15 @@ import { useMemo } from "react";
 import { progressOf, isWatched, isRecentlyAdded } from "../lib/useLibrary";
 import { usePlayer } from "../lib/PlayerContext";
 import VideoCard from "./VideoCard";
-import { SearchIcon, ShuffleIcon, PlayIcon, TimelineIcon } from "./icons";
+import { SearchIcon, ShuffleIcon, TimelineIcon } from "./icons";
 
 const PREVIEW_COUNT = 8;
 const TOP_PILL_CATEGORIES = 5;
 
 // The landing tab: a taste of everything (continue watching, a way into
-// Channel Mode, a way into Timeline, a preview grid) rather than duplicating
-// the Library tab's full search/filter surface.
-export default function HomeTab({ data, favs, toggleFav, watchLater, manualWatched, positions, onLongPress, onNavigate, onPlayChannel }) {
+// Timeline, a preview grid) rather than duplicating the Library tab's full
+// search/filter surface.
+export default function HomeTab({ data, favs, toggleFav, watchLater, manualWatched, positions, onLongPress, onNavigate, onPlayRandom }) {
   const { playVideo } = usePlayer();
 
   const continueWatching = useMemo(() => {
@@ -79,7 +79,7 @@ export default function HomeTab({ data, favs, toggleFav, watchLater, manualWatch
           </button>
           <button
             type="button"
-            onClick={onPlayChannel}
+            onClick={onPlayRandom}
             aria-label="Shuffle: play something random"
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-ink-800 text-ink-300 ring-1 ring-ink-700/70"
             data-testid="home-shuffle"
@@ -99,24 +99,6 @@ export default function HomeTab({ data, favs, toggleFav, watchLater, manualWatch
               {cat}
             </button>
           ))}
-        </div>
-      </div>
-
-      <div className="mt-2 px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-4 rounded-2xl border border-ink-700 bg-gradient-to-br from-ink-950 to-ink-800 p-4">
-          <div className="min-w-0 flex-1">
-            <p className="text-[9.5px] font-extrabold uppercase tracking-[0.18em] text-accent-400">The Norm Channel</p>
-            <h2 className="mt-1 text-[17px] font-extrabold tracking-tight text-white">Don&apos;t pick. Just watch.</h2>
-            <p className="mt-1 text-[11.5px] leading-relaxed text-ink-300">An endless shuffle of everything — iconic bits first.</p>
-          </div>
-          <button
-            type="button"
-            onClick={onPlayChannel}
-            className="flex h-11 shrink-0 items-center gap-2 rounded-full bg-accent-400 px-4.5 text-[13px] font-extrabold text-black shadow-lg"
-            data-testid="channel-hero-play"
-          >
-            <PlayIcon className="h-[14px] w-[14px]" /> Play
-          </button>
         </div>
       </div>
 
