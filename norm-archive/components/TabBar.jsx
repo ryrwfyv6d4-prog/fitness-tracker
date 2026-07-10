@@ -1,10 +1,9 @@
 "use client";
 
-import { HomeIcon, ChannelIcon, TimelineIcon, LibraryIcon } from "./icons";
+import { HomeIcon, TimelineIcon, LibraryIcon } from "./icons";
 
 const TABS = [
   { id: "home", label: "Home", Icon: HomeIcon },
-  { id: "channel", label: "Channel", Icon: ChannelIcon },
   { id: "timeline", label: "Timeline", Icon: TimelineIcon },
   { id: "library", label: "Library", Icon: LibraryIcon },
 ];

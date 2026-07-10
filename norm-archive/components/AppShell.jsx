@@ -8,7 +8,6 @@ import PlayerHost from "./PlayerHost";
 import CardMenu from "./CardMenu";
 import ScrollToTopButton from "./ScrollToTopButton";
 import HomeTab from "./HomeTab";
-import ChannelTab from "./ChannelTab";
 import TimelineTab from "./TimelineTab";
 import LibraryTab from "./LibraryTab";
 
@@ -87,10 +86,9 @@ function AppShellReady({ data, favs, toggleFav, watchLater, toggleWatchLater, ma
     setTab(nextTab);
   };
 
-  const playChannel = (pool) => {
-    const source = pool && pool.length ? pool : data.videos;
-    const pick = source[Math.floor(Math.random() * source.length)];
-    playVideo(pick, { sheet: true, channel: true, pool: source, queue: [] });
+  const playRandom = () => {
+    const pick = data.videos[Math.floor(Math.random() * data.videos.length)];
+    playVideo(pick);
   };
 
   const sharedTabProps = {
@@ -106,8 +104,7 @@ function AppShellReady({ data, favs, toggleFav, watchLater, toggleWatchLater, ma
 
   return (
     <div className="pb-[max(env(safe-area-inset-bottom),64px)]">
-      {tab === "home" && <HomeTab {...sharedTabProps} onNavigate={goTo} onPlayChannel={() => playChannel(null)} />}
-      {tab === "channel" && <ChannelTab data={data} onPlayChannel={playChannel} />}
+      {tab === "home" && <HomeTab {...sharedTabProps} onNavigate={goTo} onPlayRandom={playRandom} />}
       {tab === "timeline" && <TimelineTab {...sharedTabProps} />}
       {tab === "library" && <LibraryTab {...sharedTabProps} key={libraryCategory} initialCategory={libraryCategory} />}
 
