@@ -4,9 +4,9 @@
   "retailer": "ALDI Australia",
   "products": [
     {
-      "id": "aldi-wokinis-prawn-hargow",
-      "name": "Wokinis Prawn Har Gow",
-      "brand": "Wokinis",
+      "id": "aldi-urbaneats-prawn-hargow",
+      "name": "Urban Eats Prawn Har Gow",
+      "brand": "Urban Eats",
       "category": "dumplings",
       "sizeG": 250,
       "priceAud": 4.49,
@@ -25,9 +25,9 @@
       }
     },
     {
-      "id": "aldi-wokinis-vegetable-gyoza",
-      "name": "Wokinis Vegetable Gyoza",
-      "brand": "Wokinis",
+      "id": "aldi-urbaneats-vegetable-gyoza",
+      "name": "Urban Eats Vegetable Gyoza",
+      "brand": "Urban Eats",
       "category": "gyoza",
       "sizeG": 375,
       "priceAud": 4.99,
@@ -46,9 +46,9 @@
       }
     },
     {
-      "id": "aldi-wokinis-pork-dimsim",
-      "name": "Wokinis Pork Dim Sims",
-      "brand": "Wokinis",
+      "id": "aldi-urbaneats-pork-dimsim",
+      "name": "Urban Eats Pork Dim Sims",
+      "brand": "Urban Eats",
       "category": "dim-sims",
       "sizeG": 400,
       "priceAud": 5.29,
@@ -67,9 +67,9 @@
       }
     },
     {
-      "id": "aldi-wokinis-spring-rolls",
-      "name": "Wokinis Vegetable Spring Rolls",
-      "brand": "Wokinis",
+      "id": "aldi-urbaneats-spring-rolls",
+      "name": "Urban Eats Vegetable Spring Rolls",
+      "brand": "Urban Eats",
       "category": "spring-rolls",
       "sizeG": 375,
       "priceAud": 4.29,

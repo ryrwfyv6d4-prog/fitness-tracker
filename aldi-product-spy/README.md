@@ -1,8 +1,8 @@
 # ALDI Product Spy
 
-Checks whether an ALDI private-label frozen product (e.g. the "Wokinis"
+Checks whether an ALDI private-label frozen product (e.g. the "Urban Eats"
 Asian snack range) is a genuine dupe of the name-brand market leader
-(e.g. Mrs Chen's, typically stocked at Woolworths) — the same way LG tends
+(e.g. Mr Chen's, typically stocked at Woolworths) — the same way LG tends
 to spec its products to match the market leader as closely as possible.
 
 **Hard requirements** (must match, or it's not counted as a dupe at all):

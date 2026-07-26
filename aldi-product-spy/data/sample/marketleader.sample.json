@@ -4,9 +4,9 @@
   "retailer": "Woolworths (market-leader brand)",
   "products": [
     {
-      "id": "leader-mrschens-prawn-hargow",
-      "name": "Mrs Chen's Prawn Har Gow",
-      "brand": "Mrs Chen's",
+      "id": "leader-mrchens-prawn-hargow",
+      "name": "Mr Chen's Prawn Har Gow",
+      "brand": "Mr Chen's",
       "category": "dumplings",
       "sizeG": 240,
       "priceAud": 7.5,
@@ -25,9 +25,9 @@
       }
     },
     {
-      "id": "leader-mrschens-vegetable-gyoza",
-      "name": "Mrs Chen's Vegetable Gyoza",
-      "brand": "Mrs Chen's",
+      "id": "leader-mrchens-vegetable-gyoza",
+      "name": "Mr Chen's Vegetable Gyoza",
+      "brand": "Mr Chen's",
       "category": "gyoza",
       "sizeG": 350,
       "priceAud": 8.0,
@@ -46,9 +46,9 @@
       }
     },
     {
-      "id": "leader-mrschens-pork-dimsim",
-      "name": "Mrs Chen's Pork Dim Sims",
-      "brand": "Mrs Chen's",
+      "id": "leader-mrchens-pork-dimsim",
+      "name": "Mr Chen's Pork Dim Sims",
+      "brand": "Mr Chen's",
       "category": "dim-sims",
       "sizeG": 400,
       "priceAud": 9.0,
@@ -67,9 +67,9 @@
       }
     },
     {
-      "id": "leader-mrschens-spring-rolls",
-      "name": "Mrs Chen's Vegetable Spring Rolls",
-      "brand": "Mrs Chen's",
+      "id": "leader-mrchens-spring-rolls",
+      "name": "Mr Chen's Vegetable Spring Rolls",
+      "brand": "Mr Chen's",
       "category": "spring-rolls",
       "sizeG": 375,
       "priceAud": 8.5,

@@ -14,7 +14,7 @@ import { fetchWithRetry } from "../lib/fetchWithRetry.mjs";
 import { extractJsonLdProducts, loadHtml } from "./htmlHelpers.mjs";
 
 // TODO verify: category listing URLs on aldi.com.au for the frozen Asian
-// appetizer range (the "Wokinis" line — dumplings, gyoza, dim sims, spring
+// appetizer range (the "Urban Eats" line — dumplings, gyoza, dim sims, spring
 // rolls). Placeholder path shown; confirm the real one in a browser first.
 export const ALDI_CATEGORY_URLS = [
   "https://www.aldi.com.au/groceries/frozen-foods/asian-snacks",
@@ -69,7 +69,7 @@ export async function fetchProductDetail(productUrl) {
   return {
     id: slugify(name),
     name,
-    brand: "Wokinis",
+    brand: "Urban Eats",
     category: guessCategory(name),
     sizeG: null,
     priceAud: Number.isFinite(priceAud) ? priceAud : null,
