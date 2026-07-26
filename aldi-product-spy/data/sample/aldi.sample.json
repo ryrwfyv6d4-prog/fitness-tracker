@@ -1,0 +1,91 @@
+{
+  "_note": "SAMPLE DATA — hand-written for pipeline testing only, not scraped from a live site. Ingredient/nutrition/allergen values are illustrative placeholders, not verified facts about the real products. Replace by running scrape:live once network access allows fetching the real pages.",
+  "source": "sample",
+  "retailer": "ALDI Australia",
+  "products": [
+    {
+      "id": "aldi-wokinis-prawn-hargow",
+      "name": "Wokinis Prawn Har Gow",
+      "brand": "Wokinis",
+      "category": "dumplings",
+      "sizeG": 250,
+      "priceAud": 4.49,
+      "ingredientsRaw": "Prawn (35%), water, wheat starch, tapioca starch, canola oil, sugar, salt, white pepper, sesame oil",
+      "countryOfOriginRaw": "Made in Thailand",
+      "allergensRaw": { "contains": "Crustacean, Wheat, Sesame", "mayContain": "Soy, Egg" },
+      "nutritionPer100g": {
+        "energyKj": 750,
+        "proteinG": 6.2,
+        "fatG": 3.1,
+        "saturatedFatG": 0.4,
+        "carbohydrateG": 22.5,
+        "sugarsG": 1.2,
+        "sodiumMg": 420,
+        "fibreG": 1.1
+      }
+    },
+    {
+      "id": "aldi-wokinis-vegetable-gyoza",
+      "name": "Wokinis Vegetable Gyoza",
+      "brand": "Wokinis",
+      "category": "gyoza",
+      "sizeG": 375,
+      "priceAud": 4.99,
+      "ingredientsRaw": "Wheat flour, cabbage (18%), water, carrot, onion, canola oil, soy sauce (soybean, wheat, salt), sugar, garlic, salt, white pepper, sesame oil",
+      "countryOfOriginRaw": "Made in China",
+      "allergensRaw": { "contains": "Wheat, Soy, Sesame", "mayContain": "Egg" },
+      "nutritionPer100g": {
+        "energyKj": 900,
+        "proteinG": 5.0,
+        "fatG": 6.0,
+        "saturatedFatG": 0.5,
+        "carbohydrateG": 26.0,
+        "sugarsG": 2.0,
+        "sodiumMg": 380,
+        "fibreG": 2.0
+      }
+    },
+    {
+      "id": "aldi-wokinis-pork-dimsim",
+      "name": "Wokinis Pork Dim Sims",
+      "brand": "Wokinis",
+      "category": "dim-sims",
+      "sizeG": 400,
+      "priceAud": 5.29,
+      "ingredientsRaw": "Pork (28%), cabbage, wheat flour, water, carrot, onion, soy sauce (soybean, wheat, salt), sugar, salt, white pepper, sesame oil",
+      "countryOfOriginRaw": "Made in Australia from at least 60% Australian ingredients",
+      "allergensRaw": { "contains": "Wheat, Soy, Sesame", "mayContain": "Egg" },
+      "nutritionPer100g": {
+        "energyKj": 880,
+        "proteinG": 7.5,
+        "fatG": 5.0,
+        "saturatedFatG": 1.2,
+        "carbohydrateG": 24.0,
+        "sugarsG": 1.8,
+        "sodiumMg": 460,
+        "fibreG": 1.4
+      }
+    },
+    {
+      "id": "aldi-wokinis-spring-rolls",
+      "name": "Wokinis Vegetable Spring Rolls",
+      "brand": "Wokinis",
+      "category": "spring-rolls",
+      "sizeG": 375,
+      "priceAud": 4.29,
+      "ingredientsRaw": "Cabbage (30%), wheat flour, carrot, water, canola oil, bean sprout, onion, sugar, salt, white pepper",
+      "countryOfOriginRaw": "Made in Vietnam",
+      "allergensRaw": { "contains": "Wheat", "mayContain": "Soy, Sesame" },
+      "nutritionPer100g": {
+        "energyKj": 900,
+        "proteinG": 4.0,
+        "fatG": 6.0,
+        "saturatedFatG": 0.6,
+        "carbohydrateG": 28.0,
+        "sugarsG": 2.5,
+        "sodiumMg": 350,
+        "fibreG": 2.2
+      }
+    }
+  ]
+}

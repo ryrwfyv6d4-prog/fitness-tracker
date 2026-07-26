@@ -1,0 +1,91 @@
+{
+  "_note": "SAMPLE DATA — hand-written for pipeline testing only, not scraped from a live site. Ingredient/nutrition/allergen values are illustrative placeholders, not verified facts about the real products. Replace by running scrape:live once network access allows fetching the real pages.",
+  "source": "sample",
+  "retailer": "Woolworths (market-leader brand)",
+  "products": [
+    {
+      "id": "leader-mrschens-prawn-hargow",
+      "name": "Mrs Chen's Prawn Har Gow",
+      "brand": "Mrs Chen's",
+      "category": "dumplings",
+      "sizeG": 240,
+      "priceAud": 7.5,
+      "ingredientsRaw": "Prawn (36%), water, wheat starch, tapioca starch, canola oil, sugar, salt, white pepper, sesame oil",
+      "countryOfOriginRaw": "Made in Thailand",
+      "allergensRaw": { "contains": "Crustacean, Wheat, Sesame", "mayContain": "Soy, Egg" },
+      "nutritionPer100g": {
+        "energyKj": 745,
+        "proteinG": 6.5,
+        "fatG": 3.0,
+        "saturatedFatG": 0.4,
+        "carbohydrateG": 22.0,
+        "sugarsG": 1.1,
+        "sodiumMg": 410,
+        "fibreG": 1.0
+      }
+    },
+    {
+      "id": "leader-mrschens-vegetable-gyoza",
+      "name": "Mrs Chen's Vegetable Gyoza",
+      "brand": "Mrs Chen's",
+      "category": "gyoza",
+      "sizeG": 350,
+      "priceAud": 8.0,
+      "ingredientsRaw": "Wheat flour, cabbage (22%), water, carrot, spring onion, sesame oil, soy sauce (soybean, wheat, salt), sugar, garlic, ginger, salt, white pepper",
+      "countryOfOriginRaw": "Made in China",
+      "allergensRaw": { "contains": "Wheat, Soy, Sesame", "mayContain": "Sesame" },
+      "nutritionPer100g": {
+        "energyKj": 860,
+        "proteinG": 5.4,
+        "fatG": 5.0,
+        "saturatedFatG": 0.6,
+        "carbohydrateG": 25.0,
+        "sugarsG": 2.3,
+        "sodiumMg": 400,
+        "fibreG": 2.1
+      }
+    },
+    {
+      "id": "leader-mrschens-pork-dimsim",
+      "name": "Mrs Chen's Pork Dim Sims",
+      "brand": "Mrs Chen's",
+      "category": "dim-sims",
+      "sizeG": 400,
+      "priceAud": 9.0,
+      "ingredientsRaw": "Pork (30%), cabbage, wheat flour, water, carrot, onion, soy sauce (soybean, wheat, salt), sugar, salt, white pepper, sesame oil",
+      "countryOfOriginRaw": "Made in China",
+      "allergensRaw": { "contains": "Wheat, Soy, Sesame", "mayContain": "Egg" },
+      "nutritionPer100g": {
+        "energyKj": 890,
+        "proteinG": 7.8,
+        "fatG": 5.2,
+        "saturatedFatG": 1.3,
+        "carbohydrateG": 23.5,
+        "sugarsG": 1.7,
+        "sodiumMg": 470,
+        "fibreG": 1.3
+      }
+    },
+    {
+      "id": "leader-mrschens-spring-rolls",
+      "name": "Mrs Chen's Vegetable Spring Rolls",
+      "brand": "Mrs Chen's",
+      "category": "spring-rolls",
+      "sizeG": 375,
+      "priceAud": 8.5,
+      "ingredientsRaw": "Cabbage (28%), wheat flour, carrot, water, canola oil, bean sprout, onion, sugar, salt, white pepper, celery",
+      "countryOfOriginRaw": "Made in Thailand",
+      "allergensRaw": { "contains": "Wheat, Celery", "mayContain": "Soy, Sesame, Crustacean" },
+      "nutritionPer100g": {
+        "energyKj": 910,
+        "proteinG": 4.2,
+        "fatG": 6.2,
+        "saturatedFatG": 0.7,
+        "carbohydrateG": 27.5,
+        "sugarsG": 2.4,
+        "sodiumMg": 360,
+        "fibreG": 2.3
+      }
+    }
+  ]
+}

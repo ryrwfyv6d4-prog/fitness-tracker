@@ -1,0 +1,18 @@
+{
+  "name": "aldi-product-spy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Compares ALDI private-label frozen products against their name-brand market-leader equivalents (country of origin, allergens, ingredients, nutrition panel) and reports how close a dupe each one really is.",
+  "scripts": {
+    "scrape:sample": "node src/cli/scrape.mjs --source=sample",
+    "scrape:live": "node src/cli/scrape.mjs --source=live",
+    "compare": "node src/cli/compare.mjs",
+    "report": "node src/report/generateReport.mjs",
+    "build": "npm run scrape:sample && npm run compare && npm run report",
+    "test": "node --test src/match/matcher.test.mjs"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  }
+}
