@@ -104,7 +104,24 @@ table.nutrition td.delta-lo { color: var(--muted); }
 .req-row { display: flex; gap: 8px; align-items: center; font-size: 0.85rem; margin-top: 4px; }
 .req-row .ok { color: var(--ok); }
 .req-row .bad { color: var(--bad); }
+.req-row .unk { color: var(--muted); font-weight: 700; }
+.unk-text { color: var(--muted); }
 .note { color: var(--muted); font-size: 0.8rem; margin-top: 6px; }
+.badge.unknown { color: var(--muted); background: transparent; border: 1px dashed var(--border); }
+.disclaimer {
+  border: 1px solid var(--border); border-left: 3px solid var(--warn);
+  background: var(--warn-bg); color: var(--text);
+  border-radius: 8px; padding: 12px 14px; font-size: 0.85rem; line-height: 1.45; margin-bottom: 24px;
+}
+.callout {
+  background: var(--bg); border: 1px dashed var(--border); border-radius: 8px;
+  padding: 10px 12px; font-size: 0.85rem; margin: 12px 0; line-height: 1.45;
+}
+.prov { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 10px; }
+.prov h4 { margin: 0 0 6px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.prov-row { font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+.prov-row a { color: inherit; }
+.prov-note { margin-top: 3px; font-size: 0.78rem; opacity: 0.9; }
 `;
 
 const JS = `
@@ -116,12 +133,14 @@ const VERDICT_LABEL = {
   close_match: "Close match",
   same_category_notable_differences: "Notable differences",
   excluded_hard_requirement: "Not a match",
+  insufficient_data: "Unconfirmed — missing data",
 };
 const VERDICT_CLASS = {
   exact_match: "exact",
   close_match: "close",
   same_category_notable_differences: "notable",
   excluded_hard_requirement: "excluded",
+  insufficient_data: "unknown",
 };
 
 function pct(x) { return x == null ? "—" : Math.round(x * 100) + "%"; }
@@ -146,15 +165,40 @@ function renderNutritionTable(diff) {
   return \`<table class="nutrition"><thead><tr><th>Per 100g</th><th>ALDI</th><th>Leader</th><th>Delta</th></tr></thead><tbody>\${rows}</tbody></table>\`;
 }
 
+function stateMark(state) {
+  if (state === "pass") return '<span class="ok">✓</span>';
+  if (state === "fail") return '<span class="bad">✗</span>';
+  return '<span class="unk">?</span>';
+}
+
+function fmtField(v) {
+  return v ? escapeHtml(v) : '<em class="unk-text">not recorded</em>';
+}
+
+function renderProvenance(p) {
+  if (!p || (!p.aldi && !p.leader)) return "";
+  const one = (label, prov) => {
+    if (!prov) return "";
+    const links = (prov.sources ?? (prov.url ? [prov.url] : []))
+      .map((u) => \`<a href="\${escapeHtml(u)}" target="_blank" rel="noopener">\${escapeHtml(new URL(u).hostname)}</a>\`)
+      .join(" · ");
+    return \`<div class="prov-row"><strong>\${label}</strong> — \${escapeHtml(prov.confidence ?? "unknown")} \${links ? "· " + links : ""}
+      \${prov.notes ? \`<div class="prov-note">\${escapeHtml(prov.notes)}</div>\` : ""}</div>\`;
+  };
+  return \`<div class="prov"><h4>Where this data came from</h4>\${one("ALDI", p.aldi)}\${one("Leader", p.leader)}</div>\`;
+}
+
 function renderCandidateDetail(c) {
   if (!c) return "<p class=\\"note\\">No candidate in this category to compare against.</p>";
   const req = c.hardRequirements;
+  const scored = typeof c.ingredientSimilarity === "number";
   return \`
-    <div class="req-row"><span class="\${req.countryOfOrigin.pass ? "ok" : "bad"}">\${req.countryOfOrigin.pass ? "✓" : "✗"}</span>
-      Country of origin — ALDI: "\${escapeHtml(req.countryOfOrigin.aldi ?? "unknown")}" · Leader: "\${escapeHtml(req.countryOfOrigin.leader ?? "unknown")}"</div>
-    <div class="req-row"><span class="\${req.allergensContains.pass ? "ok" : "bad"}">\${req.allergensContains.pass ? "✓" : "✗"}</span>
-      Allergens (contains) — ALDI: [\${req.allergensContains.aldi.join(", ") || "none"}] · Leader: [\${req.allergensContains.leader.join(", ") || "none"}]</div>
-    \${c.isMatch ? \`
+    \${c.verdict === "insufficient_data" ? \`<div class="callout">Can't confirm this as a dupe: \${escapeHtml((c.unknownRequirements ?? []).join(" and "))} \${(c.unknownRequirements ?? []).length > 1 ? "are" : "is"} missing from the source data. The comparison below is still shown, and on the scored signals alone it would rate <strong>\${escapeHtml(VERDICT_LABEL[c.provisionalVerdict] ?? c.provisionalVerdict ?? "—")}</strong> — but that is not a confirmed match.</div>\` : ""}
+    <div class="req-row">\${stateMark(req.countryOfOrigin.state)}
+      Country of origin — ALDI: \${fmtField(req.countryOfOrigin.aldi)} · Leader: \${fmtField(req.countryOfOrigin.leader)}</div>
+    <div class="req-row">\${stateMark(req.allergensContains.state)}
+      Allergens (contains) — ALDI: [\${req.allergensContains.aldi.join(", ") || "not recorded"}] · Leader: [\${req.allergensContains.leader.join(", ") || "not recorded"}]</div>
+    \${scored ? \`
     <div class="grid2">
       <div class="col">
         <h4>Ingredients in common</h4>
@@ -171,16 +215,17 @@ function renderCandidateDetail(c) {
         <p class="note">Nutrition similarity: \${pct(c.nutritionSimilarity)}</p>
         \${c.mayContainDiffers ? \`<p class="note">"May contain" traces differ — ALDI: [\${c.allergensMayContain.aldi.join(", ") || "none"}] vs Leader: [\${c.allergensMayContain.leader.join(", ") || "none"}] (not a hard requirement, noted only).</p>\` : ""}
       </div>
-    </div>\` : '<p class="note">Excluded from matching because a hard requirement failed above — ingredient/nutrition similarity was not scored.</p>'}
+    </div>\` : '<p class="note">Excluded from matching because a hard requirement conflicts above — ingredient/nutrition similarity was not scored.</p>'}
+    \${renderProvenance(c.provenance)}
   \`;
 }
 
 function renderResult(r) {
-  const best = r.best;
-  const verdict = best ? best.verdict : (r.candidates[0] ? r.candidates[0].verdict : "none");
+  const shown = r.best ?? r.bestAvailable ?? r.candidates[0] ?? null;
+  const verdict = shown ? shown.verdict : "none";
   const badgeClass = VERDICT_CLASS[verdict] ?? "none";
-  const badgeLabel = best ? VERDICT_LABEL[verdict] : (r.candidates.length ? "Not a match" : "No candidate");
-  const leaderName = best ? best.leaderProduct.name : (r.candidates[0] ? r.candidates[0].leaderProduct.name : null);
+  const badgeLabel = shown ? (VERDICT_LABEL[verdict] ?? verdict) : "No candidate";
+  const leaderName = shown ? shown.leaderProduct.name : null;
 
   const card = document.createElement("div");
   card.className = "card";
@@ -194,7 +239,7 @@ function renderResult(r) {
     </div>
     <div class="detail">
       \${r.candidates.length > 1 ? \`<p class="note">\${r.candidates.length} candidates compared in this category; showing the closest.</p>\` : ""}
-      \${renderCandidateDetail(best ?? r.candidates[0])}
+      \${renderCandidateDetail(shown)}
     </div>
   \`;
   const head = card.querySelector(".card-head");
@@ -205,9 +250,10 @@ function renderResult(r) {
 
 function render() {
   const results = data.results;
-  const counts = { exact_match: 0, close_match: 0, same_category_notable_differences: 0, excluded_hard_requirement: 0, none: 0 };
+  const counts = { exact_match: 0, close_match: 0, same_category_notable_differences: 0, excluded_hard_requirement: 0, insufficient_data: 0, none: 0 };
   for (const r of results) {
-    const v = r.best ? r.best.verdict : (r.candidates[0] ? r.candidates[0].verdict : "none");
+    const shown = r.best ?? r.bestAvailable ?? r.candidates[0] ?? null;
+    const v = shown ? shown.verdict : "none";
     counts[v] = (counts[v] ?? 0) + 1;
   }
 
@@ -221,7 +267,15 @@ function render() {
       <div class="stat"><div class="n">\${counts.exact_match}</div><div class="l">Exact matches</div></div>
       <div class="stat"><div class="n">\${counts.close_match}</div><div class="l">Close matches</div></div>
       <div class="stat"><div class="n">\${counts.same_category_notable_differences}</div><div class="l">Notable differences</div></div>
+      <div class="stat"><div class="n">\${counts.insufficient_data}</div><div class="l">Unconfirmed</div></div>
       <div class="stat"><div class="n">\${counts.excluded_hard_requirement + counts.none}</div><div class="l">Not a match</div></div>
+    </div>
+    <div class="disclaimer">
+      <strong>Read the pack before you rely on this.</strong> Ingredient, allergen and
+      nutrition values here are gathered from web sources that mirror label data — they are
+      research-grade, not label-verified, and may be incomplete, outdated or wrong.
+      This is a shopping-research aid for comparing products, <strong>not an allergen-safety
+      tool</strong>. If you have an allergy or intolerance, always check the physical packaging.
     </div>
   \`;
   app.appendChild(header);

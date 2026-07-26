@@ -76,6 +76,39 @@ test("comparePair: identical products classify as exact_match", () => {
   assert.equal(result.nutritionSimilarity, 1);
 });
 
+test("allergen synonyms (gluten/wheat, crustaceans/crustacean) are not treated as differences", () => {
+  const a = product({ allergensRaw: { contains: "Gluten, Crustaceans, Soya", mayContain: "" } });
+  const b = product({ allergensRaw: { contains: "Wheat, Crustacean, Soy", mayContain: "" } });
+  assert.equal(allergensContainMatch(a.allergens, b.allergens), true);
+});
+
+test("missing country of origin yields insufficient_data, not a false exclusion", () => {
+  const a = product({ countryOfOriginRaw: "" });
+  const b = product({ countryOfOriginRaw: "Made in Vietnam" });
+  const result = comparePair(a, b);
+  assert.equal(result.isMatch, false);
+  assert.equal(result.verdict, "insufficient_data");
+  assert.deepEqual(result.unknownRequirements, ["country of origin"]);
+  // Similarity is still scored so the useful comparison isn't lost.
+  assert.equal(typeof result.ingredientSimilarity, "number");
+  assert.equal(result.provisionalVerdict, "exact_match");
+});
+
+test("missing allergen data yields insufficient_data", () => {
+  const a = product({ allergensRaw: { contains: "", mayContain: "" } });
+  const b = product({ allergensRaw: { contains: "Wheat", mayContain: "" } });
+  const result = comparePair(a, b);
+  assert.equal(result.verdict, "insufficient_data");
+  assert.deepEqual(result.unknownRequirements, ["allergens"]);
+});
+
+test("a real conflict still excludes, and outranks a data gap in severity", () => {
+  const a = product({ countryOfOriginRaw: "Made in China", allergensRaw: { contains: "", mayContain: "" } });
+  const b = product({ countryOfOriginRaw: "Made in Vietnam", allergensRaw: { contains: "Wheat", mayContain: "" } });
+  const result = comparePair(a, b);
+  assert.equal(result.verdict, "excluded_hard_requirement");
+});
+
 test("comparePair: divergent ingredients/nutrition (but passing hard requirements) is not exact", () => {
   const a = product({
     ingredientsRaw: "Pork, cabbage, wheat flour, salt",

@@ -26,5 +26,7 @@ export function normalizeProduct(p) {
     countryOfOrigin: parseCountryOfOrigin(p.countryOfOriginRaw),
     allergens: parseAllergens(p.allergensRaw),
     nutritionPer100g: normalizeNutrition(p.nutritionPer100g),
+    barcode: p.barcode ?? null,
+    provenance: p.provenance ?? null,
   };
 }

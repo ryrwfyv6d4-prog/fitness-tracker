@@ -10,21 +10,36 @@
 import { ingredientTokens } from "../lib/normalize.mjs";
 import { NUTRITION_FIELDS } from "../lib/normalize.mjs";
 
+// Returns "pass" | "fail" | "unknown". "unknown" (a field is missing from
+// the source data) is deliberately NOT the same as "fail" — one means the
+// products genuinely differ, the other means we can't tell yet. Collapsing
+// them would quietly turn a data gap into a factual claim.
+export function countryStatus(a, b) {
+  if (!a?.country || !b?.country) return "unknown";
+  return a.country === b.country ? "pass" : "fail";
+}
+
 export function countryMatches(a, b) {
-  if (!a?.country || !b?.country) return false;
-  return a.country === b.country;
+  return countryStatus(a, b) === "pass";
 }
 
 // "Contains" allergens are the hard requirement (must be the same set).
 // "May contain" (trace/cross-contamination) statements are compared too but
 // only surfaced as a soft note, since factories differ even for identical
 // recipes.
+export function allergenStatus(a, b) {
+  const listA = a?.contains ?? [];
+  const listB = b?.contains ?? [];
+  if (listA.length === 0 || listB.length === 0) return "unknown";
+  const setA = new Set(listA);
+  const setB = new Set(listB);
+  if (setA.size !== setB.size) return "fail";
+  for (const item of setA) if (!setB.has(item)) return "fail";
+  return "pass";
+}
+
 export function allergensContainMatch(a, b) {
-  const setA = new Set(a?.contains ?? []);
-  const setB = new Set(b?.contains ?? []);
-  if (setA.size !== setB.size) return false;
-  for (const item of setA) if (!setB.has(item)) return false;
-  return true;
+  return allergenStatus(a, b) === "pass";
 }
 
 export function diffIngredients(aList, bList) {
@@ -80,8 +95,10 @@ export function classifyVerdict({ ingredientSimilarity, nutritionSimilarity }) {
 // null if the hard requirements (country of origin, allergens) fail —
 // callers should treat that as "not a match", not a low score.
 export function comparePair(aldiProduct, leaderProduct) {
-  const countryOk = countryMatches(aldiProduct.countryOfOrigin, leaderProduct.countryOfOrigin);
-  const allergensOk = allergensContainMatch(aldiProduct.allergens, leaderProduct.allergens);
+  const countryState = countryStatus(aldiProduct.countryOfOrigin, leaderProduct.countryOfOrigin);
+  const allergenState = allergenStatus(aldiProduct.allergens, leaderProduct.allergens);
+  const countryOk = countryState === "pass";
+  const allergensOk = allergenState === "pass";
 
   const ingredientDiff = diffIngredients(aldiProduct.ingredients, leaderProduct.ingredients);
   const nutritionDiff = diffNutrition(aldiProduct.nutritionPer100g, leaderProduct.nutritionPer100g);
@@ -96,31 +113,66 @@ export function comparePair(aldiProduct, leaderProduct) {
     leaderProduct: { id: leaderProduct.id, name: leaderProduct.name, brand: leaderProduct.brand },
     hardRequirements: {
       countryOfOrigin: {
+        state: countryState,
         pass: countryOk,
         aldi: aldiProduct.countryOfOrigin?.raw,
         leader: leaderProduct.countryOfOrigin?.raw,
       },
       allergensContains: {
+        state: allergenState,
         pass: allergensOk,
         aldi: aldiProduct.allergens?.contains ?? [],
         leader: leaderProduct.allergens?.contains ?? [],
       },
     },
+    provenance: {
+      aldi: aldiProduct.provenance ?? null,
+      leader: leaderProduct.provenance ?? null,
+    },
   };
 
-  if (!countryOk || !allergensOk) {
+  // A genuine conflict on either hard requirement rules the pair out.
+  if (countryState === "fail" || allergenState === "fail") {
     return { ...result, isMatch: false, verdict: "excluded_hard_requirement" };
   }
 
-  const verdict = classifyVerdict({
+  const scoredVerdict = classifyVerdict({
     ingredientSimilarity: ingredientDiff.similarity,
     nutritionSimilarity: nutritionDiff.similarity ?? 0,
   });
 
+  // Hard requirements couldn't be evaluated because the source data is
+  // missing a field. The similarity scores below are still worth showing —
+  // they're often the whole point — but the pair must not be presented as a
+  // confirmed match, so the verdict records the gap instead.
+  const unknownRequirements = [
+    countryState === "unknown" ? "country of origin" : null,
+    allergenState === "unknown" ? "allergens" : null,
+  ].filter(Boolean);
+
+  if (unknownRequirements.length > 0) {
+    return {
+      ...result,
+      isMatch: false,
+      verdict: "insufficient_data",
+      unknownRequirements,
+      provisionalVerdict: scoredVerdict,
+      ingredientSimilarity: ingredientDiff.similarity,
+      ingredientDiff: { common: ingredientDiff.common, onlyAldi: ingredientDiff.onlyA, onlyLeader: ingredientDiff.onlyB },
+      nutritionSimilarity: nutritionDiff.similarity,
+      nutritionDiff: nutritionDiff.perField,
+      mayContainDiffers,
+      allergensMayContain: {
+        aldi: aldiProduct.allergens?.mayContain ?? [],
+        leader: leaderProduct.allergens?.mayContain ?? [],
+      },
+    };
+  }
+
   return {
     ...result,
     isMatch: true,
-    verdict,
+    verdict: scoredVerdict,
     ingredientSimilarity: ingredientDiff.similarity,
     ingredientDiff: { common: ingredientDiff.common, onlyAldi: ingredientDiff.onlyA, onlyLeader: ingredientDiff.onlyB },
     nutritionSimilarity: nutritionDiff.similarity,
@@ -142,14 +194,20 @@ export function findMatches(aldiProducts, leaderProducts) {
   for (const aldi of aldiProducts) {
     const candidates = leaderProducts.filter((l) => l.category === aldi.category);
     const compared = candidates.map((leader) => comparePair(aldi, leader));
-    compared.sort((a, b) => {
-      const scoreA = a.isMatch ? (a.ingredientSimilarity + a.nutritionSimilarity) / 2 : -1;
-      const scoreB = b.isMatch ? (b.ingredientSimilarity + b.nutritionSimilarity) / 2 : -1;
-      return scoreB - scoreA;
-    });
+    // Pairs excluded outright have no scores; scored pairs (confirmed
+    // matches and insufficient-data ones alike) rank above them.
+    const score = (c) =>
+      typeof c.ingredientSimilarity === "number"
+        ? (c.ingredientSimilarity + (c.nutritionSimilarity ?? 0)) / 2
+        : -1;
+    compared.sort((a, b) => score(b) - score(a));
     results.push({
       aldiProduct: { id: aldi.id, name: aldi.name, brand: aldi.brand, category: aldi.category },
+      // `best` is only ever a confirmed match — both hard requirements passed.
       best: compared.find((c) => c.isMatch) ?? null,
+      // `bestAvailable` is the closest candidate to show when nothing is
+      // confirmed, so a data gap still surfaces the useful comparison.
+      bestAvailable: compared[0] ?? null,
       candidates: compared,
     });
   }

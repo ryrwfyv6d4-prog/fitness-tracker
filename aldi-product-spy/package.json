@@ -6,10 +6,13 @@
   "description": "Compares ALDI private-label frozen products against their name-brand market-leader equivalents (country of origin, allergens, ingredients, nutrition panel) and reports how close a dupe each one really is.",
   "scripts": {
     "scrape:sample": "node src/cli/scrape.mjs --source=sample",
+    "scrape:real": "node src/cli/scrape.mjs --source=real",
+    "scrape:off": "node src/cli/scrape.mjs --source=off",
     "scrape:live": "node src/cli/scrape.mjs --source=live",
     "compare": "node src/cli/compare.mjs",
     "report": "node src/report/generateReport.mjs",
-    "build": "npm run scrape:sample && npm run compare && npm run report",
+    "build": "npm run scrape:real && npm run compare && npm run report",
+    "build:sample": "npm run scrape:sample && npm run compare && npm run report",
     "test": "node --test src/match/matcher.test.mjs"
   },
   "dependencies": {

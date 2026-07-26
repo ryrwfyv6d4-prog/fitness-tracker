@@ -51,13 +51,47 @@ export function ingredientTokens(ingredientList) {
   return tokens;
 }
 
+// Different labels and data sources name the same allergen differently
+// ("gluten" vs "wheat", "crustaceans" vs "crustacean"). These are folded to
+// a canonical term so a pure wording difference isn't reported as a real
+// allergen difference. Only genuine synonyms belong here — anything that
+// could be a substantive difference (e.g. soy present vs absent) must NOT
+// be normalized away, because that difference is exactly what matters.
+const ALLERGEN_SYNONYMS = new Map([
+  ["gluten", "wheat"],
+  ["wheat gluten", "wheat"],
+  ["cereals containing gluten", "wheat"],
+  ["crustaceans", "crustacean"],
+  ["shellfish", "crustacean"],
+  ["soya", "soy"],
+  ["soybeans", "soy"],
+  ["soybean", "soy"],
+  ["soy beans", "soy"],
+  ["eggs", "egg"],
+  ["peanuts", "peanut"],
+  ["tree nuts", "nuts"],
+  ["nut", "nuts"],
+  ["sesame seeds", "sesame"],
+  ["milk", "dairy"],
+  ["molluscs", "mollusc"],
+  ["fish", "fish"],
+]);
+
+export function canonicalAllergen(term) {
+  const t = normalizeText(term).replace(/\(.*?\)/g, "").trim();
+  return ALLERGEN_SYNONYMS.get(t) ?? t;
+}
+
 export function parseAllergens({ contains, mayContain } = {}) {
   const parseList = (val) =>
-    String(val ?? "")
-      .split(/[,;]/)
-      .map((s) => normalizeText(s))
-      .filter(Boolean)
-      .sort();
+    [
+      ...new Set(
+        String(val ?? "")
+          .split(/[,;]/)
+          .map((s) => canonicalAllergen(s))
+          .filter(Boolean)
+      ),
+    ].sort();
   return {
     contains: parseList(contains),
     mayContain: parseList(mayContain),

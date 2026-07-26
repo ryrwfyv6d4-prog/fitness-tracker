@@ -1,0 +1,49 @@
+{
+  "_note": "REAL researched data, gathered via web research (search-engine results mirroring retailer/label data), NOT read off a physical pack and NOT fetched from an official API. Every product carries a `provenance` block naming the source and confidence per field. Fields that could not be confirmed are left null/empty rather than guessed — see `provenance.missingFields`.",
+  "_disclaimer": "Allergen and ingredient data here is research-grade, not label-verified. Never rely on it for an allergy decision — always read the physical pack.",
+  "source": "web-research",
+  "retailer": "Woolworths (Mr Chen's — market-leader brand)",
+  "products": [
+    {
+      "id": "leader-mrchens-prawn-hargow-550g",
+      "barcode": "8935239904145",
+      "name": "Mr Chen's Prawn Hargow Dumplings",
+      "brand": "Mr Chen's",
+      "category": "prawn-hargow",
+      "sizeG": 550,
+      "priceAud": 7.5,
+      "ingredientsRaw": "Prawn (65.09%), Bamboo shoots, Soybean oil, Tapioca starch, Water, Sugar, Sesame oil, Salt, Egg white powder, Yeast extract, White pepper, Wheat starch, Soybean sauce, Vinegar, Garlic",
+      "_ingredientsStructured": {
+        "filling53pct": "Prawn (65.09%), Bamboo shoots, Soybean oil, Tapioca starch, Water, Sugar, Sesame oil, Salt, Egg white powder, Yeast extract, White pepper",
+        "pastry47pct": "Wheat starch, Water, Tapioca starch, Soybean oil, Sugar, Salt",
+        "dippingSauce": "Water, Soybean sauce, Sugar, Vinegar, Garlic"
+      },
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "Wheat, Gluten, Crustacean, Soy, Sesame, Egg",
+        "mayContain": "Nuts"
+      },
+      "nutritionPer100g": {
+        "energyKj": 730,
+        "proteinG": 5.0,
+        "fatG": 6.3,
+        "saturatedFatG": 0.2,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/60274/mr-chen-s-prawn-hargow-dumplings",
+          "https://world.openfoodfacts.org/product/8935239904145/prawn-hargow-mr-chen-s",
+          "https://www.mrchensdumplings.com.au/products/dumplings-and-gyoza/prawn-hargow-550g/"
+        ],
+        "notes": "Ingredients, allergens and the four available nutrition figures come from the Woolworths product listing. Carbohydrate, sugars, sodium and fibre were not exposed in the retrieved data. Country of origin is NOT recorded here: the only origin signal found was user commentary (OzBargain) reporting Vietnam, which is not label-verified — the barcode's GS1 prefix (893) is also registered to Vietnam, but a GS1 prefix identifies where the brand owner registered, not where a product is made, so neither is sufficient to assert origin.",
+        "missingFields": ["countryOfOriginRaw", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    }
+  ]
+}

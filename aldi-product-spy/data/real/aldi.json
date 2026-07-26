@@ -1,0 +1,49 @@
+{
+  "_note": "REAL researched data, gathered via web research (search-engine results mirroring label data), NOT read off a physical pack and NOT fetched from an official API. Every product carries a `provenance` block naming the source and confidence per field. Fields that could not be confirmed are left null/empty rather than guessed — see `provenance.missingFields`.",
+  "_disclaimer": "Allergen and ingredient data here is research-grade, not label-verified. Never rely on it for an allergy decision — always read the physical pack.",
+  "source": "web-research",
+  "retailer": "ALDI Australia",
+  "products": [
+    {
+      "id": "aldi-urbaneats-prawn-hargow-700g",
+      "barcode": "4088700084113",
+      "name": "Urban Eats Chinese Style Prawn Hargow",
+      "brand": "Urban Eats",
+      "category": "prawn-hargow",
+      "sizeG": 700,
+      "priceAud": 8.99,
+      "ingredientsRaw": "Vannamei Prawn (Penaeus vannamei) (Crustacean), Bamboo Shoots, Soybean Oil, Tapioca Starch, Water, Sugar, Sesame Oil, Salt, Ground White Pepper, Yeast Extract, Egg White Powder, Wheat Starch, Potato Starch, Soy Sauce (Soy, Wheat), White Vinegar, Corn Starch",
+      "_ingredientsStructured": {
+        "filling": "Vannamei Prawn (Penaeus vannamei) (Crustacean), Bamboo Shoots, Soybean Oil, Tapioca Starch, Water, Sugar, Sesame Oil, Salt, Ground White Pepper, Yeast Extract, Egg White Powder",
+        "pastry": "Water, Wheat Starch, Tapioca Starch, Potato Starch, Soybean Oil, Sugar, Salt",
+        "dippingSauce10pct": "Water, Sugar, Soy Sauce (Soy, Wheat), White Vinegar, Corn Starch, Salt, Yeast Extract"
+      },
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "Gluten, Wheat, Crustacean, Egg, Sesame, Soy",
+        "mayContain": "Peanut"
+      },
+      "nutritionPer100g": {
+        "energyKj": 705,
+        "proteinG": 5.7,
+        "fatG": 5.6,
+        "saturatedFatG": null,
+        "carbohydrateG": 24.3,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/urban-eats-prawn-hargow-700g-000000000000371599",
+          "https://spoonfulapp.com/products/urban-eats-chinese-style-prawn-hargow/NDA4ODcwMDA4NDExMw==",
+          "https://www.fatsecret.com.au/calories-nutrition/urban-eats/prawn-hargow/3-dumplings"
+        ],
+        "notes": "Ingredients and allergens transcribed from a label-mirroring product database. Nutrition is DERIVED by scaling a per-serve figure (118 kcal / 3 dumplings / 70 g) up to per-100g, so energy/protein/fat/carbohydrate are approximate and saturated fat, sugars, sodium and fibre are unknown. Soy is listed under allergens because soy sauce and soybean oil appear in the ingredients, though the summarised allergen statement did not name it explicitly.",
+        "missingFields": ["countryOfOriginRaw", "saturatedFatG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    }
+  ]
+}
