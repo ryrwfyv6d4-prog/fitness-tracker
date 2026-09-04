@@ -26,6 +26,7 @@ const html = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ALDI Product Spy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <style>
 ${css}
 </style>
@@ -65,3 +66,12 @@ ${js}
 await mkdir(path.join(root, "report"), { recursive: true });
 await writeFile(path.join(root, "report", "index.html"), html);
 console.log("Wrote report/index.html");
+
+// Artifact build: same page, but the publishing platform supplies the
+// doctype/html/head/body wrapper, so emit only what goes inside it.
+const artifact = html
+  .replace(/^[\s\S]*?<title>/, "<title>")
+  .replace(/<\/head>\s*<body>/, "")
+  .replace(/<\/body>\s*<\/html>\s*$/, "");
+await writeFile(path.join(root, "report", "artifact.html"), artifact);
+console.log("Wrote report/artifact.html");
