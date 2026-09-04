@@ -46,7 +46,9 @@ ${css}
   <aside class="rail">
     <div class="rail-head">
       <input id="search" type="search" placeholder="Search ALDI products…" aria-label="Search ALDI products">
-      <div class="chips" id="chips"></div>
+      <div class="chips" id="status-chips"></div>
+      <div class="chips cat-chips" id="chips"></div>
+      <div class="count" id="count"></div>
     </div>
     <div class="rail-list" id="list" role="listbox" aria-label="ALDI products"></div>
   </aside>

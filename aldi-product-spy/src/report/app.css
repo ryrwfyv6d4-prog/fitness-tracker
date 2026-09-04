@@ -58,6 +58,9 @@ h1 { font-size: 1.45rem; margin: 0 0 3px; }
   border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: inherit;
 }
 .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+/* The category list grows with the catalogue, so cap it and let it scroll. */
+.cat-chips { max-height: 92px; overflow-y: auto; }
+.count { margin-top: 8px; font-size: 0.72rem; color: var(--muted); }
 .rail-list { max-height: 62vh; overflow-y: auto; }
 @media (max-width: 860px) { .rail-list { max-height: 300px; } }
 .item {

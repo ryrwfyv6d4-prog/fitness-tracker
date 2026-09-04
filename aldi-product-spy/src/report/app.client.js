@@ -36,6 +36,19 @@ const NUTRIENT_LABEL = {
 let selectedId = RESULTS.length ? RESULTS[0].aldiProduct.id : null;
 let query = "";
 let categoryFilter = "all";
+let statusFilter = "all";
+
+// Groups the fine-grained verdicts into the three states a shopper actually
+// cares about when scanning a long list.
+const STATUS_OF = {
+  exact_match: "matched",
+  close_match: "matched",
+  same_category_notable_differences: "differs",
+  excluded_hard_requirement: "differs",
+  insufficient_data: "unknown",
+  not_scoreable: "unknown",
+  none: "unknown",
+};
 
 const esc = (s) =>
   String(s == null ? "" : s).replace(/[&<>"']/g, (c) =>
@@ -77,9 +90,36 @@ function visibleResults() {
   return RESULTS.filter((r) => {
     const p = r.aldiProduct;
     if (categoryFilter !== "all" && p.category !== categoryFilter) return false;
+    if (statusFilter !== "all" && (STATUS_OF[verdictOf(r)] || "unknown") !== statusFilter) return false;
     if (!q) return true;
     return (p.name + " " + (p.brand || "") + " " + (p.category || "")).toLowerCase().includes(q);
   });
+}
+
+function renderStatusChips() {
+  const host = document.getElementById("status-chips");
+  const counts = { all: RESULTS.length, matched: 0, differs: 0, unknown: 0 };
+  for (const r of RESULTS) counts[STATUS_OF[verdictOf(r)] || "unknown"]++;
+  const opts = [
+    ["all", "All"],
+    ["matched", "Matches"],
+    ["differs", "Differs"],
+    ["unknown", "Unconfirmed"],
+  ];
+  host.innerHTML = opts
+    .map(
+      ([k, label]) =>
+        '<button class="chip" type="button" data-status="' + k + '" aria-pressed="' +
+        (k === statusFilter) + '">' + label + " " + counts[k] + "</button>"
+    )
+    .join("");
+  host.querySelectorAll(".chip").forEach((el) =>
+    el.addEventListener("click", () => {
+      statusFilter = el.dataset.status;
+      renderStatusChips();
+      renderList();
+    })
+  );
 }
 
 function renderChips() {
@@ -108,8 +148,10 @@ function renderChips() {
 function renderList() {
   const host = document.getElementById("list");
   const rows = visibleResults();
+  document.getElementById("count").textContent =
+    rows.length + " of " + RESULTS.length + " ALDI products";
   if (!rows.length) {
-    host.innerHTML = '<div class="empty">No products match that search.</div>';
+    host.innerHTML = '<div class="empty">No products match those filters.</div>';
     return;
   }
   host.innerHTML = rows
@@ -363,6 +405,7 @@ function boot() {
     renderList();
   });
 
+  renderStatusChips();
   renderChips();
   renderList();
   renderPanel();
