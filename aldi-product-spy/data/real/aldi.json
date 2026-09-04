@@ -533,6 +533,1684 @@
           "fibreG"
         ]
       }
+    },
+    {
+      "id": "aldi-seasons-pride-crinkle-cut-chips",
+      "barcode": null,
+      "name": "Season's Pride Crinkle Cut Chips 1kg",
+      "brand": "Season's Pride",
+      "retailer": "ALDI",
+      "category": "frozen-chips",
+      "sizeG": 1000,
+      "priceAud": 3.79,
+      "ingredientsRaw": "Potatoes (96%), Vegetable Oil (3.5%), Dextrose (Maize Or Wheat)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 565,
+        "proteinG": 3.7,
+        "fatG": 3.7,
+        "saturatedFatG": 1.7,
+        "carbohydrateG": 20,
+        "sugarsG": 0.7,
+        "sodiumMg": 8,
+        "fibreG": 3.2
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/seasons-pride-crinkle-cut-chips-1kg-000000000000620472",
+          "https://www.calorieking.com/au/en/foods/f/calories-in-vegetables-frozen-seasons-pride-chips-crinkle-cut/ki12t-UUQBeMfP_ZubcwUw"
+        ],
+        "notes": "Nutrition and ingredients from a CalorieKing (AU) sourced search summary. A second source gave a conflicting set (~548 kJ, sugars 8 g, sodium 40 mg) for what may be a different Season's Pride chip variant or a data-entry error; the CalorieKing figures were used as more internally consistent for a plain unsalted chip. Barcode could not be confidently matched (two different OFF barcodes appeared for similarly named products). Country of origin and allergen statement not found.",
+        "missingFields": [
+          "barcode",
+          "countryOfOriginRaw",
+          "allergens"
+        ]
+      }
+    },
+    {
+      "id": "aldi-seasons-pride-potato-wedges",
+      "barcode": null,
+      "name": "Season's Pride Potato Wedges 750g",
+      "brand": "Season's Pride",
+      "retailer": "ALDI",
+      "category": "frozen-wedges",
+      "sizeG": 750,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 577,
+        "proteinG": 2,
+        "fatG": 4.3,
+        "saturatedFatG": null,
+        "carbohydrateG": 19,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/seasons-pride-potato-wedges-750g-000000000000620533",
+          "https://www.fatsecret.com.au/calories-nutrition/seasons-pride/potato-wedges/1-serving"
+        ],
+        "notes": "DERIVED: 138 kcal/100g reported on FatSecret converted to kJ (138 x 4.184 = 577). A separate CalorieKing listing for a 'Wedges, Seasoned' variant gave a materially different figure and was NOT used, to avoid mixing variants. NOTE: a 2025 consumer report suggests ALDI changed wedge suppliers and the new product may contain wheat (previously marketed gluten free) — the current allergen statement could not be confirmed and is left blank rather than guessed.",
+        "missingFields": [
+          "barcode",
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "saturatedFatG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-international-cuisine-beef-lasagne",
+      "barcode": "4088700113325",
+      "name": "International Cuisine Beef Lasagne 400g",
+      "brand": "International Cuisine",
+      "retailer": "ALDI",
+      "category": "frozen-lasagne",
+      "sizeG": 400,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 569,
+        "proteinG": 6,
+        "fatG": 6,
+        "saturatedFatG": null,
+        "carbohydrateG": 13,
+        "sugarsG": 2,
+        "sodiumMg": 300,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/international-cuisine-beef-lasagne-400g-000000000000609774",
+          "https://world.openfoodfacts.org/product/4088700113325/beef-lasagna-international-cuisine-aldi"
+        ],
+        "notes": "DERIVED WITH A UNIT ASSUMPTION: a search summary stated 545 'calories' for the whole 400 g meal; treated as kcal, giving 136 kcal/100g = 569 kJ/100g. That unit assumption is unverified. Protein, fat and sodium from a CalorieKing snippet; carbohydrate and sugars from an Open Food Facts snippet. Barcode taken from an OFF listing whose title matches but whose pack size was not independently confirmed as 400 g.",
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "priceAud",
+          "allergens",
+          "saturatedFatG",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-seasons-pride-hash-browns",
+      "barcode": null,
+      "name": "Season's Pride Hash Browns 1kg",
+      "brand": "Season's Pride",
+      "retailer": "ALDI",
+      "category": "hash-browns",
+      "sizeG": 1000,
+      "priceAud": 4.19,
+      "ingredientsRaw": "Potatoes (91%), Canola Oil (contains antioxidant 320), Salt, Dextrose",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 734,
+        "proteinG": 2,
+        "fatG": 9,
+        "saturatedFatG": 3,
+        "carbohydrateG": 22,
+        "sugarsG": 0,
+        "sodiumMg": 228,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/seasons-pride-hash-browns-1kg-000000000000621236",
+          "https://world.openfoodfacts.org/product/4061464570887/hash-browns-seasons-pride-aldi"
+        ],
+        "notes": "POSSIBLE VARIANT MISMATCH: ingredients come from an Open Food Facts entry for a Season's Pride 'Golden Hash Browns', which may not be the identical SKU to the plain 1 kg 'Hash Browns' pack. DERIVED: 114 kcal per 65 g hash brown = 175.4 kcal/100g = 734 kJ. A 'made with Australian potatoes' claim was seen but the exact label wording was not captured, so country of origin is left blank.",
+        "missingFields": [
+          "barcode",
+          "countryOfOriginRaw",
+          "allergens",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-ocean-royale-fish-fingers",
+      "barcode": null,
+      "name": "Ocean Royale Fish Fingers 40 Pack 1kg",
+      "brand": "Ocean Royale",
+      "retailer": "ALDI",
+      "category": "frozen-fish-fingers",
+      "sizeG": 1000,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/ocean-royale-fish-fingers-40-pack-1kg-000000000000365412"
+        ],
+        "notes": "Existence confirmed (MSC-certified, no artificial colours/flavours per the product description) but the search budget was exhausted before anything else could be verified. A snippet mentioned '205 calories in 100g of ALDI Fish Fingers' but it was not clearly attributable to this specific SKU, so it was NOT used. No competitor was researched for this SKU.",
+        "missingFields": [
+          "barcode",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "priceAud",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-elmsbury-party-pies",
+      "barcode": null,
+      "name": "Elmsbury Party Pies 24 Pack 1.12kg",
+      "brand": "Elmsbury",
+      "retailer": "ALDI",
+      "category": "party-pies",
+      "sizeG": 1120,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 997,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/elmsbury-party-pies-24-pack-1-12kg-000000000000365172",
+          "https://www.calorieking.com/au/en/foods/f/calories-in-frozen-meals-elmsbury-party-meat-pie/WCAQeEUSQfOj5YgPs1vufA"
+        ],
+        "notes": "Correction to an earlier assumption: ALDI's frozen party-food brand is 'Elmsbury', not 'Bakers Life' (which is used for bread rolls). DERIVED: 112 kcal per pie (47 g) = 238.3 kcal/100g = 997 kJ; this may be a single-item listing rather than the 24-pack SKU, so it is flagged uncertain.",
+        "missingFields": [
+          "barcode",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "priceAud",
+          "allergens",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-elmsbury-party-sausage-rolls",
+      "barcode": null,
+      "name": "Elmsbury Party Sausage Rolls 24 Pack 900g",
+      "brand": "Elmsbury",
+      "retailer": "ALDI",
+      "category": "sausage-rolls",
+      "sizeG": 900,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 1116,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/elmsbury-party-sausage-rolls-24-pack-900g-000000000000365211",
+          "https://www.calorieking.com/au/en/foods/f/calories-in-frozen-meals-elmsbury-party-sausage-roll/bam9K8wHTj2M9cRXFzlPVQ"
+        ],
+        "notes": "Energy only, DERIVED: 96 kcal per party sausage roll (36 g) = 266.7 kcal/100g = 1116 kJ. No competitor sausage roll could be researched before the search budget was exhausted, so this SKU has no match.",
+        "missingFields": [
+          "barcode",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "priceAud",
+          "allergens",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-casa-barelli-thin-pepperoni-pizza",
+      "barcode": null,
+      "name": "Casa Barelli Super Thin Pepperoni Pizza 310g",
+      "brand": "Casa Barelli",
+      "retailer": "ALDI",
+      "category": "frozen-pizza-pepperoni",
+      "sizeG": 310,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 1121,
+        "proteinG": 10,
+        "fatG": 15,
+        "saturatedFatG": 5,
+        "carbohydrateG": 23,
+        "sugarsG": 3,
+        "sodiumMg": 554,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.calorieking.com/au/en/foods/f/calories-in-frozen-pizza-casa-barelli-super-thin-pepperoni-pizza/DHzvjK6WRCWV4DD2t5V11w",
+          "https://www.caloriecounter.com.au/food/aldi-casa-barelli-super-thin-pepperoni-pizza/"
+        ],
+        "notes": "Pack size from a catalogue-offer listing, not the current ALDI product page. Energy DERIVED from a CalorieKing per-slice figure (437 kJ per 39 g slice) x (100/39) = 1121 kJ; the remaining macros are per-100g panels taken directly. Ingredients, allergens, origin, price and barcode not located.",
+        "missingFields": [
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "barcode",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-casa-barelli-thin-mozzarella-pizza",
+      "barcode": null,
+      "name": "Casa Barelli Super Thin Mozzarella Pizza 335g",
+      "brand": "Casa Barelli",
+      "retailer": "ALDI",
+      "category": "frozen-pizza-margherita",
+      "sizeG": 335,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 896,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": 22,
+        "sugarsG": 4,
+        "sodiumMg": 251,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.calorieking.com/au/en/foods/f/calories-in-frozen-pizza-casa-barelli-super-thin-mozzarella-pizza/1lKaZcOiS4mO7e08fq4d2g",
+          "https://world.openfoodfacts.org/product/26222011/mozarella-super-thin-stone-baked-pizza-casa-barelli"
+        ],
+        "notes": "CATEGORY APPROXIMATION: filed as 'frozen-pizza-margherita' as the nearest bucket for a plain mozzarella super-thin pizza; it is not a confirmed Margherita-labelled product. Energy, carbohydrate, sugars and sodium per 100g from CalorieKing/CalorieCounter AU. Protein, fat and saturated fat not found.",
+        "missingFields": [
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "barcode",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-international-cuisine-hawaiian-pizza-slices",
+      "barcode": null,
+      "name": "International Cuisine Hawaiian Style Pizza Slices 600g",
+      "brand": "International Cuisine",
+      "retailer": "ALDI",
+      "category": "frozen-pizza-hawaiian",
+      "sizeG": 600,
+      "priceAud": 5.49,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 932,
+        "proteinG": 10,
+        "fatG": 6,
+        "saturatedFatG": 3,
+        "carbohydrateG": 30,
+        "sugarsG": 6,
+        "sodiumMg": 350,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/international-cuisine-hawaiian-style-pizza-slices-600g-000000000000495487"
+        ],
+        "notes": "Price and pack size confirmed from the ALDI product URL. AMBIGUOUS BASIS FLAGGED: the source snippet mixed an 80 g-serve energy figure (745.6 kJ) with values labelled per 100g; energy here is the 80 g figure scaled (745.6/80*100 = 932 kJ) and the rest taken as given. Only a marketing description of toppings was found, not the verbatim ingredient panel.",
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "barcode",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-international-cuisine-meatlovers-pizza",
+      "barcode": null,
+      "name": "International Cuisine Meat Lovers Family Pizza 500g",
+      "brand": "International Cuisine",
+      "retailer": "ALDI",
+      "category": "frozen-pizza-bbq-meatlovers",
+      "sizeG": 500,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 989,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": 35,
+        "sugarsG": 6,
+        "sodiumMg": 565,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/international-cuisine-meat-lovers-family-pizza-500g-000000000000366370"
+        ],
+        "notes": "Described on-label as a traditional base with mozzarella, BBQ sauce, ham, bacon and beef — marketing copy, not the verbatim ingredient panel, so ingredients are left blank. Energy DERIVED from a per-slice figure (149 kcal per 63 g slice) = 236.5 kcal/100g = 989 kJ. No competitor was researched in this category.",
+        "missingFields": [
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "barcode",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-international-cuisine-supreme-pizza",
+      "barcode": null,
+      "name": "International Cuisine Supreme Family Pizza 500g",
+      "brand": "International Cuisine",
+      "retailer": "ALDI",
+      "category": "frozen-pizza-supreme",
+      "sizeG": 500,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/international-cuisine-supreme-family-pizza-500g-000000000000366368"
+        ],
+        "notes": "Only existence, name, brand and pack size confirmed via the ALDI product URL. Every null field here is genuinely unresearched (budget exhausted), NOT 'absent from the label'.",
+        "missingFields": [
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "barcode",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-world-kitchen-garlic-bread-loaf",
+      "barcode": null,
+      "name": "World Kitchen Garlic Bread Loaf 400g",
+      "brand": "World Kitchen",
+      "retailer": "ALDI",
+      "category": "garlic-bread",
+      "sizeG": 400,
+      "priceAud": 2.79,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/world-kitchen-garlic-bread-loaf-400g-000000000000400262"
+        ],
+        "notes": "Price and pack size confirmed from the ALDI page; only marketing copy found for contents. A per-serving figure was found but with no stated serving weight and an inconsistent second figure, so it was NOT converted. NOTE: an Open Food Facts entry for a DIFFERENT World Kitchen garlic bread SKU (450 g) lists Germany as origin — deliberately not applied here under the no-cross-variant rule.",
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "barcode",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-world-kitchen-garlic-bread-slices",
+      "barcode": null,
+      "name": "World Kitchen Garlic Bread 9 Slice 270g",
+      "brand": "World Kitchen",
+      "retailer": "ALDI",
+      "category": "garlic-bread-slices",
+      "sizeG": 270,
+      "priceAud": 2.99,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/world-kitchen-garlic-bread-9-slice-270g-000000000000398512"
+        ],
+        "notes": "Price and pack format (9 slices, 270 g) confirmed from the ALDI page; only marketing copy found otherwise. Filed under a separate 'garlic-bread-slices' category so it pairs with the matching 9-slice competitor rather than a loaf.",
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "barcode",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-monarc-utopia-vanilla-sticks",
+      "barcode": null,
+      "name": "Monarc Utopia Chocolate Coated Vanilla Ice Cream Sticks 4 Pack",
+      "brand": "Monarc",
+      "retailer": "ALDI",
+      "category": "ice-cream-sticks",
+      "sizeG": 428,
+      "priceAud": 4.99,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 1402,
+        "proteinG": 3,
+        "fatG": 23,
+        "saturatedFatG": null,
+        "carbohydrateG": 30,
+        "sugarsG": 26,
+        "sodiumMg": 62,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/monarc-utopia-chocolate-coated-vanilla-ice-cream-sticks-4-pack-428ml-000000000000366469",
+          "https://www.fatsecret.com.au/calories-nutrition/aldi/monarc-utopia-vanilla/1-bar"
+        ],
+        "notes": "Pack is labelled 428 mL, not grams — sizeG holds the mL figure; actual weight unknown. Per-100g macros from a nutrition aggregator; sodium is single-source and not cross-verified. Energy DERIVED: 248 kcal for 1 bar (74 g) = 335 kcal/100g = 1402 kJ. Could NOT find the ingredients or allergen statement for this DAIRY variant — ingredients were found only for a differently-named 'Utopia Vegan Dairy Free Vanilla', a DIFFERENT product, and were deliberately not used.",
+        "missingFields": [
+          "barcode",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "saturatedFatG",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-monarc-crowns-vanilla-cones",
+      "barcode": "4088700100189",
+      "name": "Monarc Crowns Classic Vanilla Cones 4 Pack",
+      "brand": "Monarc",
+      "retailer": "ALDI",
+      "category": "ice-cream-cones",
+      "sizeG": 475,
+      "priceAud": 3.69,
+      "ingredientsRaw": "Full cream milk, cone (15%) (wheat flour, sugar, starch from wheat, vegetable oil, emulsifier (322, from soy)), oat fibre, salt, sugar syrup, cream (from milk), milk chocolate (10%), compound milk chocolate (5%), roasted peanuts (4%), milk solids, maltodextrin, emulsifier (471), thickeners (412, 407a), natural flavour, colour (160b)",
+      "countryOfOriginRaw": "Made in Australia",
+      "allergensRaw": {
+        "contains": "milk, wheat, oats, soy, peanuts",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 1188,
+        "proteinG": 3,
+        "fatG": 9,
+        "saturatedFatG": null,
+        "carbohydrateG": 21,
+        "sugarsG": null,
+        "sodiumMg": 48,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/monarc-crowns-classic-vanilla-cones-4-pack-475ml-000000000000367572",
+          "https://world.openfoodfacts.org/product/4088700100189/classic-vanilla-icecream-aldi",
+          "https://www.choice.com.au/food-and-drink/dairy/yoghurt-and-ice-cream/articles/cornetto-vs-aldi-crowns"
+        ],
+        "notes": "Ingredients/allergens from Open Food Facts for this barcode, whose description matches the ALDI listing. Price is from a CHOICE.com.au taste-test article of unknown date and may be outdated. Energy DERIVED: 213 kcal per cone (75 g) = 284 kcal/100g = 1188 kJ. CHOICE explicitly positions this line as a Cornetto Classico dupe and it beat Cornetto in their blind taste test. sizeG holds a mL figure (475 mL).",
+        "missingFields": [
+          "saturatedFatG",
+          "sugarsG",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-monarc-silver-scoop-vanilla-2l",
+      "barcode": null,
+      "name": "Monarc Silver Scoop Creamy Vanilla Ice Cream 2L",
+      "brand": "Monarc",
+      "retailer": "ALDI",
+      "category": "ice-cream-tubs",
+      "sizeG": 2000,
+      "priceAud": 5,
+      "ingredientsRaw": "Reconstituted buttermilk (35%) (from milk), water, cream (from milk) (15%), sugar, glucose syrup, milk solids, maltodextrin, thickeners (412, 410, 407a), emulsifier (471, from soy), flavour, gelatine, natural colour (160b)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "milk, soy",
+        "mayContain": "peanuts, tree nuts"
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": 4.3,
+        "carbohydrateG": null,
+        "sugarsG": 21.6,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/silver-scoop-silver-scoop-creamy-vanilla-2l-000000000000365499",
+          "https://spoonfulapp.com/products/monarc-silver-scoop-creamy-vanilla-ice-cream/MjYxODkyMjI="
+        ],
+        "notes": "Ingredients and allergens from Spoonful for this exact SKU. Label states 5.9% milk fat and 'at least 25% less fat than regular ice cream' — economy/reduced-fat positioning, so not a like-for-like premium comparator. Only saturated fat and sugars per 100g were found. Country of origin NOT assumed to be Australia despite ALDI's general pattern.",
+        "missingFields": [
+          "barcode",
+          "countryOfOriginRaw",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "carbohydrateG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-monarc-obsession-triple-choc-1l",
+      "barcode": "4088700070376",
+      "name": "Monarc Obsession Triple Choc Gourmet Ice Cream 1L",
+      "brand": "Monarc",
+      "retailer": "ALDI",
+      "category": "ice-cream-tubs",
+      "sizeG": 1000,
+      "priceAud": null,
+      "ingredientsRaw": "Chocolate ice cream (77%) (reconstituted skim milk, water, cultured butter, sugar, milk solids, fat reduced cocoa powder, glucose syrup, dextrose, dark chocolate (contains soy), emulsifiers, stabilisers), chocolate sauce (21%) (sugar, glucose-fructose syrup, water, condensed milk, fat reduced cocoa powder, maize starch, thickener), mixed chocolate curls (2%) (milk, soy)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "milk, soy",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://world.openfoodfacts.org/product/4088700070376/obsession-ice-cream-aldi"
+        ],
+        "notes": "Ingredients from Open Food Facts (the source had some OCR artifacts, though the ingredient breakdown looked coherent). Label claims no artificial colours, flavours or preservatives. Do NOT reuse the $3.99 price seen for the separate 'Monarc Indulge' line — different range.",
+        "missingFields": [
+          "priceAud",
+          "countryOfOriginRaw",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-monarc-utopia-almond-sticks",
+      "barcode": "4088700169483",
+      "name": "Monarc Utopia Almond Ice Cream Sticks 4 Pack",
+      "brand": "Monarc",
+      "retailer": "ALDI",
+      "category": "ice-cream-sticks",
+      "sizeG": 428,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "almond, milk, soy",
+        "mayContain": "sulphites, gluten, wheat, Brazil nut, cashew, hazelnut, macadamia, pecan, pine nut, pistachio, walnut, peanut"
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://world.openfoodfacts.org/product/4088700169483/utopia-almond-4-pack-monarc"
+        ],
+        "notes": "Allergen list confirmed via Open Food Facts for this exact barcode. A nutrition figure was reported per 120 mL serving (277 kcal, 25 g carb, 18 g fat, 3 g protein) but no gram weight was given, so it was deliberately NOT converted to per-100g.",
+        "missingFields": [
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-sprinters-crinkle-original",
+      "barcode": "4088700051900",
+      "name": "Sprinters Crinkle Cut Original Potato Chips 230g",
+      "brand": "Sprinters",
+      "retailer": "ALDI",
+      "category": "potato-chips-original",
+      "sizeG": 230,
+      "priceAud": null,
+      "ingredientsRaw": "Potatoes (64%), vegetable oils, salt (1%), mineral salt (508), antioxidants (307b, 300, 392, 330)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 2293,
+        "proteinG": 8,
+        "fatG": 36,
+        "saturatedFatG": null,
+        "carbohydrateG": 52,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/sprinters-crinkle-cut-original-potato-chips-230g-000000000000364773",
+          "https://world.openfoodfacts.org/product/4088700051900/original-crinkle-cut-potato-chips-sprinters"
+        ],
+        "notes": "DERIVED from an ALDI per-25g-serve figure (137 kcal, 9 g fat, 13 g carb, 2 g protein) x4 = 548 kcal/100g, independently corroborated by FatSecret's 548 kcal/100g, then x4.184 = 2293 kJ. Marketing copy references Australian potatoes but that was not confirmed as the formal country-of-origin statement, so it is left blank. No allergen statement found for this flavour (unlike the Chicken variant, which does state one).",
+        "missingFields": [
+          "priceAud",
+          "countryOfOriginRaw",
+          "allergens",
+          "saturatedFatG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-sprinters-crinkle-chicken",
+      "barcode": null,
+      "name": "Sprinters Crinkle Cut Potato Chips Chicken 230g",
+      "brand": "Sprinters",
+      "retailer": "ALDI",
+      "category": "potato-chips-chicken",
+      "sizeG": 230,
+      "priceAud": 2.49,
+      "ingredientsRaw": "Potatoes (60%), vegetable oils, maltodextrin, salt, dextrose, mineral salt (508), sugar, yeast extract, natural flavours, chicken fat (0.07%), herb, acidity regulator (330), spice, antioxidants (307b, 300, 392)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": "milk, soy"
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/sprinters-crinkle-cut-potato-chips-chicken-230g-000000000000364774"
+        ],
+        "notes": "Ingredients, price and the 'may contain milk and soy' statement all from the ALDI product page. No per-100g nutrition panel or barcode located for this flavour before the search budget ran out.",
+        "missingFields": [
+          "barcode",
+          "countryOfOriginRaw",
+          "contains",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-sprinters-crinkle-salt-vinegar",
+      "barcode": "4088700051894",
+      "name": "Sprinters Crinkle Cut Potato Chips Salt & Vinegar 230g",
+      "brand": "Sprinters",
+      "retailer": "ALDI",
+      "category": "potato-chips-salt-vinegar",
+      "sizeG": 230,
+      "priceAud": null,
+      "ingredientsRaw": "Potatoes (60%), vegetable oils, acidity regulators (262, 330, 260), mineral salts (508, 340), salt (1.5%), corn starch, sugar, maltodextrin, natural flavours, antioxidants (307b, 392)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/sprinters-crinkle-cut-potato-chips-salt-vinegar-230g-000000000000366599",
+          "https://world.openfoodfacts.org/product/4088700051894/salt-and-vinegar-crinkle-cut-potato-chips-aldi"
+        ],
+        "notes": "A snippet reported '102 calories, 10 g carbs, 6.4 g fat, 1 g protein' labelled ambiguously as 'per pack', but the true serving basis could not be confirmed (likely a ~25 g serve, not the 230 g pack), so it was NOT used — deliberately left null rather than risk a wrong multiplier.",
+        "missingFields": [
+          "priceAud",
+          "countryOfOriginRaw",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-sprinters-corn-chips-nacho-cheese",
+      "barcode": "4061459791273",
+      "name": "Sprinters Corn Chips Nacho Cheese 200g",
+      "brand": "Sprinters",
+      "retailer": "ALDI",
+      "category": "corn-chips",
+      "sizeG": 200,
+      "priceAud": 2.39,
+      "ingredientsRaw": "Corn (70%), vegetable oils (palm and/or sunflower and/or canola), milk, vegetable powders, sugar, glucose, natural flavours, maltodextrin (maize), yeast extract, cheese powder (milk) (0.04%), natural colour (160c)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "Milk",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 2070,
+        "proteinG": 7.4,
+        "fatG": 24.3,
+        "saturatedFatG": 9.6,
+        "carbohydrateG": 59.1,
+        "sugarsG": 3.5,
+        "sodiumMg": 499,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/sprinters-corn-chips-nacho-cheese-200g-000000000000525571",
+          "https://world.openfoodfacts.org/product/4061459791273/nacho-cheese-corn-chips-sprinters"
+        ],
+        "notes": "Full per-100g panel reported directly and internally consistent (2070/4.184 = 495 Cal). 'Contains Milk' is INFERRED from cheese powder (milk). One source suggested an origin of 'Canada and United States' which is implausible for an ALDI Australia private-label corn snack and was judged unreliable, so origin is blank — worth checking on-pack.",
+        "missingFields": [
+          "countryOfOriginRaw",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-sprinters-snack-stack-original",
+      "barcode": "4088700070765",
+      "name": "Sprinters Snack Stack Chips Original 160g",
+      "brand": "Sprinters",
+      "retailer": "ALDI",
+      "category": "stacked-crisps",
+      "sizeG": 160,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/sprinters-snack-stack-chips-original-flavour-160g-000000000366033001",
+          "https://world.openfoodfacts.org/product/4088700070765/sprinters-snack-stack-original-aldi"
+        ],
+        "notes": "ALDI Australia's stacked/tubed crisp product, the closest local equivalent to Pringles. Existence and barcode confirmed, but the budget was exhausted before ingredients, nutrition, price, origin, allergens or a Pringles competitor could be sourced. Included for range breadth only — no competitor entry was created.",
+        "missingFields": [
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-belmont-scotch-finger-biscuits",
+      "barcode": null,
+      "name": "Belmont Biscuit Co. Scotch Finger Biscuits 250g",
+      "brand": "Belmont Biscuit Co.",
+      "retailer": "ALDI",
+      "category": "scotch-finger-biscuits",
+      "sizeG": 250,
+      "priceAud": 1.25,
+      "ingredientsRaw": "Wheat flour, sugar, butter, vegetable oil, milk solids",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "Wheat, Milk",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/belmont-biscuit-co-scotch-finger-biscuits-250g-000000000000365253"
+        ],
+        "notes": "INCOMPLETE INGREDIENT LIST: the five ingredients shown are as-found and are very likely partial (real Scotch Finger panels typically also list raising agents, salt and flavouring); it was reported as found rather than padded out. 'Contains Wheat, Milk' is INFERRED from that incomplete list, not a verbatim allergen box. A per-serving figure was found but with no confirmed serving weight, so it was not converted. The intended competitor (Arnott's Scotch Finger) could not be researched before the budget was exhausted, so this SKU has no match.",
+        "missingFields": [
+          "barcode",
+          "countryOfOriginRaw",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-asia-coconut-milk-400ml",
+      "barcode": null,
+      "name": "Asia Specialities Coconut Milk 400mL",
+      "brand": "Asia Specialities",
+      "retailer": "ALDI",
+      "category": "coconut-milk",
+      "sizeG": 400,
+      "priceAud": null,
+      "ingredientsRaw": "Coconut 75%, Water, Stabilisers (412, 466), Emulsifier (435)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/asia-specialities-coconut-milk-400ml-000000000463262002",
+          "https://au.openfoodfacts.org/product/26201542/premium-quality-coconut-milk-asia-specialities"
+        ],
+        "notes": "Ingredients from Open Food Facts listings for this product (AU and global entries agree). sizeG holds a mL figure. No nutrition table, origin, price or confirmed barcode located before the budget ran out. No coconut-milk competitor was researched.",
+        "missingFields": [
+          "barcode",
+          "priceAud",
+          "countryOfOriginRaw",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-asia-coconut-cream-400ml",
+      "barcode": null,
+      "name": "Asia Specialities Coconut Cream 400mL",
+      "brand": "Asia Specialities",
+      "retailer": "ALDI",
+      "category": "coconut-cream",
+      "sizeG": 400,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "Thailand",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 703,
+        "proteinG": 0.8,
+        "fatG": 17.6,
+        "saturatedFatG": null,
+        "carbohydrateG": 1.7,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/asia-specialities-coconut-cream-400ml-000000000463668001",
+          "https://www.eatthismuch.com/calories/aldi-asia-coconut-cream-1441200"
+        ],
+        "notes": "DERIVED FROM ROUNDED PERCENTAGES: an aggregator gave 672 kcal per 400 g can (168 kcal/100g) plus a 94% fat / 4% carb / 2% protein split; the macros here are arithmetic on those rounded percentages, not a label scan, so treat as approximate. 'Thailand' is that aggregator's 'manufactured in' note, not verified label text. Ingredients NOT copied from the Coconut Milk entry (different coconut percentage likely).",
+        "missingFields": [
+          "ingredientsRaw",
+          "allergens",
+          "saturatedFatG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG",
+          "priceAud",
+          "barcode"
+        ]
+      }
+    },
+    {
+      "id": "aldi-asia-soy-sauce-500ml",
+      "barcode": "4088700009659",
+      "name": "Asia Specialities Soy Sauce 500mL",
+      "brand": "Asia Specialities",
+      "retailer": "ALDI",
+      "category": "soy-sauce",
+      "sizeG": 500,
+      "priceAud": null,
+      "ingredientsRaw": "Water, Defatted Soybean (22%), Ground Wholemeal Wheat, Salt, Preservative (202), Flavour Enhancer (635), Sweetener (955)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "Soy, Wheat",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/asia-specialities-soy-sauce-500ml-000000000365384002",
+          "https://world.openfoodfacts.org/product/4088700009659/asia-soy-sauce-aldi"
+        ],
+        "notes": "Ingredients from the Open Food Facts entry matching this 500 mL pack. The Contains statement is INFERRED from the ingredients (soybean, wheat), not a quoted label statement. OFF also notes 3.2 mL alcohol per 100 mL as a natural brewing byproduct — context, not an allergen.",
+        "missingFields": [
+          "countryOfOriginRaw",
+          "priceAud",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-asia-oyster-sauce-365g",
+      "barcode": null,
+      "name": "Asia Specialities Oyster Sauce 365g",
+      "brand": "Asia Specialities",
+      "retailer": "ALDI",
+      "category": "oyster-sauce",
+      "sizeG": 365,
+      "priceAud": null,
+      "ingredientsRaw": "Water, Sugar, Salt, Thickener (1422), Natural Colour (150c), Oyster Extract (4%), Flavour, Maltodextrin, Acidity Regulator (260)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": "Sesame, Peanuts, Soy, Crustacea, Gluten Cereals"
+      },
+      "nutritionPer100g": {
+        "energyKj": 603,
+        "proteinG": 4,
+        "fatG": 0,
+        "saturatedFatG": null,
+        "carbohydrateG": 32,
+        "sugarsG": 28,
+        "sodiumMg": 5420,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/asia-specialities-oyster-sauce-365g-000000000365783002",
+          "https://www.caloriecounter.com.au/food/aldi-asia-oyster-sauce/"
+        ],
+        "notes": "Ingredients and the 'may contain' line from ALDI/aggregator listings. Energy DERIVED: 36 kcal per 25 g = 144 kcal/100g = 603 kJ. Sodium as reported directly by CalorieCounter, not label-verified — moderate confidence. No formal 'Contains' statement found.",
+        "missingFields": [
+          "countryOfOriginRaw",
+          "contains",
+          "saturatedFatG",
+          "fibreG",
+          "priceAud",
+          "barcode"
+        ]
+      }
+    },
+    {
+      "id": "aldi-asia-sweet-chilli-sauce",
+      "barcode": "4088600311357",
+      "name": "Asia Specialities Sweet Chilli Sauce",
+      "brand": "Asia Specialities",
+      "retailer": "ALDI",
+      "category": "sweet-chilli-sauce",
+      "sizeG": 300,
+      "priceAud": null,
+      "ingredientsRaw": "Sugar, Water, Glucose-Fructose Syrup, Red Chilli Paste (11%) (Red Chillies, Salt, Acidity Regulator: Acetic Acid), Garlic Puree (Garlic, Sugar, Salt, Acidity Regulator: Acetic Acid), Modified Maize Starch, Acidity Regulator: Acetic Acid, Salt",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 881,
+        "proteinG": 0.7,
+        "fatG": 0.5,
+        "saturatedFatG": 0.2,
+        "carbohydrateG": 50,
+        "sugarsG": 40,
+        "sodiumMg": 640,
+        "fibreG": 0.8
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://world.openfoodfacts.org/product/4088600311357/sweet-chilli-sauce-asia-specialities"
+        ],
+        "notes": "PACK-SIZE MISMATCH RISK: full panel and ingredients come from an Open Food Facts entry for a 300 g pack, but ALDI Australia currently lists this product at 700 mL — the OFF entry may be a different-region or older pack of the same recipe. Fat reported as '<0.5 g', recorded at the 0.5 upper bound. Sodium DERIVED from 1.6 g salt / 2.5. No competitor researched in this category.",
+        "missingFields": [
+          "countryOfOriginRaw",
+          "allergens",
+          "priceAud"
+        ]
+      }
+    },
+    {
+      "id": "aldi-asia-fish-sauce-310ml",
+      "barcode": null,
+      "name": "Asia Specialities Fish Sauce 310mL",
+      "brand": "Asia Specialities",
+      "retailer": "ALDI",
+      "category": "fish-sauce",
+      "sizeG": 310,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 230,
+        "proteinG": 5,
+        "fatG": 0,
+        "saturatedFatG": null,
+        "carbohydrateG": 5,
+        "sugarsG": 5,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/asia-specialities-fish-sauce-310ml-000000000365783005",
+          "https://www.calorieking.com/au/en/foods/f/calories-in-sauces-asia-fish-sauce/ay5KdWFsRS6O240Tj0FfjA"
+        ],
+        "notes": "Energy DERIVED: 11 kcal per 20 mL = 55 kcal/100 mL = 230 kJ. Remaining macros from the same aggregator. No fish-sauce competitor was researched before the budget ran out.",
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "saturatedFatG",
+          "sodiumMg",
+          "fibreG",
+          "priceAud",
+          "barcode"
+        ]
+      }
+    },
+    {
+      "id": "aldi-asia-hoisin-garlic-stir-fry-sauce",
+      "barcode": "4088600419848",
+      "name": "Asia Specialities Hoisin & Garlic Stir Fry Sauce 120g",
+      "brand": "Asia Specialities",
+      "retailer": "ALDI",
+      "category": "stir-fry-sauce",
+      "sizeG": 120,
+      "priceAud": null,
+      "ingredientsRaw": "Water, Sugar, Glucose-Fructose Syrup, Soy Bean Paste 7% (Water, Soya Beans, Rice, Salt), Rice Vinegar, Light Soy Sauce 4.5% (Water, Salt, Soya Beans, Wheat, Sugar, Alcohol), Spring Onions, Modified Maize Starch, Garlic Puree 1.5%, Concentrated Tomato Puree, Ginger, Sesame Oil, Colour (Plain Caramel), Chinese Five Spice, Yeast Extract, Salt, Star Anise, Chilli",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 892,
+        "proteinG": 1.3,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": 42.7,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://world.openfoodfacts.org/product/4088600419848/hoisin-garlic-stir-fry-sauce-asia-specialities"
+        ],
+        "notes": "This is the 120 g Hoisin & Garlic STIR FRY sauce, a distinct SKU from ALDI's plain Hoisin Sauce 365 g — the ingredients found belong to this SKU only, so the 365 g product was deliberately omitted rather than given this data. Per-100g values DERIVED by scaling a 15 g portion (32 kcal, 6.4 g sugar, 0.2 g protein). Soy and wheat are visible in the ingredients but no printed 'Contains' statement was found, so allergens are left blank rather than inferred.",
+        "missingFields": [
+          "countryOfOriginRaw",
+          "allergens",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sodiumMg",
+          "fibreG",
+          "priceAud"
+        ]
+      }
+    },
+    {
+      "id": "aldi-asia-red-curry-paste-195g",
+      "barcode": "4099200013664",
+      "name": "Asia Specialities Thai Red Curry Paste 195g",
+      "brand": "Asia Specialities",
+      "retailer": "ALDI",
+      "category": "red-curry-paste",
+      "sizeG": 195,
+      "priceAud": null,
+      "ingredientsRaw": "Water, Soybean Oil, Shallots, Garlic, Lemongrass, Dried Red Chilli (8.7%), Thai Ginger, Salt, Sugar, Coriander Seeds, Kaffir Lime Peel, White Pepper, Paprika Extract (Colour), Cumin, Potassium Sorbate (Preservative)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 669,
+        "proteinG": null,
+        "fatG": 12.7,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/asia-specialities-thai-red-curry-paste-195g-000000000365135001",
+          "https://world.openfoodfacts.org/product/4099200013664/rote-curry-paste-asia"
+        ],
+        "notes": "REGIONAL MATCH CAVEAT: ingredients come from an Open Food Facts entry titled 'Rote curry paste' ('Rote' = German for red) at the same 195 g pack size — likely a European Aldi listing rather than a confirmed Australian one, so the exact ingredient match is moderate confidence. Energy and fat DERIVED from a '0.25 jar' figure (78 kcal, 6.2 g fat) assuming a 48.75 g serve. No competitor researched.",
+        "missingFields": [
+          "countryOfOriginRaw",
+          "allergens",
+          "proteinG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG",
+          "priceAud"
+        ]
+      }
+    },
+    {
+      "id": "aldi-asia-green-curry-paste-195g",
+      "barcode": null,
+      "name": "Asia Specialities Thai Green Curry Paste 195g",
+      "brand": "Asia Specialities",
+      "retailer": "ALDI",
+      "category": "green-curry-paste",
+      "sizeG": 195,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.aldi.com.au/product/asia-specialities-thai-green-curry-paste-195g-000000000365135002"
+        ],
+        "notes": "Only product identity confirmed from the ALDI listing before the budget ran out. No competitor researched either.",
+        "missingFields": [
+          "barcode",
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-urban-eats-hokkien-noodles-400g",
+      "barcode": null,
+      "name": "Urban Eats Wok Ready Hokkien Style Noodles 400g",
+      "brand": "Urban Eats",
+      "retailer": "ALDI",
+      "category": "hokkien-noodles",
+      "sizeG": 400,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 432,
+        "proteinG": 3.3,
+        "fatG": 0,
+        "saturatedFatG": null,
+        "carbohydrateG": 20.8,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/urban-eats-wok-ready-hokkien-style-noodles-400g-000000000366977001",
+          "https://www.mynetdiary.com/food/calories-in-hokkien-style-noodles-by-urban-eats-serving-32791854-0.html"
+        ],
+        "notes": "Per-100g values DERIVED by scaling a 120 g serve (124 kcal, 0 g fat, 25 g carb, 4 g protein). Marketing states 'a source of dietary fibre' and '99% fat free' but no numeric fibre value was found.",
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "saturatedFatG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG",
+          "priceAud",
+          "barcode"
+        ]
+      }
+    },
+    {
+      "id": "aldi-urban-eats-rice-vermicelli-250g",
+      "barcode": null,
+      "name": "Urban Eats Vermicelli Rice Noodles 250g",
+      "brand": "Urban Eats",
+      "retailer": "ALDI",
+      "category": "rice-vermicelli",
+      "sizeG": 250,
+      "priceAud": null,
+      "ingredientsRaw": "Rice flour, Water",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 910,
+        "proteinG": 3.2,
+        "fatG": 1,
+        "saturatedFatG": null,
+        "carbohydrateG": 51.2,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/urban-eats-vermicelli-rice-noodles-250g-000000000532178001",
+          "https://world.openfoodfacts.org/product/4088600168760/vermicelli-rice-noodles-asia-specialities"
+        ],
+        "notes": "REBRAND CAVEAT: ALDI now lists this under 'Urban Eats' but the nutrition data found was indexed under the older 'Asia Specialities' branding at the same pack size — presumed the same product post-rebrand, moderate confidence. Ingredients per ALDI's marketing copy (rice flour and water, gluten free, no MSG). Per-100g values DERIVED by scaling a '0.25 pack' serve (136 kcal, 32 g carb, 0.6 g fat, 2 g protein) assuming 62.5 g.",
+        "missingFields": [
+          "countryOfOriginRaw",
+          "allergens",
+          "saturatedFatG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG",
+          "priceAud",
+          "barcode"
+        ]
+      }
+    },
+    {
+      "id": "aldi-imperial-grain-jasmine-rice-1kg",
+      "barcode": null,
+      "name": "Imperial Grain Jasmine Rice 1kg",
+      "brand": "Imperial Grain",
+      "retailer": "ALDI",
+      "category": "jasmine-rice",
+      "sizeG": 1000,
+      "priceAud": 2.99,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "Australia",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/imperial-grain-jasmine-rice-1kg-000000000000262101",
+          "https://www.caloriecounter.com.au/food/calories-in-imperial-grain-aldi-imperial-grain-jasmine-rice/"
+        ],
+        "notes": "Origin and price come from a CalorieCounter aggregator summary, not directly cross-checked against ALDI's own Country of Origin field — moderate confidence. Nutrition and ingredients not located; ingredients left blank rather than assuming '100% jasmine rice'.",
+        "missingFields": [
+          "ingredientsRaw",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG",
+          "barcode"
+        ]
+      }
     }
   ]
 }

@@ -989,6 +989,1016 @@
           "fibreG"
         ]
       }
+    },
+    {
+      "id": "coles-mccain-superfries-crinkle-cut",
+      "barcode": null,
+      "name": "McCain SuperFries Crinkle Cut 900g",
+      "brand": "McCain",
+      "retailer": "Coles",
+      "category": "frozen-chips",
+      "sizeG": 900,
+      "priceAud": null,
+      "ingredientsRaw": "Potato (95%), Canola Oil, Dextrose",
+      "countryOfOriginRaw": "Made in Australia from at least 99% Australian ingredients",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 627,
+        "proteinG": 2.9,
+        "fatG": 4.4,
+        "saturatedFatG": 0.4,
+        "carbohydrateG": 23.3,
+        "sugarsG": 0.4,
+        "sodiumMg": 48,
+        "fibreG": 2.3
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.coles.com.au/product/mccain-superfries-frozen-potato-chips-crinkle-cut-900g-5066946",
+          "https://mccain.com.au/products/categories/potato/everyday-favourites/superfries-crinkle-cut-900g/"
+        ],
+        "notes": "Ingredients and nutrition aggregated from search snippets citing the McCain Australia site; not independently re-verified against a single page. The country-of-origin line is McCain's general Australian-sourcing claim for the SuperFries range, not necessarily verbatim from this exact pack. Price and allergen statements not found.",
+        "missingFields": [
+          "barcode",
+          "priceAud",
+          "allergens"
+        ]
+      }
+    },
+    {
+      "id": "coles-mccain-pub-style-wedges",
+      "barcode": "9310174009152",
+      "name": "McCain Pub Style Crispy Wedges 750g",
+      "brand": "McCain",
+      "retailer": "Coles",
+      "category": "frozen-wedges",
+      "sizeG": 750,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 598,
+        "proteinG": 2.7,
+        "fatG": 5,
+        "saturatedFatG": 0.5,
+        "carbohydrateG": 20.3,
+        "sugarsG": 0.4,
+        "sodiumMg": 283,
+        "fibreG": 2.7
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.coles.com.au/product/mccain-pub-style-potato-wedges-750g-5394810",
+          "https://world.openfoodfacts.org/product/9310174009152/pub-style-wedges-mccain",
+          "https://mccain.com.au/products/categories/potato/pub-favourites/pub-style-crispy-wedges-750g/"
+        ],
+        "notes": "Full per-100g panel from CalorieKing (AU), cross-referenced with the McCain Australia product page. Ingredients, country of origin and allergen statement not captured. Barcode from the Open Food Facts entry titled 'Pub style wedges - McCain'.",
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "priceAud",
+          "allergens"
+        ]
+      }
+    },
+    {
+      "id": "coles-mccain-lasagne-400g",
+      "barcode": null,
+      "name": "McCain Red Box Lasagne 400g",
+      "brand": "McCain",
+      "retailer": "Coles",
+      "category": "frozen-lasagne",
+      "sizeG": 400,
+      "priceAud": null,
+      "ingredientsRaw": "Bolognese Sauce (40%) (Water, Beef (8%), Tomato Paste, Tomatoes, Onion, Capsicum, Thickener (1422), Carrots, Celery, Yeast Extract, Canola Oil, Salt, Garlic, Sugar, Herbs, Black Pepper), Cooked Pasta (35%) (Semolina Wheat, Water), Cheese Sauce (Water, Cheese (Milk), Milk Solids, Parmesan Cheese (Milk), Cream (Milk), Thickener (1422), Flour (Wheat), Salt, Yeast Extract, Cheese Flavour (Milk), Turmeric), Parmesan Crumb (Breadcrumbs (Wheat), Parmesan Cheese (Milk), Paprika, Parsley)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "Gluten, Milk, Wheat",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 618,
+        "proteinG": 5,
+        "fatG": 5,
+        "saturatedFatG": 3,
+        "carbohydrateG": 20,
+        "sugarsG": null,
+        "sodiumMg": 340,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.coles.com.au/product/mccain-red-box-tray-lasagna-400g-412799",
+          "https://mccain.com.au/products/categories/meals/hearty-meals/lasagne-400g/"
+        ],
+        "notes": "Ingredients and the Contains line from a search summary citing the McCain Australia page. DERIVED WITH A UNIT ASSUMPTION: 591 kcal reported for the whole 400 g meal, giving 147.75 kcal/100g = 618 kJ/100g; the kcal assumption is unverified. Sugars, fibre, country of origin, price and barcode not found.",
+        "missingFields": [
+          "barcode",
+          "countryOfOriginRaw",
+          "priceAud",
+          "mayContain",
+          "sugarsG",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "coles-mccain-hash-browns",
+      "barcode": "9310174025084",
+      "name": "McCain Hash Browns 750g",
+      "brand": "McCain",
+      "retailer": "Coles",
+      "category": "hash-browns",
+      "sizeG": 750,
+      "priceAud": null,
+      "ingredientsRaw": "Potato (89%), Canola Oil, Salt, Potato Flake, Dextrose, Acidity Regulator (450)",
+      "countryOfOriginRaw": "Made in Australia from at least 99% Australian ingredients",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 836,
+        "proteinG": 2.35,
+        "fatG": 10.6,
+        "saturatedFatG": null,
+        "carbohydrateG": 24.7,
+        "sugarsG": null,
+        "sodiumMg": 529,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.coles.com.au/product/mccain-frozen-hash-browns-750g-8217844",
+          "https://world.openfoodfacts.org/product/9310174025084/hash-browns-mccain"
+        ],
+        "notes": "DERIVED by scaling an 85 g serve (711 kJ, 9 g fat, 21 g carb, 2 g protein, 450 mg sodium) up by 100/85. A separate snippet gave a conflicting direct per-100g figure of ~720 kJ; the serve-derived numbers were kept but the conflict is flagged — treat as approximate.",
+        "missingFields": [
+          "priceAud",
+          "allergens",
+          "saturatedFatG",
+          "sugarsG",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-fourntwenty-party-pies",
+      "barcode": null,
+      "name": "Four'N Twenty Party Pies 12 Pack",
+      "brand": "Four'N Twenty",
+      "retailer": "Woolworths",
+      "category": "party-pies",
+      "sizeG": null,
+      "priceAud": null,
+      "ingredientsRaw": "Water, Wheat Flour, Meat (11%) (Beef and/or Mutton), Margarine (Vegetable Oils and/or Animal Fats, Water, Salt, Emulsifier (471), Acidity Regulators (331, 330), Antioxidant (307b), Colour (160a), Flavour), Thickener (1422), Textured Soy Protein (Colour (150a)), Carrot, Seasoning (Contains Wheat), Onion, Pastry Mix (Contains Wheat, Mineral Salts (500, 341), Emulsifier (481), Thickener (412)), Salt, Colour (150c), Emulsifier (322 (Soy)), Onion Powder, Glaze, Processing Aid (Contains Wheat)",
+      "countryOfOriginRaw": "Made in Australia from at least 94% Australian ingredients",
+      "allergensRaw": {
+        "contains": "Wheat, Soy",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 1090,
+        "proteinG": 6,
+        "fatG": 14,
+        "saturatedFatG": 6,
+        "carbohydrateG": 26,
+        "sugarsG": 2,
+        "sodiumMg": 450,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/88281/four-n-twenty-pies-party",
+          "https://fourntwenty.com.au/products/12-party-pies"
+        ],
+        "notes": "Full ingredients, nutrition and country-of-origin statement from a search summary of the Four'N Twenty / retailer pages. IMPORTANT: the 'Contains' allergen line is INFERRED from the ingredient list (wheat flour, textured soy protein), not a verbatim label allergen statement. Pack weight and price not confirmed.",
+        "missingFields": [
+          "barcode",
+          "sizeG",
+          "priceAud",
+          "mayContain",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-dr-oetker-ristorante-pepperoni",
+      "barcode": null,
+      "name": "Dr. Oetker Ristorante Pizza Pepperoni 310g",
+      "brand": "Dr. Oetker",
+      "retailer": "Woolworths",
+      "category": "frozen-pizza-pepperoni",
+      "sizeG": 310,
+      "priceAud": 5.7,
+      "ingredientsRaw": "Wheat flour, tomato puree (20%), mozzarella cheese (14%), fermented pepperoni - heat treated (9.3%), water, soybean oil, tomato concentrate (3.3%), edam cheese (2.8%), yeast, maltodextrin, sugar, salt, herbs and spices, extra virgin olive oil, modified starch, vitamins (niacin, thiamin, riboflavin, folic acid), mineral (iron)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "Wheat, Milk, Gluten",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 1146,
+        "proteinG": 10.9,
+        "fatG": 8.9,
+        "saturatedFatG": null,
+        "carbohydrateG": 25.1,
+        "sugarsG": 3.1,
+        "sodiumMg": 580,
+        "fibreG": 1.9
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "medium",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/705420/dr-oetker-ristorante-pizza-pepperoni",
+          "https://world.openfoodfacts.org/product/9344988000074/pizza-pepperoni-dr-oetker"
+        ],
+        "notes": "Energy is AU-derived (849 kcal per 310 g pack = 274 kcal/100g = 1146 kJ) and ingredients/allergens are from an AU-context result. HOWEVER protein, fat, carbohydrate, sugars, sodium and fibre came from a Carrefour UAE listing of a 320 g pack of the same product name — a DIFFERENT regional pack, so those macros are not confirmed identical to the Australian formulation and are flagged lower-confidence per the no-cross-variant rule.",
+        "missingFields": [
+          "countryOfOriginRaw",
+          "barcode",
+          "saturatedFatG"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-dr-oetker-ristorante-mozzarella",
+      "barcode": null,
+      "name": "Dr. Oetker Ristorante Pizza Mozzarella 335g",
+      "brand": "Dr. Oetker",
+      "retailer": "Woolworths",
+      "category": "frozen-pizza-margherita",
+      "sizeG": 335,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/705368/dr-oetker-ristorante-pizza-mozzarella"
+        ],
+        "notes": "Paired with the Casa Barelli Super Thin Mozzarella as the nearest competitor. Only existence, name and pack size confirmed via the Woolworths product URL before the search budget was exhausted.",
+        "missingFields": [
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "barcode",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "coles-la-famiglia-garlic-bread-loaf",
+      "barcode": null,
+      "name": "La Famiglia Garlic Bread Loaf 400g",
+      "brand": "La Famiglia",
+      "retailer": "Coles",
+      "category": "garlic-bread",
+      "sizeG": 400,
+      "priceAud": null,
+      "ingredientsRaw": "Wheat flour, water, yeast, iodised salt, canola oil, soy flour, vegetable emulsifiers (471, 472e, 481), preservative (282), vitamins (thiamin, folic acid), processing aids (wheat), butter (cream (milk), water, salt), margarine (vegetable oil, water, salt, vegetable emulsifiers (471, 322 (soy)), natural flavour, antioxidant (307b), natural colour (160a)), fresh garlic, fresh parsley, canola oil, onion",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "Milk, Soy, Wheat, Gluten",
+        "mayContain": "Sesame"
+      },
+      "nutritionPer100g": {
+        "energyKj": 1585,
+        "proteinG": 9.4,
+        "fatG": 14.2,
+        "saturatedFatG": null,
+        "carbohydrateG": 45.2,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.coles.com.au/product/la-famiglia-garlic-bread-loaf-400g-6146213",
+          "https://www.woolworths.com.au/shop/productdetails/294517/la-famiglia-garlic-bread"
+        ],
+        "notes": "Ingredients and allergen statement from a retailer listing for this exact 400 g loaf ('may contain sesame' is stated as made on a line that also produces sesame products). Nutrition DERIVED from a per-slice (33 g) figure: 125 kcal = 1585 kJ/100g; fat 4.7 g = 14.2; carb 14.9 g = 45.2; protein 3.1 g = 9.4.",
+        "missingFields": [
+          "priceAud",
+          "countryOfOriginRaw",
+          "barcode",
+          "saturatedFatG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "coles-la-famiglia-garlic-bread-slices",
+      "barcode": null,
+      "name": "La Famiglia Garlic Bread Slices 9 Pack 270g",
+      "brand": "La Famiglia",
+      "retailer": "Coles",
+      "category": "garlic-bread-slices",
+      "sizeG": 270,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://www.coles.com.au/product/la-famiglia-bread-slices-garlic-9-pack-270g-9435160"
+        ],
+        "notes": "Paired to the ALDI 9-slice pack because the format matches exactly (9 slices, 270 g). Only existence, name and pack size confirmed. Ingredients were NOT copied from the La Famiglia 400 g loaf despite likely similarity, per the no-cross-variant rule.",
+        "missingFields": [
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "barcode",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-magnum-classic-sticks",
+      "barcode": null,
+      "name": "Magnum Classic Ice Cream Sticks 4 Pack",
+      "brand": "Magnum",
+      "retailer": "Woolworths",
+      "category": "ice-cream-sticks",
+      "sizeG": null,
+      "priceAud": null,
+      "ingredientsRaw": "Reconstituted skim milk and/or reconstituted buttermilk (milk), milk fat, cream (milk), milk solids, sugar, cocoa components (12%) (cocoa mass, cocoa butter), glucose, coconut oil, emulsifiers (mono- and diglycerides of fatty acids, soy lecithin, sunflower and/or rapeseed lecithin), vegetable gums (guar gum, locust bean gum, tara gum, carrageenan), flavours, colour (annatto), maltodextrin",
+      "countryOfOriginRaw": "Made in Australia",
+      "allergensRaw": {
+        "contains": "milk, soy",
+        "mayContain": "wheat, gluten, peanut, tree nuts"
+      },
+      "nutritionPer100g": {
+        "energyKj": 1310,
+        "proteinG": 3.8,
+        "fatG": 20.6,
+        "saturatedFatG": 13,
+        "carbohydrateG": 26.9,
+        "sugarsG": 23.9,
+        "sodiumMg": 50,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/485660/magnum-ice-cream-classic",
+          "https://www.streetsicecream.com.au/p/magnum-classic.html/09300830025336"
+        ],
+        "notes": "Ingredients and 'Made in Australia' from the Woolworths/Streets listing; full per-100g panel from a Woolworths nutrition-table snippet. IMPORTANT: the 'may contain' line was NOT stated on this exact product page — it was inferred from similar Magnum products, so it is lower confidence and should be checked against the pack.",
+        "missingFields": [
+          "barcode",
+          "sizeG",
+          "priceAud",
+          "fibreG",
+          "mayContain"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-cornetto-classico-cones",
+      "barcode": null,
+      "name": "Cornetto Classico Cones 6 Pack",
+      "brand": "Streets (Cornetto)",
+      "retailer": "Woolworths",
+      "category": "ice-cream-cones",
+      "sizeG": null,
+      "priceAud": 13.5,
+      "ingredientsRaw": "Dairy ingredients (milk, reconstituted skim milk, cream, concentrated skim milk, milk solids), sugar, vegetable oils (coconut oil, sunflower oil), wheat flour, glucose fructose syrup, hazelnut, glucose syrup, cocoa powder (1.6%), emulsifiers (322, 471, 442), potato starch, salt, stabiliser (401), caramelised sugar, natural vanilla flavour, glucose, wheat starch, egg white, burnt sugar syrup",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "milk, wheat, egg, hazelnuts, soy",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/947860/cornetto-classico-cones"
+        ],
+        "notes": "Paired with Monarc Crowns per CHOICE's own head-to-head. Ingredients from the Woolworths AU listing; the 'contains' list is INFERRED by reading the ingredients (milk, wheat, egg white, hazelnut, soy lecithin), not a printed allergen statement. NUTRITION DELIBERATELY NULL: databases returned wildly inconsistent per-100g figures, clearly spanning different regional formulations (kcal/100g ranging ~183-320), so none could be attributed to the AU product.",
+        "missingFields": [
+          "barcode",
+          "sizeG",
+          "countryOfOriginRaw",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-bulla-creamy-classics-vanilla-2l",
+      "barcode": null,
+      "name": "Bulla Creamy Classics Vanilla Ice Cream 2L",
+      "brand": "Bulla",
+      "retailer": "Woolworths",
+      "category": "ice-cream-tubs",
+      "sizeG": 2000,
+      "priceAud": null,
+      "ingredientsRaw": "Fresh milk, fresh cream (milk) (20%), sugar, water, maltodextrin, milk solids, emulsifier (471), thickeners (guar gum, carrageenan), flavour, colour (annatto)",
+      "countryOfOriginRaw": "Made with fresh Australian milk and cream (Colac, Victoria)",
+      "allergensRaw": {
+        "contains": "milk",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 870,
+        "proteinG": 2.7,
+        "fatG": 10.3,
+        "saturatedFatG": 7.1,
+        "carbohydrateG": 26.1,
+        "sugarsG": 19.9,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/191043/bulla-creamy-classics-ice-cream-vanilla",
+          "https://spoonfulapp.com/products/bulla-creamy-classics-ice-cream-vanilla-2l-tub/OTMxMDE2MTAwMTM0Mw=="
+        ],
+        "notes": "Ingredients from Spoonful's exact-SKU page. The origin line is PARAPHRASED from Bulla's marketing copy, not a literal retail 'Country of Origin' field — flagged as approximate wording. Energy DERIVED: 208 kcal/100g x 4.184 = 870 kJ.",
+        "missingFields": [
+          "barcode",
+          "priceAud",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-ben-jerrys-choc-fudge-brownie",
+      "barcode": null,
+      "name": "Ben & Jerry's Chocolate Fudge Brownie 458mL",
+      "brand": "Ben & Jerry's",
+      "retailer": "Woolworths",
+      "category": "ice-cream-tubs",
+      "sizeG": 458,
+      "priceAud": null,
+      "ingredientsRaw": "Cream, liquid sugar (sugar, water), skim milk, water, sugar, cocoa (processed with alkali), wheat flour, cocoa, soybean oil, egg yolks, invert sugar, eggs, egg whites, guar gum, salt, carrageenan, natural flavor, baking soda, malted barley flour",
+      "countryOfOriginRaw": "Made in USA",
+      "allergensRaw": {
+        "contains": "milk, egg, wheat, soy",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 1038,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/345040/ben-jerry-s-ice-cream-chocolate-fudge-brownie"
+        ],
+        "notes": "CAUTION: the ingredient list is from a US Ben & Jerry's source and may differ from the AU-imported pack — not verified against the Australian label. 458 mL is the confirmed Woolworths AU pack size (sizeG holds mL). 'Made in USA' reflects Vermont manufacturing consistent with an imported product but was not confirmed on the AU retail label. The single calorie figure found (248 kcal/100g) was of uncertain basis and converted with low confidence.",
+        "missingFields": [
+          "barcode",
+          "priceAud",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-smiths-crinkle-original",
+      "barcode": "9310015247798",
+      "name": "Smith's Original Crinkle Cut Potato Chips 170g",
+      "brand": "Smith's",
+      "retailer": "Woolworths",
+      "category": "potato-chips-original",
+      "sizeG": 170,
+      "priceAud": null,
+      "ingredientsRaw": "Potatoes, canola oil, sunflower oil, salt, antioxidants (tocopherols, ascorbic acid, rosemary extract, citric acid)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "low",
+        "sources": [
+          "https://world.openfoodfacts.org/product/9310015247798/original-crinkle-cut-potato-chips-smith-s",
+          "https://www.smiths-chips.com.au/products/crinkle-cut-chips/original-chips"
+        ],
+        "notes": "NUTRITION DELIBERATELY DISCARDED: a summarised figure of 617 kJ/100g with 9.4 g fat was found but is almost certainly wrong — it is far below the near-identical Smith's Chicken (2240 kJ) and Salt & Vinegar (2230 kJ) variants sourced independently in the same pass, so it was rejected rather than reported. Ingredients are from the OFF entry for the party-size pack of the same product line.",
+        "missingFields": [
+          "priceAud",
+          "countryOfOriginRaw",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-smiths-crinkle-chicken",
+      "barcode": "9310015241871",
+      "name": "Smith's Chicken Crinkle Cut Potato Chips 170g",
+      "brand": "Smith's",
+      "retailer": "Woolworths",
+      "category": "potato-chips-chicken",
+      "sizeG": 170,
+      "priceAud": null,
+      "ingredientsRaw": "Potatoes (61%), canola oil and/or sunflower oil, maltodextrin, sugar, flavour enhancers (621, 635, 620), mineral salt (potassium chloride), salt, flavours (milk), onion powder, yeast extract, soluble fibre (polydextrose), hydrolysed vegetable protein, food acid (citric acid), herb (parsley), spice (turmeric), antioxidants (tocopherols, ascorbic acid, rosemary extract)",
+      "countryOfOriginRaw": "Made in Australia",
+      "allergensRaw": {
+        "contains": "Milk",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 2240,
+        "proteinG": 6.9,
+        "fatG": 33,
+        "saturatedFatG": 2.3,
+        "carbohydrateG": 51.9,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.smiths-chips.com.au/products/crinkle-cut-chips/chicken-chips",
+          "https://www.woolworths.com.au/shop/productdetails/586821/smith-s-crinkle-cut-potato-chips-chicken"
+        ],
+        "notes": "Ingredients, per-100g nutrition and 'Made in Australia' reported directly in snippets citing Smith's own site and retailer listings. 'Contains Milk' is INFERRED from 'Flavours (Milk)' in the ingredient list, not a verbatim allergen box.",
+        "missingFields": [
+          "priceAud",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-smiths-crinkle-salt-vinegar",
+      "barcode": null,
+      "name": "Smith's Crinkle Cut Potato Chips Salt & Vinegar 170g",
+      "brand": "Smith's",
+      "retailer": "Woolworths",
+      "category": "potato-chips-salt-vinegar",
+      "sizeG": 170,
+      "priceAud": null,
+      "ingredientsRaw": "Potatoes (61%), canola oil and/or sunflower oil, flavours, maltodextrin, lactose (milk), mineral salt (potassium chloride), food acids (sodium diacetate, citric acid), sugar, salt, flavour enhancer (621), dextrose, whey protein concentrate (milk), soluble fibre (polydextrose), antioxidants (tocopherols, ascorbic acid, rosemary extract)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "Milk",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 2230,
+        "proteinG": 6.5,
+        "fatG": 33,
+        "saturatedFatG": 2.3,
+        "carbohydrateG": 49.9,
+        "sugarsG": 3,
+        "sodiumMg": 795,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/826738/smith-s-crinkle-cut-potato-chips-salt-vinegar"
+        ],
+        "notes": "Full per-100g panel and ingredients from the Woolworths listing for the 170 g pack. An OFF barcode exists for a Smith's Salt & Vinegar Crinkle Cut but is labelled a 375 g pack, so it was deliberately NOT assigned here. 'Contains Milk' is INFERRED from lactose/whey protein concentrate in the ingredients.",
+        "missingFields": [
+          "barcode",
+          "priceAud",
+          "countryOfOriginRaw",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-doritos-nacho-cheese",
+      "barcode": "9310015241918",
+      "name": "Doritos Nacho Cheese Corn Chips 170g",
+      "brand": "Doritos",
+      "retailer": "Woolworths",
+      "category": "corn-chips",
+      "sizeG": 170,
+      "priceAud": null,
+      "ingredientsRaw": "Corn (69%), canola oil, maltodextrin, whey powder (milk), salt, dextrose, sugar, mineral salt (potassium chloride), cream powder (milk), spices (chilli, black pepper, green bell pepper, cumin), tomato powder, vegetable fat powder (milk, soy), flavours (milk), food acids (sodium diacetate, citric acid, lactic acid), onion powder, yeast extract, natural colours (paprika extract, annatto), herb (parsley), sunflower oil, antioxidants (tocopherols, ascorbic acid, rosemary extract)",
+      "countryOfOriginRaw": "Made in Australia from the best quality ingredients",
+      "allergensRaw": {
+        "contains": "Milk, Soy",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/Shop/ProductDetails/826700/doritos-share-pack-nacho-cheese",
+          "https://world.openfoodfacts.org/product/9310015241918/doritos-nacho-cheese-flavoured-corn-chips"
+        ],
+        "notes": "Ingredients and origin statement from the Woolworths Australia listing. 'Contains Milk, Soy' is INFERRED from whey/cream/vegetable fat powder in the ingredients. Nutrition left entirely null rather than estimated from generic or US Doritos figures, which use a different recipe to the Australian product.",
+        "missingFields": [
+          "priceAud",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-ayam-coconut-cream-270ml",
+      "barcode": null,
+      "name": "Ayam 100% Natural Coconut Cream 270mL",
+      "brand": "Ayam",
+      "retailer": "Woolworths",
+      "category": "coconut-cream",
+      "sizeG": 270,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 1193,
+        "proteinG": 3.1,
+        "fatG": 28.5,
+        "saturatedFatG": 25.5,
+        "carbohydrateG": 4,
+        "sugarsG": 3.9,
+        "sodiumMg": 19,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/57199/ayam-100-natural-coconut-cream",
+          "https://www.fatsecret.com.au/calories-nutrition/ayam/pure-coconut-cream/100ml"
+        ],
+        "notes": "Nutrition per 100 mL from FatSecret AU, cross-referenced with the Woolworths 270 mL page. NOTE the large gap vs the ALDI coconut cream (1193 vs 703 kJ) — the ALDI figure is derived from rounded percentages, so the difference may be partly artefact rather than a real formulation gap.",
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "fibreG",
+          "priceAud",
+          "barcode"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-ayam-light-soy-sauce-210ml",
+      "barcode": null,
+      "name": "Ayam Light Soy Sauce 210mL",
+      "brand": "Ayam",
+      "retailer": "Woolworths",
+      "category": "soy-sauce",
+      "sizeG": 210,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 276,
+        "proteinG": 4.5,
+        "fatG": 1,
+        "saturatedFatG": null,
+        "carbohydrateG": 12,
+        "sugarsG": 11.2,
+        "sodiumMg": 6363,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/627500/ayam-light-soy-sauce"
+        ],
+        "notes": "IMPERFECT PAIRING FLAGGED: this is Ayam's LIGHT soy sauce matched against ALDI's REGULAR soy sauce — a light-vs-regular comparison, not a same-formulation one. Nutrition from the Woolworths page. Saturated fat omitted deliberately: the summary repeated the total-fat value for saturated fat, which reads as an aggregator error.",
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "saturatedFatG",
+          "fibreG",
+          "priceAud",
+          "barcode"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-lee-kum-kee-panda-oyster-sauce",
+      "barcode": null,
+      "name": "Lee Kum Kee Panda Brand Oyster Sauce",
+      "brand": "Lee Kum Kee",
+      "retailer": "Woolworths",
+      "category": "oyster-sauce",
+      "sizeG": null,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 552,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.fatsecret.com.au/calories-nutrition/lee-kum-kee/panda-brand-oyster-sauce/100g"
+        ],
+        "notes": "FatSecret AU gives 132 kcal/100g (x4.184 = 552 kJ). Other macros deliberately left null: aggregators returned per-serving breakdowns that did not reconcile with each other or with the 132 kcal figure, so none was adopted.",
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "sizeG",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG",
+          "priceAud",
+          "barcode"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-changs-hokkien-noodles",
+      "barcode": null,
+      "name": "Chang's Hokkien Style Shelf-Fresh Noodles",
+      "brand": "Chang's",
+      "retailer": "Woolworths",
+      "category": "hokkien-noodles",
+      "sizeG": null,
+      "priceAud": null,
+      "ingredientsRaw": "Wheat flour, Water, Wheat gluten, Salt, Food Acid (Lactic), Thickener (401), Natural Colours (100, 160(a))",
+      "countryOfOriginRaw": "China",
+      "allergensRaw": {
+        "contains": "Wheat",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 635,
+        "proteinG": 4.8,
+        "fatG": 1,
+        "saturatedFatG": 0.1,
+        "carbohydrateG": 29.6,
+        "sugarsG": 0.8,
+        "sodiumMg": 227,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.changs.com/products/Changs-Shelf-Fresh-Noodles-Hokkien-Style/"
+        ],
+        "notes": "Nutrition, ingredients and country of origin from Chang's own official product page. 'Contains: Wheat' is INFERRED from the ingredients (wheat flour, wheat gluten), not a verbatim label statement.",
+        "missingFields": [
+          "sizeG",
+          "fibreG",
+          "priceAud",
+          "barcode"
+        ]
+      }
+    },
+    {
+      "id": "coles-asia-rice-vermicelli-340g",
+      "barcode": null,
+      "name": "Coles Asia Vermicelli Rice Noodles 340g",
+      "brand": "Coles",
+      "retailer": "Coles",
+      "category": "rice-vermicelli",
+      "sizeG": 340,
+      "priceAud": null,
+      "ingredientsRaw": "Rice (100%)",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.coles.com.au/product/coles-asia-vermicelli-rice-noodles-340g-3735660"
+        ],
+        "notes": "Ingredients confirmed via the Coles listing and Spoonful. A calorie figure existed on MyNetDiary but without a stated gram serving, so per-100g nutrition was NOT derived from it.",
+        "missingFields": [
+          "countryOfOriginRaw",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG",
+          "priceAud",
+          "barcode"
+        ]
+      }
+    },
+    {
+      "id": "woolworths-sunrice-jasmine-rice",
+      "barcode": null,
+      "name": "SunRice Jasmine Fragrant Rice",
+      "brand": "SunRice",
+      "retailer": "Woolworths",
+      "category": "jasmine-rice",
+      "sizeG": null,
+      "priceAud": null,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 1490,
+        "proteinG": 7.2,
+        "fatG": 1,
+        "saturatedFatG": null,
+        "carbohydrateG": 78.8,
+        "sugarsG": null,
+        "sodiumMg": 4,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.sunrice.com.au/products/everyday-rice/jasmine-fragrant/",
+          "https://www.caloriecounter.com.au/food/sunrice-australian-jasmine-fragrant-rice-raw/"
+        ],
+        "notes": "Nutrition per 100 g (raw) from CalorieCounter AU. SunRice's site says products are made from 'at least 98% Australian ingredients', but that is a brand-level marketing claim, not the printed retail Country of Origin text, so the origin field was left blank rather than paraphrased into a label statement that may not exist.",
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "saturatedFatG",
+          "sugarsG",
+          "fibreG",
+          "sizeG",
+          "priceAud",
+          "barcode"
+        ]
+      }
     }
   ]
 }
