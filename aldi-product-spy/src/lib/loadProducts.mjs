@@ -19,6 +19,7 @@ export function normalizeProduct(p) {
     id: p.id,
     name: p.name,
     brand: p.brand,
+    retailer: p.retailer ?? null,
     category: p.category,
     sizeG: p.sizeG ?? null,
     priceAud: p.priceAud ?? null,

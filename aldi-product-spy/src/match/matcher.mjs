@@ -49,7 +49,10 @@ export function diffIngredients(aList, bList) {
   const onlyA = [...a].filter((t) => !b.has(t)).sort();
   const onlyB = [...b].filter((t) => !a.has(t)).sort();
   const union = new Set([...a, ...b]);
-  const similarity = union.size === 0 ? 1 : common.length / union.size;
+  // If either side has no ingredient data, the two are not comparable —
+  // similarity is unknown (null), NOT zero. Scoring a missing list as 0%
+  // would report "completely different" when the truth is "we don't know".
+  const similarity = a.size === 0 || b.size === 0 ? null : common.length / union.size;
   return { common, onlyA, onlyB, similarity };
 }
 
@@ -81,7 +84,24 @@ const THRESHOLDS = {
   closeNutrition: 0.75,
 };
 
+// Either similarity may be null, meaning "not comparable" rather than
+// "scored badly". A missing signal must never be allowed to drag a verdict
+// down as though it were a measured difference.
 export function classifyVerdict({ ingredientSimilarity, nutritionSimilarity }) {
+  const haveIngredients = typeof ingredientSimilarity === "number";
+  const haveNutrition = typeof nutritionSimilarity === "number";
+
+  // Nothing measurable at all.
+  if (!haveIngredients && !haveNutrition) return "not_scoreable";
+
+  // Only one signal available: judge on it, but never award "exact match"
+  // off a single signal — an unverified panel could still differ.
+  if (haveIngredients !== haveNutrition) {
+    const value = haveIngredients ? ingredientSimilarity : nutritionSimilarity;
+    const closeBar = haveIngredients ? THRESHOLDS.closeIngredient : THRESHOLDS.closeNutrition;
+    return value >= closeBar ? "close_match" : "same_category_notable_differences";
+  }
+
   if (ingredientSimilarity >= THRESHOLDS.exactIngredient && nutritionSimilarity >= THRESHOLDS.exactNutrition) {
     return "exact_match";
   }
@@ -109,8 +129,21 @@ export function comparePair(aldiProduct, leaderProduct) {
     mayContainA.size !== mayContainB.size || [...mayContainA].some((x) => !mayContainB.has(x));
 
   const result = {
-    aldiProduct: { id: aldiProduct.id, name: aldiProduct.name, brand: aldiProduct.brand },
-    leaderProduct: { id: leaderProduct.id, name: leaderProduct.name, brand: leaderProduct.brand },
+    aldiProduct: {
+      id: aldiProduct.id,
+      name: aldiProduct.name,
+      brand: aldiProduct.brand,
+      sizeG: aldiProduct.sizeG ?? null,
+      priceAud: aldiProduct.priceAud ?? null,
+    },
+    leaderProduct: {
+      id: leaderProduct.id,
+      name: leaderProduct.name,
+      brand: leaderProduct.brand,
+      retailer: leaderProduct.retailer ?? null,
+      sizeG: leaderProduct.sizeG ?? null,
+      priceAud: leaderProduct.priceAud ?? null,
+    },
     hardRequirements: {
       countryOfOrigin: {
         state: countryState,
@@ -138,8 +171,14 @@ export function comparePair(aldiProduct, leaderProduct) {
 
   const scoredVerdict = classifyVerdict({
     ingredientSimilarity: ingredientDiff.similarity,
-    nutritionSimilarity: nutritionDiff.similarity ?? 0,
+    nutritionSimilarity: nutritionDiff.similarity,
   });
+  // Which signals actually contributed, so the report can say what was and
+  // wasn't compared instead of implying both were.
+  const comparedOn = {
+    ingredients: typeof ingredientDiff.similarity === "number",
+    nutrition: typeof nutritionDiff.similarity === "number",
+  };
 
   // Hard requirements couldn't be evaluated because the source data is
   // missing a field. The similarity scores below are still worth showing —
@@ -157,6 +196,7 @@ export function comparePair(aldiProduct, leaderProduct) {
       verdict: "insufficient_data",
       unknownRequirements,
       provisionalVerdict: scoredVerdict,
+      comparedOn,
       ingredientSimilarity: ingredientDiff.similarity,
       ingredientDiff: { common: ingredientDiff.common, onlyAldi: ingredientDiff.onlyA, onlyLeader: ingredientDiff.onlyB },
       nutritionSimilarity: nutritionDiff.similarity,
@@ -173,6 +213,7 @@ export function comparePair(aldiProduct, leaderProduct) {
     ...result,
     isMatch: true,
     verdict: scoredVerdict,
+    comparedOn,
     ingredientSimilarity: ingredientDiff.similarity,
     ingredientDiff: { common: ingredientDiff.common, onlyAldi: ingredientDiff.onlyA, onlyLeader: ingredientDiff.onlyB },
     nutritionSimilarity: nutritionDiff.similarity,
@@ -185,29 +226,55 @@ export function comparePair(aldiProduct, leaderProduct) {
   };
 }
 
-// For each ALDI product, finds candidate market-leader products in the same
-// category and ranks them by combined similarity. Returns the best match
-// (if any clears the hard requirements) plus the runner-up candidates so
-// close-but-excluded pairs are still visible in the report.
-export function findMatches(aldiProducts, leaderProducts) {
+// Pairs excluded outright have no scores; scored pairs (confirmed matches
+// and insufficient-data ones alike) rank above them.
+export function pairScore(c) {
+  const signals = [c.ingredientSimilarity, c.nutritionSimilarity].filter(
+    (v) => typeof v === "number"
+  );
+  // No comparable signal at all ranks below anything that could be scored.
+  if (signals.length === 0) return -1;
+  return signals.reduce((a, b) => a + b, 0) / signals.length;
+}
+
+// For each ALDI product, compares every competitor product in the same
+// category — across all retailers — and ranks them by combined similarity.
+// Competitors carry a `retailer` field (Woolworths, Coles, ...), so results
+// also expose the closest match *per retailer*: the practical question is
+// "which shop do I go to for the equivalent", not just "is there one".
+export function findMatches(aldiProducts, competitorProducts) {
   const results = [];
   for (const aldi of aldiProducts) {
-    const candidates = leaderProducts.filter((l) => l.category === aldi.category);
-    const compared = candidates.map((leader) => comparePair(aldi, leader));
-    // Pairs excluded outright have no scores; scored pairs (confirmed
-    // matches and insufficient-data ones alike) rank above them.
-    const score = (c) =>
-      typeof c.ingredientSimilarity === "number"
-        ? (c.ingredientSimilarity + (c.nutritionSimilarity ?? 0)) / 2
-        : -1;
-    compared.sort((a, b) => score(b) - score(a));
+    const candidates = competitorProducts.filter((l) => l.category === aldi.category);
+    const compared = candidates.map((leader) => ({
+      ...comparePair(aldi, leader),
+      retailer: leader.retailer ?? null,
+    }));
+    compared.sort((a, b) => pairScore(b) - pairScore(a));
+
+    // Closest candidate at each retailer, keyed by retailer name.
+    const bestByRetailer = {};
+    for (const c of compared) {
+      const key = c.retailer ?? "Unknown";
+      if (!bestByRetailer[key]) bestByRetailer[key] = c;
+    }
+
     results.push({
-      aldiProduct: { id: aldi.id, name: aldi.name, brand: aldi.brand, category: aldi.category },
+      aldiProduct: {
+        id: aldi.id,
+        name: aldi.name,
+        brand: aldi.brand,
+        retailer: aldi.retailer ?? "ALDI",
+        category: aldi.category,
+        sizeG: aldi.sizeG ?? null,
+        priceAud: aldi.priceAud ?? null,
+      },
       // `best` is only ever a confirmed match — both hard requirements passed.
       best: compared.find((c) => c.isMatch) ?? null,
       // `bestAvailable` is the closest candidate to show when nothing is
       // confirmed, so a data gap still surfaces the useful comparison.
       bestAvailable: compared[0] ?? null,
+      bestByRetailer,
       candidates: compared,
     });
   }

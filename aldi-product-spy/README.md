@@ -1,16 +1,14 @@
 # ALDI Product Spy
 
-Checks whether an ALDI private-label frozen product (e.g. the "Urban Eats"
-Asian snack range) is a genuine dupe of the name-brand market leader
-(e.g. Mr Chen's, typically stocked at Woolworths) — the same way LG tends
-to spec its products to match the market leader as closely as possible.
+Pick an ALDI private-label frozen product and see the closest comparable
+product at **Woolworths and Coles** — the same way LG tends to spec its
+products to match the market leader as closely as possible.
 
-**Hard requirements** (must match, or it's not counted as a dupe at all):
+**Hard requirements** (must match, or it isn't counted as a dupe at all):
 country of origin, and the allergen "Contains" statement.
 
-**Soft signals** (scored and any differences called out explicitly, never
-papered over): ingredient list overlap, and per-100g nutrition panel
-closeness.
+**Soft signals** (scored, with every difference called out rather than
+papered over): ingredient list overlap, and per-100g nutrition panel closeness.
 
 > **Read the pack before you rely on this.** Ingredient, allergen and nutrition
 > values are gathered from web sources that mirror label data — research-grade,
@@ -18,158 +16,110 @@ closeness.
 > shopping-research aid, **not an allergen-safety tool**. If you have an allergy,
 > always check the physical packaging.
 
-## The finding so far
+## The headline finding
 
-Real researched data for the flagship pair — ALDI's **Urban Eats Chinese Style
-Prawn Hargow** vs **Mr Chen's Prawn Hargow Dumplings** — supports the "spec'd to
-match the market leader" hypothesis:
+**ALDI Urban Eats Japanese Style Prawn Gyoza is the same product as KB's /
+Just Cook Prawn Gyoza**, sold at Coles and Woolworths respectively.
 
-| | Urban Eats (ALDI) | Mr Chen's (Woolworths) |
+| | Urban Eats (ALDI) | KB's (Coles) / Just Cook (Woolworths) |
 |---|---|---|
-| Filling ingredients | Prawn, Bamboo Shoots, Soybean Oil, Tapioca Starch, Water, Sugar, Sesame Oil, Salt, White Pepper, Yeast Extract, Egg White Powder | Prawn, Bamboo shoots, Soybean oil, Tapioca starch, Water, Sugar, Sesame oil, Salt, Egg white powder, Yeast extract, White pepper |
-| Allergens (contains) | crustacean, egg, sesame, soy, wheat | crustacean, egg, sesame, soy, wheat |
-| Energy | 705 kJ/100g (derived) | 730 kJ/100g |
-| Protein / Fat | 5.7 g / 5.6 g | 5.0 g / 6.3 g |
+| Filling | 60% — vannamei prawn, white cabbage, chives, soybean oil, spring onion, sesame oil, thickener 1442, wheat flour, ginger, onion, soy sauce, sugar, garlic, vegetable extract powder, white pepper | identical sequence, with prawn declared at 45% |
+| Dough | wheat flour, tapioca starch, thickener, water, vegetable oil | wheat flour, tapioca starch, thickener 1420, water, palm oil |
+| Country of origin | Made in Thailand | Made in Thailand |
+| Allergens | crustacean, sesame, soy, wheat | crustacean, sesame, soy, wheat |
 
-The **filling is the same eleven ingredients in near-identical weight order**, and
-the allergen sets are identical. Ingredient-token overlap is 77% and nutrition
-similarity 91%; every difference (corn starch, potato starch, garlic) sits in the
-*pastry and dipping sauce*, not the filling.
+Both hard requirements pass and ingredient overlap is 84%. KB's and Just Cook
+are both **KB Seafood Co** brands (shared barcode prefix `9315822`) — so the
+same Thai production is reaching all three retailers under three brand names.
+The only differences are wording ("prawn" vs "farmed vannamei prawns") and
+palm vs unspecified vegetable oil.
 
-It is nevertheless reported as **"Unconfirmed — missing data"**, because country
-of origin isn't published for either product in any source found. That's the
-honest answer: a hard requirement can't be checked, so the tool declines to call
-it a confirmed dupe rather than quietly downgrading the requirement.
+It is reported as **"Close match" rather than "Exact match"** because neither
+product publishes a nutrition panel that could be retrieved — see below.
 
-## Status
+Counter-example worth noting: **Mr Chen's Prawn Gyoza is NOT a dupe** of it.
+It's a genuinely different formulation (65% filling, 40% prawn, plus bread
+crumb and egg white powder) and carries an **egg allergen the ALDI product
+does not** — the tool correctly rules it out.
 
-- **Comparison engine, real dataset, HTML report** — working end to end
-  (`npm test`: 13 passing; `npm run build` renders the report above).
-- **Open Food Facts scraper** (`src/scrapers/openFoodFactsScraper.mjs`) — the
-  primary programmatic source, written against OFF's public API with real seed
-  barcodes. Not yet executed (the dev environment had no outbound network), but
-  it targets a documented no-auth API that this repo's fitness tracker already
-  calls, so it's far likelier to work than retailer scraping.
-- **Retailer scrapers** (`aldiScraper.mjs`, `woolworthsScraper.mjs`) —
-  **unverified placeholders**. Both sites returned 403 to every direct request
-  attempted; they sit behind bot mitigation. See
-  [`src/scrapers/README.md`](src/scrapers/README.md).
+## Status of the other categories
+
+Of 9 ALDI products checked against 20 competitor products, 1 is a confirmed
+match and 8 are **unconfirmed** — almost always because country of origin
+isn't published online for the ALDI SKU. Highlights:
+
+- **Prawn hargow** — 77% ingredient overlap with Mr Chen's; blocked only on
+  ALDI's origin. Mr Chen's 1kg is stated as Vietnam.
+- **Honey soy chicken dumplings** — 95% ingredient overlap with Mr Chen's, but
+  ALDI is 24% chicken / 3.1% honey vs Mr Chen's 41% / 5%: same concept,
+  materially different recipe.
+- **Spring rolls** — 63% overlap with the Coles 60-pack own-brand.
+- **Soup dumplings, wontons, dim sims** — ALDI publishes no ingredient or
+  allergen data that could be found, so nothing is scoreable yet.
 
 ## Running it
 
 ```sh
-npm install
-npm run build          # real researched data -> compare -> report/index.html
-npm run build:sample   # same pipeline against the synthetic sample set
+npm install            # only needed for the retailer scrapers; the rest runs dependency-free
+npm run build          # researched data -> compare -> report/index.html
 ```
 
-Then open `report/index.html` directly in a browser (no server needed —
-the data is embedded inline).
-
-Individual steps:
+Then open `report/index.html` in a browser (no server needed — data, CSS and JS
+are all inlined).
 
 ```sh
 npm run scrape:real     # copies data/real/*.json (researched, with provenance) into data/raw/
 npm run scrape:off      # live pull from the Open Food Facts API (seed barcodes)
-npm run scrape:sample   # copies the synthetic data/sample/*.json into data/raw/
+npm run scrape:sample   # the synthetic sample set
 npm run scrape:live     # retailer scraping — read src/scrapers/README.md first
 npm run compare         # data/raw/*.json -> data/matches.json
 npm run report          # data/matches.json -> report/index.html
 npm test                # matcher unit tests (node --test, no deps)
 ```
 
-## Data sources, in order of trustworthiness
-
-1. **`data/real/*.json`** — researched from the web, every product carrying a
-   `provenance` block with source URLs, a confidence level, and an explicit
-   `missingFields` list. Fields that couldn't be confirmed are left `null`
-   rather than guessed.
-2. **Open Food Facts** (`npm run scrape:off`) — public, no-auth, CORS-enabled
-   API with both brands already catalogued. Crowd-sourced, so coverage is
-   uneven and everything it returns is tagged `crowd-sourced`.
-3. **Retailer scraping** — blocked by bot mitigation; treat as aspirational.
-
 ## Verdicts
 
 | Verdict | Meaning |
 |---|---|
-| `exact_match` | Hard requirements pass; ingredients ≥85% and nutrition ≥90% similar |
-| `close_match` | Hard requirements pass; ingredients ≥60% and nutrition ≥75% similar |
+| `exact_match` | Hard requirements pass; ingredients ≥85% **and** nutrition ≥90% similar |
+| `close_match` | Hard requirements pass and the available signals clear the close bar |
 | `same_category_notable_differences` | Hard requirements pass, but the recipe genuinely differs |
 | `insufficient_data` | A hard requirement **couldn't be checked** — similarity is still shown, plus the rating it *would* have received, but it is not called a match |
 | `excluded_hard_requirement` | Country of origin or allergens genuinely **conflict** |
+| `not_scoreable` | Neither ingredients nor nutrition are available on both sides |
 
-The `insufficient_data` / `excluded_hard_requirement` split is deliberate:
-"we can't tell" and "these genuinely differ" are different conclusions, and
-collapsing them would turn a data gap into a factual claim.
+Two design rules run through all of this:
 
-## How matching works
+1. **"We can't tell" is never reported as "they differ."** A missing field
+   yields `insufficient_data`, not exclusion; a missing ingredient list or
+   nutrition panel scores as `null` (not comparable), never as 0% similarity.
+   A pair scored on only one signal can reach `close_match` but never
+   `exact_match`.
+2. **Wording differences are normalised; substantive ones are not.** "Gluten"
+   and "wheat", "crustaceans" and "prawn" fold together (`src/lib/normalize.mjs`);
+   a genuine difference such as soy present vs absent is always reported.
 
-For each ALDI product, every market-leader product in the same category is
-compared (`src/match/matcher.mjs`):
+## Data sources, in order of trustworthiness
 
-1. **Country of origin** and **allergen "Contains" set** must match exactly,
-   or the pair is excluded from matching entirely (`excluded_hard_requirement`)
-   — no amount of ingredient/nutrition similarity overrides this.
-2. Ingredient similarity is scored as normalized token overlap (Jaccard) over
-   the parsed ingredient list, with the exact set of shared/ALDI-only/leader-only
-   ingredients recorded.
-3. Nutrition similarity is the average closeness (as a percentage delta) across
-   the standard per-100g panel fields (energy, protein, fat, saturated fat,
-   carbohydrate, sugars, sodium, fibre).
-4. Pairs passing the hard requirements are classified `exact_match`,
-   `close_match`, or `same_category_notable_differences` based on those two
-   scores (thresholds in `matcher.mjs`).
-5. "May contain" (trace) allergen statements are compared too, but only as a
-   noted difference — factories differ even for an identical recipe, so this
-   isn't a hard requirement.
-
-## Data shape
-
-Both the sample data and the (eventual) live scrapers produce the same raw
-shape per product — see `data/sample/*.json`:
-
-```jsonc
-{
-  "id": "...", "name": "...", "brand": "...", "category": "dumplings",
-  "sizeG": 250, "priceAud": 4.49,
-  "ingredientsRaw": "Prawn (35%), water, wheat starch, ...",
-  "countryOfOriginRaw": "Made in Thailand",
-  "allergensRaw": { "contains": "Crustacean, Wheat, Sesame", "mayContain": "Soy, Egg" },
-  "nutritionPer100g": { "energyKj": 750, "proteinG": 6.2, "fatG": 3.1, "saturatedFatG": 0.4,
-                        "carbohydrateG": 22.5, "sugarsG": 1.2, "sodiumMg": 420, "fibreG": 1.1 }
-}
-```
-
-`src/lib/loadProducts.mjs` normalizes this into what the matcher consumes
-(parsed ingredient list, parsed country-of-origin, parsed allergen sets,
-coerced nutrition numbers) — see `src/lib/normalize.mjs`.
-
-## Why the retailer scrapers are unverified
-
-Built in a sandboxed session whose direct HTTP egress was blocked, so no
-retailer page was ever fetched from code. Web research *was* possible and is
-where `data/real/` came from — but that's a research route, not something the
-app can call programmatically, which is why Open Food Facts is the intended
-automated source. See [`src/scrapers/README.md`](src/scrapers/README.md) for
-what to verify before running `scrape:live`, and a low-effort fallback
-(hand-copy a few real product pages into the same JSON shape).
+1. **`data/real/*.json`** — researched from the web, every product carrying a
+   `provenance` block with source URLs, a confidence level, and an explicit
+   `missingFields` list. Unconfirmed fields are `null`, never guessed. The
+   provenance notes are shown in the app itself, including caveats like
+   "nutrition derived by scaling a per-serve figure" or "this panel came from
+   the 3 kg foodservice pack, not the retail pack".
+2. **Open Food Facts** (`npm run scrape:off`) — public, no-auth, CORS-enabled
+   API carrying several of these brands. Crowd-sourced, tagged as such.
+3. **Retailer scraping** — blocked by bot mitigation on both aldi.com.au and
+   woolworths.com.au (403 to every direct request). See
+   [`src/scrapers/README.md`](src/scrapers/README.md).
 
 ## Next steps
 
-1. Run `npm run scrape:off` from a machine with network access and see how much
-   of the seed barcode list OFF actually covers.
-2. Fill the country-of-origin gap — it's the single field blocking a confirmed
-   verdict on the flagship pair, and it's on the physical pack even when it's
-   missing online.
-3. Widen beyond prawn hargow: gyoza, dim sims, spring rolls and soup dumplings
-   all have candidates on both sides (seed barcodes already listed in
-   `openFoodFactsScraper.mjs`).
-
-## Extending beyond dumplings/dim sims/spring rolls
-
-The category set is just whatever's in `data/sample/*.json` — add more
-`category` values and products (sample or scraped) and the matcher/report
-work unchanged. The `category` field is the only thing that groups
-candidates for comparison, so ALDI and market-leader products just need
-matching category strings.
+1. **Country of origin is the bottleneck.** It's the single field blocking a
+   confirmed verdict on almost every pair, and it's printed on the physical
+   pack even when it's missing online. Reading the back of a few ALDI packs
+   would resolve more than any amount of further scraping.
+2. Run `npm run scrape:off` from a networked machine to see how much of the
+   seed barcode list Open Food Facts actually covers.
+3. Widen beyond frozen Asian food — the matcher is category-agnostic; products
+   just need matching `category` strings to be compared.

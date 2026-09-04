@@ -1,0 +1,618 @@
+{
+  "_note": "REAL researched competitor data (Woolworths + Coles) gathered via web search. NOT read off physical packs. Every product carries `provenance` with source URLs, confidence and an explicit `missingFields` list. Unconfirmable fields are null/empty rather than guessed.",
+  "_disclaimer": "Allergen and ingredient data here is research-grade, not label-verified. Never rely on it for an allergy decision — always read the physical pack.",
+  "source": "web-research",
+  "retailer": "Woolworths + Coles",
+  "products": [
+    {
+      "id": "coles-kbs-prawn-gyoza-750g",
+      "barcode": "9315822010863",
+      "name": "KB's Prawn Gyoza 750g",
+      "brand": "KB's (KB Seafood Co)",
+      "retailer": "Coles",
+      "category": "gyoza",
+      "sizeG": 750,
+      "priceAud": null,
+      "ingredientsRaw": "Prawn (45%) (Litopenaeus vannamei), Salt, Mineral Salts (500, 331), White Cabbage, Chives, Soybean Oil, Spring Onion, Sesame Oil, Thickener (1442), Wheat Flour, Ginger, Onion, Soy Sauce, Sugar, Garlic, Vegetable Extract Powder, White Pepper, Tapioca Starch, Thickener (1420), Water, Palm Oil",
+      "_ingredientsStructured": {
+        "filling": "Filling (60%): Prawn (45%) (Litopenaeus vannamei), Salt, Mineral Salts (500, 331), White Cabbage, Chives, Soybean Oil, Spring Onion, Sesame Oil, Thickener (1442), Wheat Flour, Ginger, Onion, Soy Sauce, Sugar, Garlic, Salt, Vegetable Extract Powder, White Pepper",
+        "pastry": "Dough: Wheat Flour, Tapioca Starch, Thickener (1420), Water, Palm Oil"
+      },
+      "countryOfOriginRaw": "Made in Thailand",
+      "allergensRaw": { "contains": "Crustaceans, Gluten, Sesame seeds, Soybeans", "mayContain": "Gluten, Sesame seeds, Soybeans, Crustaceans" },
+      "nutritionPer100g": {
+        "energyKj": 930, "proteinG": 6.8, "fatG": 8.4, "saturatedFatG": 2.5,
+        "carbohydrateG": 28.7, "sugarsG": 2, "sodiumMg": 335, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://world.openfoodfacts.org/product/9315822010863/prawn-gyoza-kb-s",
+          "https://www.coles.com.au/product/kb's-prawn-gyoza-750g-1548719",
+          "https://www.kbseafoodco.com.au/our-retail-products/product/kbs-prawn-gyoza"
+        ],
+        "notes": "KEY DUPE FINDING: the ingredient declaration is functionally identical to the ALDI Urban Eats Prawn Gyoza — same 60% filling, same vannamei prawn, same white cabbage / chives / soybean oil / spring onion / sesame oil / thickener 1442 / wheat flour / ginger / onion / soy sauce / sugar / garlic / vegetable extract powder / white pepper sequence, same wheat-flour + tapioca-starch + thickener-1420 dough, and both are Made in Thailand. ALDI's declaration omits the prawn percentage (KB's states 45%); ALDI's dough says 'vegetable oil' where KB's says 'palm oil'. NUTRITION CAVEAT: figures are the Open Food Facts panel for this exact barcode and CONFLICT with other aggregators (FatSecret gives ~812 kJ vs 930 kJ here). Used because it is tied to the exact SKU barcode and internally coherent, but unconfirmed against the physical label. sodiumMg 335 is DERIVED: OFF records salt 0.8382 g/100 g; sodium = salt / 2.5. Price left null — promotional prices found were mutually inconsistent.",
+        "missingFields": ["priceAud", "fibreG"]
+      }
+    },
+    {
+      "id": "woolworths-just-cook-prawn-gyoza-1kg",
+      "barcode": "9315822022095",
+      "name": "Just Cook Prawn Gyoza 1kg",
+      "brand": "Just Cook (KB Seafood Co)",
+      "retailer": "Woolworths",
+      "category": "gyoza",
+      "sizeG": 1000,
+      "priceAud": null,
+      "ingredientsRaw": "Farmed Vannamei Prawns (Crustacean) (45%) (Prawn (Litopenaeus vannamei), Salt, Acidity Regulators (500, 331)), White Cabbage, Chives, Refined Soybean Oil, Spring Onion, Sesame Oil, Thickener (1442), Wheat Flour, Ginger, Onion, Soy Sauce (Soy, Wheat), Sugar, Garlic, Salt, Vegetable Extract Powder, White Pepper, Tapioca Starch, Thickener (1420), Water, Palm Oil",
+      "_ingredientsStructured": {
+        "filling": "Filling (60%): Farmed Vannamei Prawns (Crustacean) (45%), White Cabbage, Chives, Refined Soybean Oil, Spring Onion, Sesame Oil, Thickener (1442), Wheat Flour, Ginger, Onion, Soy Sauce (Soy, Wheat), Sugar, Garlic, Salt, Vegetable Extract Powder, White Pepper",
+        "pastry": "Dough: Wheat Flour, Tapioca Starch, Thickener (1420), Water, Palm Oil"
+      },
+      "countryOfOriginRaw": "Made in Thailand",
+      "allergensRaw": { "contains": "Crustaceans, Gluten, Sesame seeds, Soybeans", "mayContain": "" },
+      "nutritionPer100g": {
+        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
+        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/381224/just-cook-prawn-gyoza",
+          "https://world.openfoodfacts.org/product/9315822022095/prawn-gyoza-just-cook",
+          "https://www.kbseafoodco.com.au/our-retail-products/product/just-cook-prawn-gyoza"
+        ],
+        "notes": "SAME MANUFACTURER as KB's (KB Seafood Co) sold at Woolworths under a second brand — barcode prefix 9315822 matches KB's Prawn Gyoza. This is the most explicit version of the same recipe found across ALDI Urban Eats, KB's and Just Cook: identical 60% filling with 45% vannamei prawn, acidity regulators 500/331, thickener 1442 in the filling and 1420 in the dough. No separate 'may contain' statement was surfaced — left empty rather than guessed. Nutrition not sourced for this SKU and deliberately NOT copied from the KB's 750 g record.",
+        "missingFields": ["priceAud", "mayContain", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "woolworths-mr-chens-prawn-gyoza-1kg",
+      "barcode": "9349673002746",
+      "name": "Mr Chen's Prawn Gyoza 1kg",
+      "brand": "Mr Chen's",
+      "retailer": "Woolworths",
+      "category": "gyoza",
+      "sizeG": 1000,
+      "priceAud": null,
+      "ingredientsRaw": "Prawn (40%), Chives, Cabbage, Spring Onion, Garlic, Ginger, Refined Soybean Oil, Sesame Oil, Bread Crumb, White Egg Powder, Wheat Flour, Soy Sauce, Salt, Yeast Extract, Sugar, Pepper, Tapioca Starch, Xanthan Gum (Thickener 415), Gluten, Water",
+      "_ingredientsStructured": {
+        "filling": "Filling (65%): Prawn (40%), Chives, Cabbage, Spring Onion, Garlic, Ginger, Refined Soybean Oil, Sesame Oil, Bread Crumb, White Egg Powder, Wheat Flour, Soy Sauce, Spices (Salt, Yeast Extract, Sugar, Pepper)",
+        "pastry": "Pastry (35%): Wheat Flour, Tapioca Starch, Xanthan Gum (Thickener 415), Gluten, Water, Spices (Refined Soybean Oil, Salt, Sugar)"
+      },
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "Gluten, Crustacean, Eggs, Sesame, Soy", "mayContain": "" },
+      "nutritionPer100g": {
+        "energyKj": 802, "proteinG": 8.4, "fatG": 6.1, "saturatedFatG": null,
+        "carbohydrateG": 25.5, "sugarsG": null, "sodiumMg": 408, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/60275/mr-chens-prawn-gyoza",
+          "https://spoonfulapp.com/products/mr-chens-dumplings-prawn-gyoza/OTM0OTY3MzAwMjc0Ng=="
+        ],
+        "notes": "A GENUINELY DIFFERENT FORMULATION from the ALDI/KB's/Just Cook family: 65% filling with 40% prawn (vs 60%/45%), and it uniquely contains bread crumb, white egg powder, yeast extract and added gluten, with xanthan gum (415) in the pastry instead of modified starches 1442/1420. NOT a like-for-like dupe of the ALDI product — it carries an egg allergen the ALDI product does not. NUTRITION CAVEAT: one retrieval labelled these 'per 100 g' and another 'per serve' on the 500 g page; recorded as per 100 g because the magnitudes are only coherent on that basis, but SKU attribution between the 1 kg and 500 g packs is uncertain. Saturated fat and sugars surfaced only as 0.00 g and 0.70 g against the 500 g SKU; 0.00 g saturated fat is implausible alongside soybean and sesame oil, so both left null. Country of origin NOT FOUND — the brand's Clayton South VIC address is a company address, not an origin statement.",
+        "missingFields": ["priceAud", "countryOfOriginRaw", "mayContain", "saturatedFatG", "sugarsG", "fibreG"]
+      }
+    },
+    {
+      "id": "coles-mr-chens-prawn-hargow-700g",
+      "barcode": "8935239903599",
+      "name": "Mr Chen's Prawn Hargow 700g (Family Size, 30 pieces)",
+      "brand": "Mr Chen's",
+      "retailer": "Coles",
+      "category": "prawn-hargow",
+      "sizeG": 700,
+      "priceAud": null,
+      "ingredientsRaw": "Shrimp (65.09%), Bamboo Shoot, Egg White Powder, Soybean Oil, Sesame Oil, Sugar, Salt, Yeast Extract, White Pepper, Tapioca Starch, Water, Wheat Starch, Garlic, Soy Sauce, Vinegar",
+      "_ingredientsStructured": {
+        "filling": "Filling (53%): Shrimp (65.09%), Bamboo Shoot, Egg White Powder, Soybean Oil, Sesame Oil, Sugar, Salt, Yeast Extract, White Pepper, Tapioca Starch, Water",
+        "pastry": "Pastry (47%): Wheat Starch, Tapioca Starch, Soybean Oil, Sugar, Salt, Water",
+        "dippingSauce": "Garlic, Soy Sauce, Sugar, Vinegar, Water"
+      },
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "Gluten, Crustacean, Egg, Soy, Sesame", "mayContain": "" },
+      "nutritionPer100g": {
+        "energyKj": 730, "proteinG": 5, "fatG": 6, "saturatedFatG": 1,
+        "carbohydrateG": 24, "sugarsG": 2, "sodiumMg": null, "fibreG": 1
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://world.openfoodfacts.org/product/8935239903599/prawn-hargow-family-size-mr-chen-s",
+          "https://www.coles.com.au/product/mr-chen's-prawn-hargow-700g-5288100",
+          "https://www.caloriecounter.com.au/food/calories-in-mr-chens-prawn-hargow-family-size/"
+        ],
+        "notes": "GS1 prefix 8935 is Vietnam, consistent with the Vietnam origin stated for the sibling 1 kg SKU. Ingredients from the Coles page, matching the Woolworths 1 kg wording; Mr Chen's own site quotes prawn at 66% rather than 65.09%, so the exact percentage is uncertain between those figures. No 'may contain' statement found for this size — left empty rather than copied from the 300 g SKU. Per-100g nutrition is from calcount and HEAVILY ROUNDED to whole numbers. calcount lists sodium as '0 mg', not credible for a salted, soy-sauce-containing product and almost certainly a missing-data placeholder, so sodium is null. A separate source gives 5.2 g saturated fat/100 g, conflicting sharply with calcount's 1 g — treat saturated fat as low confidence.",
+        "missingFields": ["priceAud", "countryOfOriginRaw", "mayContain", "sodiumMg"]
+      }
+    },
+    {
+      "id": "woolworths-mr-chens-prawn-hargow-1kg",
+      "barcode": null,
+      "name": "Mr Chen's Prawn Hargow 1kg",
+      "brand": "Mr Chen's",
+      "retailer": "Woolworths",
+      "category": "prawn-hargow",
+      "sizeG": 1000,
+      "priceAud": null,
+      "ingredientsRaw": "Shrimp (65.09%), Bamboo Shoot, Egg White Powder, Soybean Oil, Sesame Oil, Sugar, Salt, Yeast Extract, White Pepper, Tapioca Starch, Water, Wheat Starch, Garlic, Soy Sauce, Vinegar",
+      "_ingredientsStructured": {
+        "filling": "Filling (53%): Shrimp (65.09%), Bamboo Shoot, Egg White Powder, Soybean Oil, Sesame Oil, Sugar, Salt, Yeast Extract, White Pepper, Tapioca Starch, Water",
+        "pastry": "Pastry (47%): Wheat Starch, Tapioca Starch, Soybean Oil, Sugar, Salt, Water",
+        "dippingSauce": "Garlic, Soy Sauce, Sugar, Vinegar, Water"
+      },
+      "countryOfOriginRaw": "Vietnam",
+      "allergensRaw": { "contains": "Gluten, Crustacean, Egg, Soy, Sesame", "mayContain": "" },
+      "nutritionPer100g": {
+        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
+        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": ["https://www.woolworths.com.au/shop/productdetails/60176/mr-chen-s-prawn-hargow"],
+        "notes": "Ingredients and the Contains statement returned from the Woolworths 1 kg product page. Country of origin returned as 'Vietnam' from that same page; the exact label wording (e.g. 'Made in Vietnam' vs 'Product of Vietnam') was NOT captured, so this field holds only the country name, not verbatim label text. OzBargain discussion independently corroborates that Mr Chen's prawn products are made in Vietnam while their pork dumplings are made in Australia. NO nutrition panel obtainable for this SKU; the 700 g figures were deliberately NOT copied across.",
+        "missingFields": ["barcode", "priceAud", "mayContain", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "coles-mr-chens-prawn-hargow-300g",
+      "barcode": "8935121616590",
+      "name": "Mr Chen's Prawn Hargow 12 Pieces 300g",
+      "brand": "Mr Chen's",
+      "retailer": "Coles",
+      "category": "prawn-hargow",
+      "sizeG": 300,
+      "priceAud": 6.8,
+      "ingredientsRaw": "Prawn (66%) (Crustacean), Bamboo Shoots, Soybean Oil, Tapioca Starch, Sugar, Water, Sesame Oil, Salt, Yeast Extract, Egg White Powder, White Pepper, Wheat Starch, Soybean Sauce (Wheat), Vinegar, Garlic",
+      "_ingredientsStructured": {
+        "filling": "Prawn (66%) (Crustacean), Bamboo Shoots, Soybean Oil, Tapioca Starch, Sugar, Water, Sesame Oil, Salt, Yeast Extract, Egg White Powder, White Pepper",
+        "pastry": "Water, Wheat Starch, Tapioca Starch, Soybean Oil, Sugar, Salt",
+        "dippingSauce": "Water, Soybean Sauce (Wheat), Sugar, Vinegar, Garlic"
+      },
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "Crustacean, Egg, Gluten, Sesame, Soy, Wheat", "mayContain": "Peanut" },
+      "nutritionPer100g": {
+        "energyKj": null, "proteinG": 5.2, "fatG": 6.4, "saturatedFatG": null,
+        "carbohydrateG": 24, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.coles.com.au/product/mr-chen's-prawn-hargow-12-pieces-300g-8080411",
+          "https://www.grocerize.com.au/product/7764675690579/mr-chen-s-prawn-hargow-12-pieces-300g"
+        ],
+        "notes": "Ingredients (prawn quoted here as 66% versus 65.09% on the 700 g/1 kg SKUs) and BOTH allergen statements including 'May Contain Peanut' from the Coles page. Price $6.80 from Grocerize, same at Coles and Woolworths. Barcode taken from an Open Food Facts entry whose name mixes the Mr Chen's and Chan's Yum Cha brands, so it is MEDIUM confidence for this exact SKU. Nutrition is DERIVED and brand-level, not size-specific: 44 kcal / 1.3 g protein / 1.6 g fat / 6 g carb per 1 piece (25 g), scaled x4. energyKj left null because only a kcal figure was available and no label kJ was found.",
+        "missingFields": ["countryOfOriginRaw", "energyKj", "saturatedFatG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "coles-kbs-prawn-hargow-750g",
+      "barcode": null,
+      "name": "KB's Prawn Hargow Dumplings 750g",
+      "brand": "KB's (KB Seafood Co)",
+      "retailer": "Coles",
+      "category": "prawn-hargow",
+      "sizeG": 750,
+      "priceAud": null,
+      "ingredientsRaw": "Prawns (Penaeus vannamei) (47.98%), Bamboo Shoots, Prawn Mince, Soybean Oil, Water, Sugar, Potato Flour, Flavour Enhancer, Salt, Sesame Oil, Pepper, Trehalose, Wheat Starch",
+      "_ingredientsStructured": {
+        "filling": "Filling (51.03%): Prawns (Penaeus vannamei) (47.98%), Bamboo Shoots, Prawn Mince, Soybean Oil, Water, Sugar, Potato Flour, Flavour Enhancer, Salt, Sesame Oil, Pepper, Trehalose",
+        "pastry": "Casing (48.97%): Water, Wheat Starch, Potato Flour, Soybean Oil, Salt"
+      },
+      "countryOfOriginRaw": "Made in China from Local and Imported Ingredients",
+      "allergensRaw": { "contains": "", "mayContain": "" },
+      "nutritionPer100g": {
+        "energyKj": 545, "proteinG": 5, "fatG": 2, "saturatedFatG": 1,
+        "carbohydrateG": 23, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.coles.com.au/product/kb's-prawn-hargow-dumplings-750g-3051074",
+          "https://www.fatsecret.com.au/calories-nutrition/kbs/prawn-hargow-dumplings/100g"
+        ],
+        "notes": "Ingredients with exact component percentages and the verbatim origin string both from the Coles page. Contains NO dipping sauce sachet, unlike the ALDI and Mr Chen's SKUs. NO formal 'Contains'/'May contain' statement found in any source, so both allergen fields are empty rather than inferred — the ingredients obviously include crustacean and wheat, but the label's declaration was not seen and will not be fabricated. IMPORTANT CONFLICT: KB Seafood Co's own site returned 817 kJ and 6.7 g protein per 100 g, possibly a foodservice or differently-formulated pack; the FatSecret set used here is internally coherent (545 kJ = 130 kcal) but energy and protein are low confidence.",
+        "missingFields": ["barcode", "priceAud", "allergens", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "woolworths-just-cook-prawn-hargow-750g",
+      "barcode": "9315822022064",
+      "name": "Just Cook Prawn Hargow 750g",
+      "brand": "Just Cook (KB Seafood Co)",
+      "retailer": "Woolworths",
+      "category": "prawn-hargow",
+      "sizeG": 750,
+      "priceAud": 14.4,
+      "ingredientsRaw": "Prawn (Litopenaeus vannamei) (60%), Bamboo Shoot, Soybean Oil, Water, Sugar, Potato Flour, Flavour Enhancer (Salt, Sugar, Yeast Extract, Maltodextrin, Spice), Salt, Sesame Oil, Pepper, Trehalose, Wheat Starch, Potato Starch",
+      "_ingredientsStructured": {
+        "filling": "Filling (51%): Prawn (Litopenaeus vannamei) (60%), Bamboo Shoot, Soybean Oil, Water, Sugar, Potato Flour, Flavour Enhancer, Salt, Sesame Oil, Pepper, Trehalose",
+        "pastry": "Casing: Water, Wheat Starch, Potato Starch, Soybean Oil, Salt"
+      },
+      "countryOfOriginRaw": "Made in China",
+      "allergensRaw": { "contains": "", "mayContain": "" },
+      "nutritionPer100g": {
+        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
+        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/970881/just-cook-prawn-hargow",
+          "https://www.kbseafoodco.com.au/our-retail-products/product/just-cook-prawn-hargow"
+        ],
+        "notes": "Barcode base64-decoded from the Spoonful URL slug (931 = Australian GS1 prefix). Same manufacturer as the KB's-branded Coles SKU. INGREDIENTS CAVEAT: one search against the Woolworths page returned a completely different gyoza-style list (wheat flour dough, white cabbage, chives, palm oil) that does not match a hargow — very likely the adjacent Just Cook Gyoza SKU bleeding into results; the hargow-consistent list published by KB Seafood Co was used instead. 'Made in China' came from the same response as that suspect list, so origin is MEDIUM confidence, though corroborated by the sister KB's Coles SKU. No allergen declaration or nutrition obtainable; nothing borrowed from the KB's Coles pack.",
+        "missingFields": ["allergens", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "woolworths-mr-chens-pork-chive-dumplings-550g",
+      "barcode": null,
+      "name": "Mr Chen's Pork & Chive Dumplings 550g",
+      "brand": "Mr Chen's",
+      "retailer": "Woolworths",
+      "category": "dumplings",
+      "sizeG": 550,
+      "priceAud": null,
+      "ingredientsRaw": "Pork (55%), Chive (14%), Sugar, Salt, Ginger, Soy Sauce (Water, Soybean, Wheat, Salt), Water, Vegetable Oil, Sesame Oil, Guar Gum, Wheat Flour",
+      "_ingredientsStructured": {
+        "filling": "Pork (55%), Chive (14%), Sugar, Salt, Ginger, Soy Sauce (Water, Soybean, Wheat, Salt), Water, Vegetable Oil, Sesame Oil, Guar Gum",
+        "pastry": "Wheat Flour, Water"
+      },
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "Wheat, Gluten, Soy, Sesame", "mayContain": "Nut, Crustacean, Milk, Egg" },
+      "nutritionPer100g": {
+        "energyKj": 627, "proteinG": 8.8, "fatG": 4.0, "saturatedFatG": 1.0,
+        "carbohydrateG": 21.0, "sugarsG": 1.0, "sodiumMg": 230, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/106480/mr-chen-s-pork-chive-dumplings",
+          "https://www.mrchensdumplings.com.au/products/dumplings-and-gyoza/pork-chive-dumplings-550g/"
+        ],
+        "notes": "Energy, protein, total fat, saturated fat and carbohydrate per 100 g as published on the Woolworths page (30 servings x 18 g = 550 g). Sugars and sodium come from Fitia, a secondary database, so slightly lower confidence than the Woolworths figures. CAUTION: the Woolworths listing for the 300 g SKU shows a materially DIFFERENT ingredient list and nutrition — the 300 g and 550 g packs appear to be different formulations, kept as separate records. Country of origin not exposed for this SKU; Mr Chen's markets itself as an Australian manufacturer and its other lines carry 'Made in Australia from at least X% Australian ingredients', but no such statement was found for THIS SKU so the field is empty.",
+        "missingFields": ["barcode", "priceAud", "countryOfOriginRaw", "fibreG"]
+      }
+    },
+    {
+      "id": "coles-mr-chens-bbq-pork-dumplings-700g",
+      "barcode": null,
+      "name": "Mr Chen's BBQ Pork Dumplings 700g",
+      "brand": "Mr Chen's",
+      "retailer": "Coles",
+      "category": "dumplings",
+      "sizeG": 700,
+      "priceAud": null,
+      "ingredientsRaw": "Pork (46%), Cabbage, Onion, Char Siu Sauce (Water, Sugar, Soy Sauce, Thickeners (1442, 415, 412), Salt, Dehydrated Vegetables, Colour (150a), Spices, Natural Flavour, Acidity Regulators (296, 260), Preservative (202)), Soy Sauce, Sugar, Salt, Sesame Oil, Tapioca Starch, Pepper, Guar Gum, Ginger, Shallots, Wheat Flour, Water, Vegetable Oil",
+      "_ingredientsStructured": {
+        "filling": "Filling 60%: Pork (46%), Cabbage, Onion, Char Siu Sauce, Soy Sauce, Sugar, Salt, Sesame Oil, Tapioca Starch, Pepper, Guar Gum, Ginger, Shallots",
+        "pastry": "Pastry 40%: Wheat Flour, Water, Vegetable Oil"
+      },
+      "countryOfOriginRaw": "Made in Australia from at least 95% Australian ingredients",
+      "allergensRaw": { "contains": "Wheat, Gluten, Soy, Sesame", "mayContain": "Egg, Milk, Fish, Crustacean, Peanuts, Tree Nuts" },
+      "nutritionPer100g": {
+        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
+        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.coles.com.au/product/mr-chen's-bbq-pork-dumplings-700g-5288110",
+          "https://www.mrchensdumplings.com.au/products/dumplings-and-gyoza/bbq-pork-dumplings-700g/"
+        ],
+        "notes": "The most completely documented Coles record in the dumpling set. Ingredients (60% filling / 40% pastry with the full char siu sub-list), the country-of-origin statement and both allergen statements all from the Coles listing, corroborated by the manufacturer page. The label's 'may contain' wording distinguishes 'may contain' from 'traces of' for the nuts; flattened to a comma list here. No per-100g nutrition panel retrievable. This SKU is the useful origin anchor: Mr Chen's manufactures in Australia, the clearest point of difference from the ALDI Urban Eats range whose origin could not be established at all.",
+        "missingFields": ["barcode", "priceAud", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "woolworths-mr-chens-honey-soy-chicken-dumplings-500g",
+      "barcode": "9349673005228",
+      "name": "Mr Chen's Honey Soy Chicken Dumplings 500g",
+      "brand": "Mr Chen's",
+      "retailer": "Woolworths",
+      "category": "dumplings",
+      "sizeG": 500,
+      "priceAud": null,
+      "ingredientsRaw": "Chicken (41%), Cabbage, Water, Honey (5%), Sugar, Vegetable Oil, Soy Sauce (3%) (Wheat), Salt, Potato Starch, Wheat Starch, Ginger, Yeast Extract, Pepper, Wheat Flour",
+      "_ingredientsStructured": {
+        "filling": "Chicken (41%), Cabbage, Water, Honey (5%), Sugar, Vegetable Oil, Soy Sauce (3%) (Wheat), Salt, Potato Starch, Wheat Starch, Ginger, Yeast Extract, Pepper",
+        "pastry": "Wheat Flour, Water"
+      },
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "Wheat, Gluten, Soy", "mayContain": "Crustacean, Sesame, Egg, Milk" },
+      "nutritionPer100g": {
+        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
+        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/552382/mr-chen-s-honey-soy-chicken-dumplings",
+          "https://www.mrchensdumplings.com.au/products/dumplings-and-gyoza/honey-soy-chicken-dumplings-500g/"
+        ],
+        "notes": "The direct name-brand counterpart to ALDI's Urban Eats Honey Soy Chicken Dumplings. Ingredients and both allergen statements from the manufacturer page / Woolworths listing. MyNetDiary gives 43 kcal per dumpling but no gram weight, so no per-100g value could be derived — all nutrition null. Country of origin left empty: the brand's '40+ years making Asian food in Australia' is corporate copy, not a country-of-origin label statement. Worth flagging: ALDI's honey soy chicken is 24% chicken / 3.1% honey, Mr Chen's is 41% chicken / 5% honey — same concept, materially different formulation.",
+        "missingFields": ["priceAud", "countryOfOriginRaw", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "woolworths-mr-chens-shanghai-soup-dumplings-440g",
+      "barcode": null,
+      "name": "Mr Chen's Shanghai Soup Dumplings 440g",
+      "brand": "Mr Chen's",
+      "retailer": "Woolworths",
+      "category": "soup-dumplings",
+      "sizeG": 440,
+      "priceAud": null,
+      "ingredientsRaw": "Pork (70%), Water, Salt, Sugar, Ginger, Yeast Extract, Wheat Flour",
+      "_ingredientsStructured": {
+        "filling": "Pork (70%), Water, Salt, Sugar, Ginger, Yeast Extract",
+        "pastry": "Wheat Flour, Water"
+      },
+      "countryOfOriginRaw": "Made in Australia from at least 98% Australian ingredients",
+      "allergensRaw": { "contains": "Gluten, Wheat", "mayContain": "Crustacean, Egg, Milk, Peanut, Sesame, Soy" },
+      "nutritionPer100g": {
+        "energyKj": 877, "proteinG": 8.9, "fatG": 11.4, "saturatedFatG": 3.9,
+        "carbohydrateG": 17.9, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/6016646/mr-chen-s-shanghai-soup-dumplings",
+          "https://www.mrchensdumplings.com.au/products/dumplings-and-gyoza/shanghai-soup-dumplings-400g/"
+        ],
+        "notes": "The per-100g panel is internally consistent and confirms it belongs to THIS SKU: the same source states 22 servings x 20 g = 440 g, 175 kJ per 20 g serve (=875 kJ/100 g, matching 877) and 3.6 g carb per serve (=18 g/100 g, matching 17.9). Origin and allergen text were read against the 240 g listing rather than the 440 g — flagged as cross-variant. CONFLICT NOTE: one search extract described a 240 g variant as 'Filling (60%) Pork (30%), Salt, Ginger, Shallot, Sugar' which may belong to a different SKU entirely and was not used.",
+        "missingFields": ["barcode", "priceAud", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "coles-mr-chens-shanghai-soup-dumplings-240g",
+      "barcode": "9349673004740",
+      "name": "Mr Chen's Shanghai Soup Dumplings 240g",
+      "brand": "Mr Chen's",
+      "retailer": "Coles",
+      "category": "soup-dumplings",
+      "sizeG": 240,
+      "priceAud": 6.8,
+      "ingredientsRaw": "Pork (70%), Water, Salt, Sugar, Ginger, Yeast Extract, Wheat Flour",
+      "_ingredientsStructured": {
+        "filling": "Pork (70%), Water, Salt, Sugar, Ginger, Yeast Extract",
+        "pastry": "Wheat Flour, Water"
+      },
+      "countryOfOriginRaw": "Made in Australia from at least 98% Australian ingredients",
+      "allergensRaw": { "contains": "Gluten, Wheat", "mayContain": "Crustacean, Egg, Milk, Peanut, Sesame, Soy" },
+      "nutritionPer100g": {
+        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
+        "carbohydrateG": null, "sugarsG": null, "sodiumMg": 535, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.coles.com.au/product/mr-chen's-shanghai-soup-dumplings-240g-8877570",
+          "https://world.openfoodfacts.org/product/9349673004740/shanghai-soup-dumplings-mr-chen-s"
+        ],
+        "notes": "Ingredients, Contains and May Contain from a search extract of the Coles page. Price $6.80 from Grocerize (same at Coles and Woolworths) — a shelf-price snapshot, not necessarily current. NUTRITION MOSTLY NULL ON PURPOSE: only fragmentary, heavily rounded per-22g-serve tracker data was found, too coarse to scale honestly. sodiumMg 535 is the one figure reported per 100 g and is single-source and unverified. CONFLICT NOTE: one extract described a 240 g variant with a different filling composition, possibly a different SKU. Unresolved.",
+        "missingFields": ["energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "fibreG"]
+      }
+    },
+    {
+      "id": "woolworths-easy-tiger-pork-prawn-wonton-355g",
+      "barcode": "9347447000271",
+      "name": "Easy Tiger Pork & Prawn Wonton 355g",
+      "brand": "Easy Tiger",
+      "retailer": "Woolworths",
+      "category": "wontons",
+      "sizeG": 355,
+      "priceAud": null,
+      "ingredientsRaw": "Wheat Flour, Pork (23%), Prawn (18%), Water, Spring Onion, Soy Sauce (Water, Soybeans, Wheat, Salt), Canola Oil, Salt, Sesame Oil, Modified Starch (1422), Ginger, Rice Wine, Sugar, Yeast Extract, Vegetable Protein Extract (from Soy), Emulsifier (322 from Soy), Mineral Salts (500, 501, 450, 451), Pepper, Potato Starch",
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "", "mayContain": "" },
+      "nutritionPer100g": {
+        "energyKj": 967, "proteinG": 10.9, "fatG": 7.7, "saturatedFatG": null,
+        "carbohydrateG": 29.2, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/164045/easy-tiger-pork-prawn-wonton",
+          "https://au.openfoodfacts.org/product/9347447000271/pork-and-prawn-wonton-easy-tiger"
+        ],
+        "notes": "Ingredients verbatim from the Woolworths listing, matching the Easy Tiger brand page. Per-100g energy, fat, protein and carbohydrate reported directly per 100 g (967 kJ cross-checks against the 231 kcal/100 g quoted alongside). ALLERGENS LEFT BLANK ON PURPOSE: no label 'Contains'/'May contain' statement was retrieved. A source inferred 'wheat and soy' from the ingredient list, which is inference not label text. COUNTRY OF ORIGIN LEFT BLANK: the only claim found was marketing copy 'made with Australian pork and prawn', not a standard country-of-origin statement.",
+        "missingFields": ["priceAud", "countryOfOriginRaw", "allergens", "saturatedFatG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "woolworths-mr-chens-chive-prawn-wonton-240g",
+      "barcode": null,
+      "name": "Mr Chen's Chive & Prawn Wonton 240g",
+      "brand": "Mr Chen's",
+      "retailer": "Woolworths",
+      "category": "wontons",
+      "sizeG": 240,
+      "priceAud": null,
+      "ingredientsRaw": "Prawn (16%), Cuttlefish, Chive (20.64%), Egg White Powder, Soybean Oil, Sesame Oil, Sugar, Salt, Yeast Extract, White Pepper, Tapioca Starch, Dried White Bread Crumb, Water, Wheat Starch",
+      "_ingredientsStructured": {
+        "filling": "Filling (67%): Prawn (16%), Cuttlefish, Chive (20.64%), Egg White Powder, Soybean Oil, Sesame Oil, Sugar, Salt, Yeast Extract, White Pepper, Tapioca Starch, Dried White Bread Crumb, Water",
+        "pastry": "Pastry (33%): Wheat Starch, Tapioca Starch, Soybean Oil, Salt, Water",
+        "dippingSauce": "Soup Seasoning: Maltodextrin, Salt, Sugar, Tapioca Starch, Soybean Oil, Spring Onion, Monosodium Glutamate, Disodium-5'-Inosinate, Disodium-5'-Guanylate"
+      },
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "Wheat, Gluten, Molluscs, Egg, Crustacean, Soy, Sesame", "mayContain": "Nuts" },
+      "nutritionPer100g": {
+        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
+        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/744148/mr-chen-s-chive-prawn-wonton",
+          "https://mrchensdumplings.com.au/products/dumplings-and-gyoza/prawn-chive-wonton-240g/"
+        ],
+        "notes": "Component-split ingredients and the allergen statement from the Woolworths listing. The 'Soup Seasoning' is a separate sachet, mapped to the dippingSauce field for want of a better one. NUTRITION LEFT NULL: trackers disagree badly (153 vs 213 kcal/100 g for the same product) and a reported 5 g fat with only 0.2 g saturated is implausible for a prawn/soybean-oil filling. COUNTRY OF ORIGIN LEFT BLANK: the only 'Vietnam' mention traced back to a forum user comment, not label text.",
+        "missingFields": ["barcode", "priceAud", "countryOfOriginRaw", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "woolworths-vegetable-cocktail-spring-rolls-1kg",
+      "barcode": "9339687050659",
+      "name": "Woolworths Vegetable Cocktail Spring Rolls 60 Pack 1kg",
+      "brand": "Woolworths",
+      "retailer": "Woolworths",
+      "category": "spring-rolls",
+      "sizeG": 1000,
+      "priceAud": null,
+      "ingredientsRaw": "Vegetable (55%) (Cabbage, Potato, Onion, Carrot, Green Bean), Wheat Flour, Water, Palm Oil, Salt, Bean Vermicelli (Mung Beans, Water, Corn Starch, Pea Beans), Sugar, Sesame Oil, Wheat Starch, White Pepper",
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "Sesame, Gluten, Wheat", "mayContain": "Crustacean, Mollusc, Soy" },
+      "nutritionPer100g": {
+        "energyKj": 950, "proteinG": 3.5, "fatG": 9.9, "saturatedFatG": 3.9,
+        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/695442/woolworths-vegetable-cocktail-spring-rolls-60-pack",
+          "https://spoonfulapp.com/products/woolworths-vegetable-cocktail-spring-rolls-60-pack/OTMzOTY4NzA1MDY1OQ=="
+        ],
+        "notes": "The closest direct dupe candidate to the ALDI Urban Eats 60-pack/1kg. Ingredients and both allergen statements from the Woolworths page and the Spoonful listing for this barcode. Nutrition quoted directly as per-100g, NOT derived; the same panel gives 10 servings x 102 g at 969 kJ per serve, internally consistent with the per-100g row. COUNTRY OF ORIGIN: a search summary reported 'Australia and China', but the exact label wording was not captured (Woolworths uses a bar-chart origin statement), so the field is left empty rather than paraphrased.",
+        "missingFields": ["priceAud", "countryOfOriginRaw", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "coles-vegetable-cocktail-spring-rolls-1kg",
+      "barcode": "9310645278261",
+      "name": "Coles Vegetable Cocktail Spring Rolls 60 Pack 1kg",
+      "brand": "Coles",
+      "retailer": "Coles",
+      "category": "spring-rolls",
+      "sizeG": 1000,
+      "priceAud": null,
+      "ingredientsRaw": "Vegetables (89%) (Cabbage, Potato, Onion, Carrot, Green Beans), Vermicelli, Soybean Oil, Salt, Sugar, Sesame Oil, White Pepper, Wheat Flour, Water, Potato Starch",
+      "_ingredientsStructured": {
+        "filling": "Filling (59%): Vegetables (89%) (Cabbage, Potato, Onion, Carrot, Green Beans), Vermicelli, Soybean Oil, Salt, Sugar, Sesame Oil, White Pepper",
+        "pastry": "Pastry (34%): Wheat Flour, Water, Salt, Soybean Oil"
+      },
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "Wheat, Gluten, Sesame, Soy", "mayContain": "" },
+      "nutritionPer100g": {
+        "energyKj": 1080, "proteinG": null, "fatG": 12.1, "saturatedFatG": 4.1,
+        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.coles.com.au/product/coles-vegetable-cocktail-spring-rolls-60-pack-1kg-2481952",
+          "https://world.openfoodfacts.org/product/9310645278261/vegetable-spring-rolls-coles"
+        ],
+        "notes": "Ingredients (59% filling / 34% pastry split) from the Coles page. Energy 1080 kJ (258 Cal), total fat and saturated fat reported per 100 g; the 258 Cal figure is independently corroborated by calcount. Other calcount numbers in the same snippet (protein 1.5 g, carb 10.6 g, sodium 129 mg) were inconsistent with a per-100g basis — they read as per-piece — so those fields are null rather than risk mixing bases. ALLERGEN CAUTION: the Contains list came from a search summary, not a verbatim 'Contains:' statement; no 'May contain' statement was found and it is left empty rather than assumed absent. COUNTRY OF ORIGIN: a summary stated China but exact label wording was not captured.",
+        "missingFields": ["priceAud", "countryOfOriginRaw", "mayContain", "proteinG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+      }
+    },
+    {
+      "id": "woolworths-marathon-dim-sims-1500g",
+      "barcode": "9310375000088",
+      "name": "Marathon Dim Sims 1.5kg",
+      "brand": "Marathon",
+      "retailer": "Woolworths",
+      "category": "dim-sims",
+      "sizeG": 1500,
+      "priceAud": null,
+      "ingredientsRaw": "Cabbage, Beef (24%), Wheat Flour, Wheat Starch, Water, Salt, Onion, Sugar, Onion Powder, Spices, Natural Flavouring",
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "Gluten, Wheat", "mayContain": "" },
+      "nutritionPer100g": {
+        "energyKj": 802, "proteinG": 7.0, "fatG": 5.2, "saturatedFatG": 3.2,
+        "carbohydrateG": 28.4, "sugarsG": 2.0, "sodiumMg": 540, "fibreG": 2.1
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.woolworths.com.au/shop/productdetails/48914/marathon-dim-sims-dim-sims",
+          "https://www.marathonfoods.com.au/product/marathon-dim-sims-1-5kg/",
+          "https://world.openfoodfacts.org/product/9310375000088/dim-sims-marathon"
+        ],
+        "notes": "The head-to-head name-brand competitor to the ALDI Urban Eats dim sims. Ingredients and the Contains statement from the Marathon Foods product page and Spoonful. DISCREPANCY FLAGGED: Open Food Facts states 'Meat (24%) (beef and/or lamb)' rather than 'Beef (24%)' for the same barcode; the manufacturer wording was used but this matters for anyone tracking species. NUTRITION SOURCE CAVEAT: the per-100g panel comes from Marathon's foodservice specification sheet for the 3 kg pack of the SAME product, not the 1.5 kg retail pack — values are not derived or scaled but come from a different pack size. Corroboration: calcount lists 191 Cal/100 g and 802 kJ = 192 Cal. No country-of-origin label text found ('100% Australian beef' is a marketing claim, not a CoOL statement).",
+        "missingFields": ["priceAud", "countryOfOriginRaw", "mayContain"]
+      }
+    },
+    {
+      "id": "coles-marathon-dim-sims-1500g",
+      "barcode": "9310375000088",
+      "name": "Marathon Frozen Dim Sims 1.5kg",
+      "brand": "Marathon",
+      "retailer": "Coles",
+      "category": "dim-sims",
+      "sizeG": 1500,
+      "priceAud": null,
+      "ingredientsRaw": "Cabbage, Beef (24%), Wheat Flour, Wheat Starch, Water, Salt, Onion, Sugar, Onion Powder, Spices, Natural Flavouring",
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "Gluten, Wheat", "mayContain": "" },
+      "nutritionPer100g": {
+        "energyKj": 802, "proteinG": 7.0, "fatG": 5.2, "saturatedFatG": 3.2,
+        "carbohydrateG": 28.4, "sugarsG": 2.0, "sodiumMg": 540, "fibreG": 2.1
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.coles.com.au/product/marathon-frozen-dim-sims-1.5kg-182790",
+          "https://www.marathonfoods.com.au/product/marathon-dim-sims-1-5kg/"
+        ],
+        "notes": "Same physical SKU as the Woolworths record (identical barcode); listed separately only to record that Coles ranges it too. All provenance and caveats are identical — in particular the per-100g panel comes from Marathon's 3 kg foodservice spec sheet, and Open Food Facts describes the meat as 'beef and/or lamb'.",
+        "missingFields": ["priceAud", "countryOfOriginRaw", "mayContain"]
+      }
+    },
+    {
+      "id": "coles-mini-beef-dim-sims-250g",
+      "barcode": "9300601803392",
+      "name": "Coles Frozen Mini Beef Dim Sims 15 Pack 250g",
+      "brand": "Coles",
+      "retailer": "Coles",
+      "category": "dim-sims",
+      "sizeG": 250,
+      "priceAud": 2.9,
+      "ingredientsRaw": "Cabbage, No Added Hormones Australian Beef (35%), Wheat Starch, Sugar, Onion, Soy Sauce (Water, Soybean, Wheat, Salt), Salt, Onion Powder, Sesame Oil, Pepper, Wheat Flour, Water",
+      "_ingredientsStructured": {
+        "filling": "Filling (83%): Cabbage, No Added Hormones Australian Beef (35%), Wheat Starch, Sugar, Onion, Soy Sauce, Salt, Onion Powder, Sesame Oil, Pepper",
+        "pastry": "Pastry: Wheat Flour, Water"
+      },
+      "countryOfOriginRaw": "",
+      "allergensRaw": { "contains": "Wheat, Gluten, Soy", "mayContain": "" },
+      "nutritionPer100g": {
+        "energyKj": 853, "proteinG": 6.2, "fatG": 9.1, "saturatedFatG": 4.3,
+        "carbohydrateG": 23.3, "sugarsG": 3.3, "sodiumMg": 287, "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://checklabels.com.au/coles-frozen-mini-beef-dim-sims-15-pieces/",
+          "https://world.openfoodfacts.org/product/9300601803392/mini-beef-dim-sims-coles",
+          "https://www.coles.com.au/product/coles-frozen-mini-beef-dim-sims-15-pack-250g-1093721"
+        ],
+        "notes": "Best-evidenced record in the dim sim set. Full per-100g panel transcribed from Check Labels, which reproduces the on-pack NIP; NOT derived. Cross-check: 853 kJ = 204 Cal, matching the 204 Cal/100 g reported for the Open Food Facts entry on the same barcode. Fibre is not on the panel as reported. Ingredient discrepancy flagged: an OFF summary listed 'Cabbage (45%)' whereas Check Labels shows cabbage with no percentage. ALLERGEN CAUTION: Check Labels flags soy and wheat as a derived reading of the ingredient list rather than a verbatim on-pack 'Contains' box. COUNTRY OF ORIGIN left empty: summaries imply a 'Made in Australia from at least 98% Australian ingredients' claim, but the exact string was not captured so it was not written.",
+        "missingFields": ["countryOfOriginRaw", "mayContain", "fibreG"]
+      }
+    }
+  ]
+}

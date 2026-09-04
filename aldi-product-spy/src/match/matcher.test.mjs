@@ -109,6 +109,33 @@ test("a real conflict still excludes, and outranks a data gap in severity", () =
   assert.equal(result.verdict, "excluded_hard_requirement");
 });
 
+test("missing nutrition on both sides is not scored as a difference", () => {
+  const blank = { energyKj: null, proteinG: null, fatG: null, saturatedFatG: null, carbohydrateG: null, sugarsG: null, sodiumMg: null, fibreG: null };
+  const a = product({ nutritionPer100g: blank });
+  const b = product({ nutritionPer100g: blank });
+  const result = comparePair(a, b);
+  // Identical ingredients + no nutrition data must not be dragged down to
+  // "notable differences" by the absent panel.
+  assert.equal(result.nutritionSimilarity, null);
+  assert.equal(result.comparedOn.nutrition, false);
+  assert.equal(result.comparedOn.ingredients, true);
+  assert.equal(result.verdict, "close_match");
+});
+
+test("missing ingredients on one side yields null similarity, not zero", () => {
+  const a = product({ ingredientsRaw: "" });
+  const b = product({ ingredientsRaw: "Pork, cabbage" });
+  const diff = diffIngredients(a.ingredients, b.ingredients);
+  assert.equal(diff.similarity, null);
+});
+
+test("no comparable signal at all is not_scoreable", () => {
+  const blank = { energyKj: null, proteinG: null, fatG: null, saturatedFatG: null, carbohydrateG: null, sugarsG: null, sodiumMg: null, fibreG: null };
+  const a = product({ ingredientsRaw: "", nutritionPer100g: blank });
+  const b = product({ ingredientsRaw: "", nutritionPer100g: blank });
+  assert.equal(comparePair(a, b).verdict, "not_scoreable");
+});
+
 test("comparePair: divergent ingredients/nutrition (but passing hard requirements) is not exact", () => {
   const a = product({
     ingredientsRaw: "Pork, cabbage, wheat flour, salt",

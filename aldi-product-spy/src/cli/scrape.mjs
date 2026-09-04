@@ -5,11 +5,21 @@
 // this environment and what to check first.
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { scrapeAldiCatalog } from "../scrapers/aldiScraper.mjs";
-import { scrapeMarketLeaderCatalog } from "../scrapers/woolworthsScraper.mjs";
 import { scrapeFromSeeds } from "../scrapers/openFoodFactsScraper.mjs";
+
+// The retailer scrapers are the only thing here that needs cheerio, so they
+// are imported lazily — the sample/real/off paths then run with no
+// dependencies installed at all.
+async function loadRetailerScrapers() {
+  const [{ scrapeAldiCatalog }, { scrapeMarketLeaderCatalog }] = await Promise.all([
+    import("../scrapers/aldiScraper.mjs"),
+    import("../scrapers/woolworthsScraper.mjs"),
+  ]);
+  return { scrapeAldiCatalog, scrapeMarketLeaderCatalog };
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..", "..");
@@ -33,10 +43,17 @@ async function runReal() {
   await mkdir(rawDir, { recursive: true });
   const realDir = path.join(root, "data", "real");
   const aldi = await readFile(path.join(realDir, "aldi.json"), "utf8");
-  const leader = await readFile(path.join(realDir, "marketleader.json"), "utf8");
   await writeFile(path.join(rawDir, "aldi.json"), aldi);
-  await writeFile(path.join(rawDir, "marketleader.json"), leader);
-  console.log("Copied researched real data into data/raw/ (aldi.json, marketleader.json).");
+
+  // Prefer the multi-retailer competitors file; fall back to the older
+  // single-retailer layout if that's all that's present.
+  const competitorsSrc = path.join(realDir, "competitors.json");
+  const legacySrc = path.join(realDir, "marketleader.json");
+  const useCompetitors = existsSync(competitorsSrc);
+  const competitors = await readFile(useCompetitors ? competitorsSrc : legacySrc, "utf8");
+  await writeFile(path.join(rawDir, useCompetitors ? "competitors.json" : "marketleader.json"), competitors);
+
+  console.log(`Copied researched real data into data/raw/ (aldi.json, ${useCompetitors ? "competitors.json" : "marketleader.json"}).`);
 }
 
 // Live pull from the Open Food Facts API — the primary programmatic source.
@@ -63,6 +80,7 @@ async function runOpenFoodFacts() {
 }
 
 async function runLive() {
+  const { scrapeAldiCatalog, scrapeMarketLeaderCatalog } = await loadRetailerScrapers();
   await mkdir(rawDir, { recursive: true });
   console.log("Scraping ALDI catalog live...");
   const aldi = await scrapeAldiCatalog();
