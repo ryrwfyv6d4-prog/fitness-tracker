@@ -20,10 +20,19 @@
         "dippingSauce": "Water, Sugar, Soy Sauce (Soy, Wheat), White Vinegar, Corn Starch, Salt, Yeast Extract (10% of product)"
       },
       "countryOfOriginRaw": "",
-      "allergensRaw": { "contains": "Gluten, Wheat, Crustacean, Egg, Sesame, Soy", "mayContain": "Peanut" },
+      "allergensRaw": {
+        "contains": "Gluten, Wheat, Crustacean, Egg, Sesame, Soy",
+        "mayContain": "Peanut"
+      },
       "nutritionPer100g": {
-        "energyKj": 705, "proteinG": 5.0, "fatG": 5.6, "saturatedFatG": null,
-        "carbohydrateG": 24.3, "sugarsG": null, "sodiumMg": null, "fibreG": null
+        "energyKj": 705,
+        "proteinG": 5,
+        "fatG": 5.6,
+        "saturatedFatG": null,
+        "carbohydrateG": 24.3,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
       },
       "provenance": {
         "source": "web-research",
@@ -35,7 +44,13 @@
           "https://www.aldi.com.au/product/urban-eats-prawn-hargow-700g-000000000000693905"
         ],
         "notes": "Barcode confirmed by base64-decoding the Spoonful URL slug. Ingredients and both allergen statements from the Spoonful record for this exact barcode, corroborated by Carb Manager. ALL nutrition is DERIVED, not label figures: FatSecret AU lists 118 kcal / 17 g carb / 3.9 g fat / 3.5 g protein per 3 dumplings (70 g), scaled x(100/70); energyKj is a double derivation (118 kcal/70 g -> 168.6 kcal/100 g -> x4.184 = 705 kJ) and is approximate. Saturated fat, sugars, sodium, fibre not published anywhere found. Country of origin searched repeatedly across the ALDI page, ProductReview, Yoomroo, Mustakshif and OzBargain and never stated — left empty rather than guessed.",
-        "missingFields": ["countryOfOriginRaw", "saturatedFatG", "sugarsG", "sodiumMg", "fibreG"]
+        "missingFields": [
+          "countryOfOriginRaw",
+          "saturatedFatG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
       }
     },
     {
@@ -53,10 +68,19 @@
         "pastry": "Dough: wheat flour, tapioca starch, thickener, water, vegetable oil"
       },
       "countryOfOriginRaw": "Made in Thailand",
-      "allergensRaw": { "contains": "Prawn (crustacea), Wheat, Soy, Sesame", "mayContain": "Fish, Other crustaceans, Other gluten-containing cereals" },
+      "allergensRaw": {
+        "contains": "Prawn (crustacea), Wheat, Soy, Sesame",
+        "mayContain": "Fish, Other crustaceans, Other gluten-containing cereals"
+      },
       "nutritionPer100g": {
-        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
-        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
       },
       "provenance": {
         "source": "web-research",
@@ -67,7 +91,16 @@
           "https://www.mustakshif.com/product/detail/4088700044513/urban-eats-japanese-style-gyoza-prawn"
         ],
         "notes": "Ingredients and allergen statement from Spoonful's record for barcode 4088700044513 (also states 27% prawns / 21% vegetables / 40% pastry). Barcode derived from the Spoonful URL's base64 segment and corroborated by Mustakshif; Mustakshif carries a second differently-numbered listing for the same product name, so treat the barcode as probable not certain. 'Made in Thailand' reported by search summaries citing the ALDI product page — direct fetch was blocked, so high-probability but unverified. NUTRITION DELIBERATELY NULL: sources conflict irreconcilably (FatSecret ~194 kcal/100 g, MyNetDiary ~134 kcal/100 g, Carb Manager a third figure), and none gives sodium, saturated fat or fibre. Notably FatSecret's figure for this product is identical to its figure for KB's Prawn Gyoza — consistent with the shared-manufacturer finding.",
-        "missingFields": ["energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+        "missingFields": [
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
       }
     },
     {
@@ -81,10 +114,19 @@
       "priceAud": 8.99,
       "ingredientsRaw": "Wheat Flour, Pork (28%), Vegetables (Chinese Cabbage, Cabbage), Water, Soy Sauce (Water, Soybean, Wheat, Salt), Salt, Thickener (1422), Sesame Oil, Sugar, Vegetable Oil, Beef Gelatine, Rice Wine, Ginger Puree, Hydrolysed Vegetable Protein, Soy Yeast Extract, Pepper, Mineral Salts (508, 501), Potato Starch",
       "countryOfOriginRaw": "",
-      "allergensRaw": { "contains": "Gluten, Wheat, Sesame, Soy", "mayContain": "Crustacean, Egg, Fish, Lupin, Milk, Mollusc" },
+      "allergensRaw": {
+        "contains": "Gluten, Wheat, Sesame, Soy",
+        "mayContain": "Crustacean, Egg, Fish, Lupin, Milk, Mollusc"
+      },
       "nutritionPer100g": {
-        "energyKj": 610, "proteinG": 7.9, "fatG": 3.2, "saturatedFatG": null,
-        "carbohydrateG": 21.3, "sugarsG": null, "sodiumMg": null, "fibreG": null
+        "energyKj": 610,
+        "proteinG": 7.9,
+        "fatG": 3.2,
+        "saturatedFatG": null,
+        "carbohydrateG": 21.3,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
       },
       "provenance": {
         "source": "web-research",
@@ -95,7 +137,13 @@
           "https://world.openfoodfacts.org/product/4088700355336/pork-dumplings-urban-eats"
         ],
         "notes": "Ingredients and both allergen statements verbatim from Spoonful for barcode 4088700355336. Size and price A$8.99 from the ALDI product page. NUTRITION IS DERIVED, NOT LABELLED: only figure found was 185 kcal per 6 dumplings (127 g) with 27 g carb / 4.1 g fat / 10 g protein; each scaled by 100/127, and 145.7 kcal/100 g converted at 4.184 kJ/kcal to 610 kJ. Treat as approximate. Saturated fat, sugars, sodium, fibre not found. Country of origin not found on the ALDI page or any indexed source. Could not confirm the barcode maps specifically to the 750 g pack rather than another size.",
-        "missingFields": ["countryOfOriginRaw", "saturatedFatG", "sugarsG", "sodiumMg", "fibreG"]
+        "missingFields": [
+          "countryOfOriginRaw",
+          "saturatedFatG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
       }
     },
     {
@@ -109,10 +157,19 @@
       "priceAud": 8.99,
       "ingredientsRaw": "Chicken (24%), Wheat Flour, Water, Cabbage, Honey (3.1%), Sugar, Vegetable Oil, Soy Sauce (includes Soy, Wheat), Wheat Starch, Salt, Potato Starch, Ginger, Yeast Extract, White Pepper",
       "countryOfOriginRaw": "",
-      "allergensRaw": { "contains": "Wheat, Gluten, Soy", "mayContain": "Crustacean, Egg, Milk, Sesame" },
+      "allergensRaw": {
+        "contains": "Wheat, Gluten, Soy",
+        "mayContain": "Crustacean, Egg, Milk, Sesame"
+      },
       "nutritionPer100g": {
-        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
-        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
       },
       "provenance": {
         "source": "web-research",
@@ -122,7 +179,17 @@
           "https://www.aldi.com.au/product/urban-eats-honey-soy-chicken-dumplings-600g-000000000000543469"
         ],
         "notes": "Ingredients and both allergen statements verbatim from Spoonful for barcode 4061461739676. The raw 'Contains' string listed 'Wheat, Gluten, Wheat, Soy'; only the literal duplicate 'Wheat' was removed, nothing else changed. Size and price from the ALDI product page. MyNetDiary reports 217 kcal per 5 dumplings but gives no gram weight, so no per-100g figure could be derived — all nutrition null. Country of origin not found.",
-        "missingFields": ["countryOfOriginRaw", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+        "missingFields": [
+          "countryOfOriginRaw",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
       }
     },
     {
@@ -140,10 +207,19 @@
         "pastry": "Pastry (40%): Wheat Flour, Water, Salt"
       },
       "countryOfOriginRaw": "",
-      "allergensRaw": { "contains": "Gluten, Wheat, Sesame, Soy", "mayContain": "Crustacean, Egg, Fish, Milk" },
+      "allergensRaw": {
+        "contains": "Gluten, Wheat, Sesame, Soy",
+        "mayContain": "Crustacean, Egg, Fish, Milk"
+      },
       "nutritionPer100g": {
-        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
-        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
       },
       "provenance": {
         "source": "web-research",
@@ -154,7 +230,17 @@
           "https://spoonfulapp.com/products/urban-eats-asian-style-cocktail-spring-rolls/NDA4ODcwMDE5ODcyOA=="
         ],
         "notes": "Size, 60-pack format and price $5.99 from the ALDI product page. Ingredients (60% filling / 40% pastry split) and allergen statements from Open Food Facts barcode 4088700198728 and the matching Spoonful listing; OFF adds that the product is 55% vegetables and 1% vermicelli. NUTRITION DELIBERATELY NULL: only per-serve figures found and they disagree (FatSecret 82 Cal per 2 pieces/33 g; Fitia 72 Cal for the same serve), and no kJ, saturated fat, sugars, sodium or fibre from any source. Scaling a disputed calorie figure would be a guess. Country of origin not returned by any search summary.",
-        "missingFields": ["countryOfOriginRaw", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+        "missingFields": [
+          "countryOfOriginRaw",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
       }
     },
     {
@@ -168,10 +254,19 @@
       "priceAud": 8.99,
       "ingredientsRaw": "",
       "countryOfOriginRaw": "",
-      "allergensRaw": { "contains": "", "mayContain": "" },
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
       "nutritionPer100g": {
-        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
-        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
       },
       "provenance": {
         "source": "web-research",
@@ -181,7 +276,19 @@
           "https://world.openfoodfacts.org/product/4061459353921/soup-dumplings-urban-eats"
         ],
         "notes": "Existence, 500 g size and the 'Shanghai style pork soup dumplings' description confirmed from the ALDI page; barcode confirmed via the Open Food Facts entry, which does NOT expose ingredients, allergens or origin. Price came from a search summary, not read off the page — unverified. NUTRITION DELIBERATELY NULL: three trackers disagree irreconcilably (FatSecret ~209 kcal/100 g, MyNetDiary ~181 kcal/100 g, Fitia inconsistent with both). Ingredients, allergens and origin could not be retrieved from any source.",
-        "missingFields": ["ingredientsRaw", "countryOfOriginRaw", "allergens", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
       }
     },
     {
@@ -195,17 +302,42 @@
       "priceAud": null,
       "ingredientsRaw": "",
       "countryOfOriginRaw": "",
-      "allergensRaw": { "contains": "", "mayContain": "" },
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
       "nutritionPer100g": {
-        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
-        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
       },
       "provenance": {
         "source": "web-research",
         "confidence": "research-grade",
-        "sources": ["https://www.aldi.com.au/product/urban-eats-pork-prawn-wontons-570g-000000000000679615"],
+        "sources": [
+          "https://www.aldi.com.au/product/urban-eats-pork-prawn-wontons-570g-000000000000679615"
+        ],
         "notes": "Existence, 570 g size and marketing description confirmed from the ALDI page. No Open Food Facts entry found, so no barcode. MyNetDiary carries 304 kcal / 8 wontons but gives no gram weight, so no per-100g value can be derived without inventing a wonton weight — nutrition left entirely null. Ingredients, allergens and origin not found in any source.",
-        "missingFields": ["barcode", "priceAud", "ingredientsRaw", "countryOfOriginRaw", "allergens", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+        "missingFields": [
+          "barcode",
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
       }
     },
     {
@@ -219,10 +351,19 @@
       "priceAud": 7.99,
       "ingredientsRaw": "",
       "countryOfOriginRaw": "",
-      "allergensRaw": { "contains": "", "mayContain": "" },
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
       "nutritionPer100g": {
-        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
-        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
       },
       "provenance": {
         "source": "web-research",
@@ -232,7 +373,19 @@
           "https://world.openfoodfacts.org/product/4061461714215/beef-dim-sims-urban-eats"
         ],
         "notes": "Only name, 1.2 kg size, price ($7.99 / $0.67 per 100 g) and barcode could be confirmed. The Open Food Facts record for this barcode exists but is largely unpopulated. MyNetDiary lists 202 Cal for 2 dim sims but gives no gram weight, so it cannot be scaled and was not used. No ingredients, allergen statement or country of origin recoverable. Values were NOT substituted from the Urban Eats Chicken Dim Sims or any competitor.",
-        "missingFields": ["ingredientsRaw", "countryOfOriginRaw", "allergens", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+        "missingFields": [
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
       }
     },
     {
@@ -246,10 +399,19 @@
       "priceAud": null,
       "ingredientsRaw": "",
       "countryOfOriginRaw": "",
-      "allergensRaw": { "contains": "", "mayContain": "" },
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
       "nutritionPer100g": {
-        "energyKj": null, "proteinG": null, "fatG": null, "saturatedFatG": null,
-        "carbohydrateG": null, "sugarsG": null, "sodiumMg": null, "fibreG": null
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
       },
       "provenance": {
         "source": "web-research",
@@ -259,7 +421,117 @@
           "https://www.foodstandards.gov.au/food-recalls/recall-alert/aldi-stores-urban-eats-japanese-style-vegetable-gyoza-750g"
         ],
         "notes": "Name, brand, size and retailer confirmed from the ALDI page and from FSANZ / NSW Food Authority recall notices. EVERY OTHER FIELD DELIBERATELY EMPTY: searches surfaced ingredient and allergen text for ALDI vegetable gyoza, but those belonged to European ALDI SKUs and different pack sizes — copying them onto this Australian 750 g SKU would be fabrication. A '$8.99' price appeared ambiguously attached to both this and the Chicken Gyoza 700 g, so it is not asserted. MATERIAL SAFETY NOTE: this SKU was subject to an Australian food recall (foreign matter — glass) covering NSW, ACT, VIC, QLD, SA and WA.",
-        "missingFields": ["barcode", "priceAud", "ingredientsRaw", "countryOfOriginRaw", "allergens", "energyKj", "proteinG", "fatG", "saturatedFatG", "carbohydrateG", "sugarsG", "sodiumMg", "fibreG"]
+        "missingFields": [
+          "barcode",
+          "priceAud",
+          "ingredientsRaw",
+          "countryOfOriginRaw",
+          "allergens",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-choceur-milk-chocolate-block",
+      "barcode": null,
+      "name": "Choceur Milk Chocolate Block",
+      "brand": "Choceur",
+      "retailer": "ALDI",
+      "category": "milk-chocolate-block",
+      "sizeG": 200,
+      "priceAud": 4.49,
+      "ingredientsRaw": "",
+      "countryOfOriginRaw": "Made in Germany",
+      "allergensRaw": {
+        "contains": "",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": 2321,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.aldi.com.au/product/choceur-milk-chocolate-block-200g-000000000000285757",
+          "https://www.calorieking.com/au/en/foods/f/calories-in-chocolates-choceur-milk-chocolate-block/1MczBEqyQueM_3073uWK6w",
+          "https://www.caloriecounter.com.au/food/aldi-choceur-milk-chocolate-block/"
+        ],
+        "notes": "Price $4.49 for 200g from an aggregator snippet citing aldi.com.au. Country of origin 'Made in Germany' is reported repeatedly by food-media sources as true of the Choceur range generally, but the exact label text on this specific SKU's pack was NOT confirmed — treat with caution. energyKj is DERIVED: one source stated a 33 g serve = 766 kJ; 766/33*100 = 2321 kJ/100g. Other sources gave conflicting per-serve macros across different serving sizes (10/25/30/33 g) implying total fat anywhere from ~33 to ~38 g/100g, too inconsistent to use, so all other nutrients are null. Full ingredient list, allergen statement and barcode were not found for this exact 200 g Australian SKU.",
+        "missingFields": [
+          "barcode",
+          "ingredientsRaw",
+          "allergens",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
+      }
+    },
+    {
+      "id": "aldi-choceur-dark-chocolate-block",
+      "barcode": null,
+      "name": "Choceur Dark Chocolate Block",
+      "brand": "Choceur",
+      "retailer": "ALDI",
+      "category": "dark-chocolate-block",
+      "sizeG": 200,
+      "priceAud": null,
+      "ingredientsRaw": "Sugar, Cocoa Mass, Cocoa Butter, Cream Powder (16%), Full Cream Milk Powder, Emulsifier (322, from Soy), Vanilla Extract",
+      "countryOfOriginRaw": "Made in Germany",
+      "allergensRaw": {
+        "contains": "Milk, Soy",
+        "mayContain": ""
+      },
+      "nutritionPer100g": {
+        "energyKj": null,
+        "proteinG": null,
+        "fatG": null,
+        "saturatedFatG": null,
+        "carbohydrateG": null,
+        "sugarsG": null,
+        "sodiumMg": null,
+        "fibreG": null
+      },
+      "provenance": {
+        "source": "web-research",
+        "confidence": "research-grade",
+        "sources": [
+          "https://www.choice.com.au/products/food-and-drink/sweets/chocolate/aldi-choceur-dark",
+          "https://www.aldi.com.au/product/choceur-dark-chocolate-block-200g-000000000000285778"
+        ],
+        "notes": "Ingredients and the 45% minimum cocoa solids figure come from a CHOICE.com.au product review, the strongest single source found. IMPORTANT: the 'Contains: Milk, Soy' statement is INFERRED from the ingredient list (full cream milk powder, soy-derived emulsifier), NOT a verbatim label allergen box — treat accordingly. 'May contain' traces not found. Country of origin reflects general reporting on the Choceur range, not a confirmed pack photo for this SKU. Price left null: an OzBargain post grouped Choceur 200-205 g blocks at one price point but per-flavour pricing was not verified. Nutrition could not be assembled: sources gave calorie-only fragments with inconsistent or absent serving sizes, so every field is null.",
+        "missingFields": [
+          "barcode",
+          "priceAud",
+          "mayContain",
+          "energyKj",
+          "proteinG",
+          "fatG",
+          "saturatedFatG",
+          "carbohydrateG",
+          "sugarsG",
+          "sodiumMg",
+          "fibreG"
+        ]
       }
     }
   ]
