@@ -31,8 +31,11 @@ jobs:
         run: node scripts/audit-library.mjs --out audit-report.md
       - name: Publish to the audit-data branch
         run: |
-          mkdir -p /tmp/audit
+          mkdir -p /tmp/audit/norm-archive
           cp -r .audit-cache audit-report.md /tmp/audit/
+          # Vercel builds every branch from norm-archive/; without this it
+          # tries to deploy the report and emails a failed preview.
+          echo '{ "git": { "deploymentEnabled": false } }' > /tmp/audit/norm-archive/vercel.json
           cd /tmp/audit
           git init -q -b audit-data
           git add -A
