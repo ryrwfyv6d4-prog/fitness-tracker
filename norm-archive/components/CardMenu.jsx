@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Thumb from "./Thumb";
 import { formatDuration, shareVideo } from "../lib/useLibrary";
 import { PlayIcon, ClockIcon, HeartIcon, CheckIcon, CloseIcon, ShareIcon } from "./icons";
 
@@ -60,11 +61,9 @@ export default function CardMenu({
     >
       <div className="w-full max-w-md overflow-hidden rounded-t-2xl bg-ink-900 pb-[max(env(safe-area-inset-bottom),12px)] ring-1 ring-ink-700 sm:rounded-2xl sm:m-6">
         <div className="flex items-center gap-3 border-b border-ink-800 p-4">
-          <img
-            src={video.thumbnailUrl}
-            alt=""
-            className="h-12 w-20 shrink-0 rounded-md bg-ink-950 object-cover"
-          />
+          <span className="relative block aspect-video w-20 shrink-0 overflow-hidden rounded-md bg-ink-950">
+            <Thumb video={video} size="sm" />
+          </span>
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold text-white">{video.title}</p>
             <p className="mt-0.5 text-xs text-ink-400">

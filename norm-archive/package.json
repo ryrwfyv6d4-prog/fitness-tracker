@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "npx serve out",
-    "fetch:archive": "node scripts/fetch-archive.mjs"
+    "fetch:archive": "node scripts/fetch-archive.mjs",
+    "test:e2e": "next build && node e2e/data.test.mjs && node e2e/app.test.mjs",
+    "screens": "node e2e/screens.mjs"
   },
   "dependencies": {
     "next": "^15.3.0",
@@ -15,6 +17,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.0",
+    "playwright-core": "1.56.1",
     "tailwindcss": "^4.1.0"
   }
 }

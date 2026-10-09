@@ -120,6 +120,15 @@ export function titleFromFilename(filename, identifier) {
   let base = filename.split("/").pop().replace(/\.[^./]+$/, "");
   // Strip a leading item-identifier prefix some IA uploads carry.
   base = base.replace(new RegExp(`^${identifier}[_\\-\\s]*`, "i"), "");
+  // Scene-release names use dots as word separators
+  // ("conan.o.brien.2009.06.11.norm.macdonald.hdtv.xvid-lmao").
+  if (!/\s/.test(base) && (base.match(/\./g) || []).length >= 3) base = base.replace(/\./g, " ");
+  // Everything from the first release tag onward is encoding/group junk.
+  base = base.replace(/[\s.]+(?:hdtv|pdtv|dsr|xvid|divx|[xh][ .]?26[45]|(?:480|720|1080)p|web[ -]?(?:rip|dl)|dvd[ -]?rip|bd[ -]?rip)\b.*$/i, "");
+  // A date stamp mid-title ("Conan O Brien 2009 06 11 Norm") — the year is
+  // already extracted into `year`.
+  base = base.replace(/\s+(?:19|20)\d{2}\s+\d{1,2}\s+\d{1,2}(?=\s|$)/, "");
+  base = base.replace(/\bO\s+Brien\b/gi, "O'Brien");
   base = base.replace(/[_]+/g, " ");
   // Leading date stamps: "1996.09.30 - ", "1999 09 22 ", "20181025 " → drop
   // (year is extracted separately into the `year` field).
@@ -166,10 +175,39 @@ export function titleFromFilename(filename, identifier) {
       // Preserve existing all-caps tokens (S01E13, HDTV) as-is.
       if (word === word.toUpperCase() && /[A-Z]/.test(word) && core.length > 1) return word;
       if (i !== 0 && i !== words.length - 1 && SMALL_WORDS.has(core.toLowerCase())) return word.toLowerCase();
-      // Capitalize the first LETTER (not first char — handles "(second Time)").
-      return word.toLowerCase().replace(/[a-z]/, (c) => c.toUpperCase());
+      // Capitalize the first LETTER (not first char — handles "(second Time)"),
+      // plus the letter after an Irish "O'" prefix (O'Brien).
+      return word
+        .toLowerCase()
+        .replace(/[a-z]/, (c) => c.toUpperCase())
+        .replace(/^O'([a-z])/, (m, c) => `O'${c.toUpperCase()}`);
     })
-    .join(" ");
+    .join(" ")
+    .replace(/ - /g, " – ");
+}
+
+// "1996.09.28 - …" / "1996 09 28 …" / "19960928 …" → "1996-09-28".
+export function leadingDate(baseName) {
+  const m =
+    baseName.match(/^\s*((?:19|20)\d{2})[ ._-]+(\d{1,2})[ ._-]+(\d{1,2})(?!\d)/) ||
+    baseName.match(/^\s*((?:19|20)\d{2})(\d{2})(\d{2})(?!\d)/);
+  if (!m) return null;
+  const [y, mo, d] = [m[1], Number(m[2]), Number(m[3])];
+  if (mo < 1 || mo > 12 || d < 1 || d > 31) return null;
+  return `${y}-${String(mo).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+}
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+export function formatAirDate(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return `${MONTHS[m - 1]} ${d}, ${y}`;
+}
+
+// A–Z by title, but dated episodes that share a base title stay in air-date
+// order rather than alphabetical-by-month-name.
+function compareVideos(a, b) {
+  const key = (v) => (v.airDate ? `${v.title.replace(/ \([^)]*\)$/, "")} ${v.airDate}` : v.title);
+  return key(a).localeCompare(key(b));
 }
 
 export function parseDurationSeconds(length) {
@@ -288,9 +326,20 @@ export function transformMetadata(meta, identifier) {
         category,
         tags,
         sourceIdentifier: identifier,
+        airDate: leadingDate(baseName),
       };
     })
     .sort((a, b) => a.title.localeCompare(b.title));
+
+  // Date-stamped episode dumps ("1996.09.28 - Weekend Update.mp4") all clean
+  // down to the same title once the stamp is stripped — put the air date
+  // back so twenty cards don't all just say "Weekend Update".
+  const titleCounts = {};
+  for (const v of videos) titleCounts[v.title] = (titleCounts[v.title] || 0) + 1;
+  for (const v of videos) {
+    if (titleCounts[v.title] > 1 && v.airDate) v.title = `${v.title} (${formatAirDate(v.airDate)})`;
+  }
+  videos.sort(compareVideos);
 
   const categoryCounts = {};
   for (const v of videos) categoryCounts[v.category] = (categoryCounts[v.category] || 0) + 1;
@@ -330,19 +379,36 @@ function titleTokens(title) {
   );
 }
 
+// What makes one episode of a series a different video from the next, even
+// though the titles otherwise match word-for-word and the runtimes are
+// near-identical (every Sports Show episode is ~22 minutes): episode codes,
+// air dates, part numbers.
+function identityMarkers(v) {
+  const t = (v.title || "").toLowerCase();
+  const markers = [
+    ...(t.match(/\bs\d{2}e\d{2,3}\b/g) || []),
+    ...(t.match(/\b(?:part|pt|ep|episode|#)\s*\d+\b/g) || []),
+    ...(t.match(/#\d+/g) || []),
+  ];
+  if (v.airDate) markers.push(v.airDate);
+  return markers.sort().join("|");
+}
+
 // Re-uploads of the same clip across collections (e.g. a YouTube-channel rip
 // duplicating a main-archive clip) have near-identical durations but freely
 // reworded titles. Treat as duplicate when durations are within 3 seconds
-// AND the significant title words strongly overlap.
-function isFuzzyDuplicate(tokens, dur, accepted) {
+// AND the significant title words strongly overlap — unless both carry
+// identity markers that differ (two different episodes of one series).
+function isFuzzyDuplicate(tokens, markers, dur, accepted) {
   if (!dur || tokens.size < 2) return false;
   for (let d = dur - 3; d <= dur + 3; d++) {
     const bucket = accepted.get(d);
     if (!bucket) continue;
     for (const other of bucket) {
+      if (markers && other.markers && markers !== other.markers) continue;
       let overlap = 0;
-      for (const t of tokens) if (other.has(t)) overlap++;
-      if (overlap >= 2 && overlap / Math.min(tokens.size, other.size) >= 0.6) return true;
+      for (const t of tokens) if (other.tokens.has(t)) overlap++;
+      if (overlap >= 2 && overlap / Math.min(tokens.size, other.tokens.size) >= 0.6) return true;
     }
   }
   return false;
@@ -381,10 +447,11 @@ export function mergeLibraries(results, labelsByIdentifier = {}) {
         seenTitleKey.add(key);
       }
       const tokens = titleTokens(v.title);
-      if (isFuzzyDuplicate(tokens, v.durationSeconds, acceptedTokensByDuration)) continue;
+      const markers = identityMarkers(v);
+      if (isFuzzyDuplicate(tokens, markers, v.durationSeconds, acceptedTokensByDuration)) continue;
       if (v.durationSeconds && tokens.size >= 2) {
         if (!acceptedTokensByDuration.has(v.durationSeconds)) acceptedTokensByDuration.set(v.durationSeconds, []);
-        acceptedTokensByDuration.get(v.durationSeconds).push(tokens);
+        acceptedTokensByDuration.get(v.durationSeconds).push({ tokens, markers });
       }
 
       let id = v.id;
@@ -395,7 +462,15 @@ export function mergeLibraries(results, labelsByIdentifier = {}) {
     }
   }
 
-  videos.sort((a, b) => a.title.localeCompare(b.title));
+  videos.sort(compareVideos);
+
+  // A thumbnail shared by several clips (archive.org's item-level cover,
+  // used when a clip has no still of its own) isn't a picture of any one of
+  // them — flag it so the UI can show a title card instead of repeating the
+  // same image down the grid.
+  const thumbUses = {};
+  for (const v of videos) thumbUses[v.thumbnailUrl] = (thumbUses[v.thumbnailUrl] || 0) + 1;
+  for (const v of videos) v.genericThumb = thumbUses[v.thumbnailUrl] > 1;
 
   const categoryCounts = {};
   for (const v of videos) categoryCounts[v.category] = (categoryCounts[v.category] || 0) + 1;

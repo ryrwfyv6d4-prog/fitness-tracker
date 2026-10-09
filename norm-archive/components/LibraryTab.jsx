@@ -1,27 +1,39 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { progressOf, isWatched, isRecentlyAdded, formatViews, scrollToTop } from "../lib/useLibrary";
+import { queryTokens, matchesQuery } from "../lib/discovery";
 import { usePlayer } from "../lib/PlayerContext";
 import VideoCard from "./VideoCard";
 
-const FAV_CAT = "♥ Favorites";
-const ICONIC_CAT = "★ Iconic";
-const WATCHED_CAT = "✓ Watched";
-const NEW_CAT = "🆕 New";
-const WATCHLATER_CAT = "⏱ Watch Later";
+export const FAV_CAT = "♥ Favorites";
+export const ICONIC_CAT = "★ Iconic";
+export const WATCHED_CAT = "✓ Watched";
+export const NEW_CAT = "🆕 New";
+export const WATCHLATER_CAT = "⏱ Watch Later";
 
 // The searchable/filterable grid — what NormTube originally was, now living
 // under its own tab alongside Home and Timeline.
-export default function LibraryTab({ data, favs, toggleFav, watchLater, toggleWatchLater, manualWatched, positions, onLongPress, initialCategory }) {
+export default function LibraryTab({ data, favs, toggleFav, watchLater, toggleWatchLater, manualWatched, positions, onLongPress, initialCategory, initialQuery, focusSearch }) {
   const { playVideo } = usePlayer();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery || "");
+  const searchRef = useRef(null);
+
+  // Arriving from Home's search box: keep typing where you left off, caret
+  // after what's already been typed.
+  useEffect(() => {
+    if (!focusSearch || !searchRef.current) return;
+    const el = searchRef.current;
+    el.focus();
+    el.setSelectionRange(el.value.length, el.value.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [category, setCategory] = useState(initialCategory || "All");
   const [sortMode, setSortMode] = useState("az");
 
   const filtered = useMemo(() => {
     if (!data) return [];
-    const q = query.trim().toLowerCase();
+    const tokens = queryTokens(query);
     let arr = data.videos.filter((v) => {
       if (category === FAV_CAT) { if (!favs.has(v.id)) return false; }
       else if (category === WATCHLATER_CAT) { if (!watchLater.has(v.id)) return false; }
@@ -29,8 +41,7 @@ export default function LibraryTab({ data, favs, toggleFav, watchLater, toggleWa
       else if (category === WATCHED_CAT) { if (!isWatched(positions, manualWatched, v.id)) return false; }
       else if (category === NEW_CAT) { if (!isRecentlyAdded(v)) return false; }
       else if (category !== "All" && v.category !== category) return false;
-      if (!q) return true;
-      return v.title.toLowerCase().includes(q) || v.filename.toLowerCase().includes(q);
+      return matchesQuery(v, tokens);
     });
     if (sortMode === "long") arr = [...arr].sort((a, b) => (b.durationSeconds || 0) - (a.durationSeconds || 0));
     else if (sortMode === "short") arr = [...arr].sort((a, b) => (a.durationSeconds || 1e9) - (b.durationSeconds || 1e9));
@@ -61,9 +72,25 @@ export default function LibraryTab({ data, favs, toggleFav, watchLater, toggleWa
         ...(favs.size ? [[FAV_CAT, favs.size]] : []),
         ...(watchLater.size ? [[WATCHLATER_CAT, watchLater.size]] : []),
         ...(watchedCount ? [[WATCHED_CAT, watchedCount]] : []),
-        ...data.categories.map((c) => [c, data.categoryCounts?.[c] || 0]).sort((a, b) => b[1] - a[1]),
+        // "Other" is the catch-all bucket, not a real category — always last.
+        ...data.categories
+          .map((c) => [c, data.categoryCounts?.[c] || 0])
+          .sort((a, b) => (a[0] === "Other") - (b[0] === "Other") || b[1] - a[1]),
       ]
     : [];
+
+  // Per-episode uploads (Sports Show is 9 separate archive.org items) read
+  // as one collection, not nine links in a row.
+  const sourceGroups = useMemo(() => {
+    const labelOf = Object.fromEntries((data.sourceStatus || []).map((s) => [s.identifier, s.label]));
+    const byLabel = new Map();
+    for (const s of data.sources) {
+      const label = labelOf[s.identifier] || s.title || s.identifier;
+      if (!byLabel.has(label)) byLabel.set(label, { label, sources: [] });
+      byLabel.get(label).sources.push(s);
+    }
+    return [...byLabel.values()];
+  }, [data]);
 
   const cardProps = (v) => ({
     video: v,
@@ -96,7 +123,9 @@ export default function LibraryTab({ data, favs, toggleFav, watchLater, toggleWa
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search clips…"
+            ref={searchRef}
+            enterKeyHint="search"
+            placeholder="Search titles, shows, years…"
             aria-label="Search clips"
             className="h-[42px] w-full max-w-md rounded-xl bg-ink-800 px-3 text-base text-white placeholder:text-ink-400 ring-1 ring-ink-700/70 outline-none focus:ring-2 focus:ring-accent-400 sm:text-sm"
             data-testid="search-input"
@@ -166,21 +195,37 @@ export default function LibraryTab({ data, favs, toggleFav, watchLater, toggleWa
             ))}
           </div>
         ) : (
-          <p className="py-16 text-center text-sm text-ink-400" data-testid="empty">
-            No clips match{query.trim() ? ` "${query.trim()}"` : ""}
-            {category !== "All" ? ` in ${category}` : ""}.
-          </p>
+          <div className="rounded-2xl border border-dashed border-ink-700 px-5 py-12 text-center" data-testid="empty">
+            <p className="text-sm font-semibold text-white">
+              No clips match{query.trim() ? ` “${query.trim()}”` : ""}
+              {category !== "All" ? ` in ${category}` : ""}
+            </p>
+            <p className="mt-1.5 text-xs text-ink-400">Search covers titles, shows, categories and years — try fewer words.</p>
+            <div className="mt-5 flex flex-wrap justify-center gap-2">
+              {query.trim() && (
+                <button type="button" onClick={() => setQuery("")} className="h-9 rounded-full bg-ink-800 px-4 text-xs font-bold text-ink-300 ring-1 ring-ink-700" data-testid="clear-search">
+                  Clear search
+                </button>
+              )}
+              {category !== "All" && (
+                <button type="button" onClick={() => setCategory("All")} className="h-9 rounded-full bg-accent-400 px-4 text-xs font-bold text-black" data-testid="search-everywhere">
+                  Search all clips
+                </button>
+              )}
+            </div>
+          </div>
         )}
 
         <footer className="mt-14 border-t border-ink-800 pt-6 text-[11.5px] leading-relaxed text-ink-400" data-testid="sources-footer">
-          All videos are hosted by and streamed from {data.sources.length} Internet Archive
-          {data.sources.length === 1 ? " source" : " sources"}:{" "}
-          {data.sources.map((s, i) => (
-            <span key={s.identifier}>
-              <a href={s.itemUrl} target="_blank" rel="noreferrer" className="underline decoration-ink-700 underline-offset-2 hover:text-ink-300">
-                {s.title || s.identifier}
+          All videos are hosted by and streamed from {sourceGroups.length} Internet Archive
+          {sourceGroups.length === 1 ? " collection" : " collections"}:{" "}
+          {sourceGroups.map((g, i) => (
+            <span key={g.label}>
+              <a href={g.sources[0].itemUrl} target="_blank" rel="noreferrer" className="underline decoration-ink-700 underline-offset-2 hover:text-ink-300">
+                {g.label}
               </a>
-              {i < data.sources.length - 1 ? ", " : ""}
+              {g.sources.length > 1 ? ` (${g.sources.length} items)` : ""}
+              {i < sourceGroups.length - 1 ? ", " : ""}
             </span>
           ))}
           . Favorites and watch progress are saved on this device only.

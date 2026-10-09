@@ -8,7 +8,7 @@ import { StarIcon, PlayIcon } from "./icons";
 
 function eraFor(year) {
   if (!year) return null;
-  if (year < 1990) return "Early standup";
+  if (year < 1993) return "Early stand-up";
   if (year < 1998) return "The SNL years";
   if (year < 2005) return "Movies & junkets";
   if (year < 2013) return "Roasts & talk shows";
@@ -33,7 +33,7 @@ export default function TimelineTab({ data, favs, toggleFav, watchLater, manualW
       if (!byEra.has(era)) byEra.set(era, []);
       byEra.get(era).push(v);
     }
-    const order = ["Early standup", "The SNL years", "Movies & junkets", "Roasts & talk shows", "Norm Macdonald Live", "Later years"];
+    const order = ["Early stand-up", "The SNL years", "Movies & junkets", "Roasts & talk shows", "Norm Macdonald Live", "Later years"];
     return order
       .filter((e) => byEra.has(e))
       .map((era) => {
@@ -94,7 +94,7 @@ export default function TimelineTab({ data, favs, toggleFav, watchLater, manualW
               <p className="w-[70px] shrink-0 font-mono text-[26px] font-bold tabular-nums leading-none text-white">{minYear}</p>
               <div className="min-w-0 flex-1">
                 <h2 className="text-lg font-extrabold text-white">
-                  {era} <span className="ml-1.5 text-xs font-semibold text-ink-400">{videos.length} clips</span>
+                  {era} <span className="ml-1.5 text-xs font-semibold text-ink-400">{videos.length} {videos.length === 1 ? "clip" : "clips"}</span>
                 </h2>
                 {minYear !== maxYear && <p className="mt-1 text-xs text-ink-400">{minYear}–{maxYear}</p>}
               </div>

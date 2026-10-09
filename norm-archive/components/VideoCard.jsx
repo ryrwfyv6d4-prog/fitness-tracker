@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { formatDuration } from "../lib/useLibrary";
 import { HeartIcon, StarIcon, CheckIcon } from "./icons";
+import Thumb from "./Thumb";
 
 const LONG_PRESS_MS = 500;
 const MOVE_CANCEL_PX = 10;
@@ -17,7 +18,6 @@ export default function VideoCard({
   isNew = false,
   onLongPress,
 }) {
-  const [thumbFailed, setThumbFailed] = useState(false);
   const duration = formatDuration(video.durationSeconds);
 
   const pressTimer = useRef(null);
@@ -74,20 +74,7 @@ export default function VideoCard({
       data-testid="video-card"
     >
       <span className="relative block aspect-video overflow-hidden rounded-xl bg-ink-950 ring-1 ring-ink-700/50 transition-transform group-active:scale-[.97] group-hover:ring-accent-400 group-focus-visible:ring-2 group-focus-visible:ring-accent-400">
-        <span className="absolute inset-0 flex items-center justify-center text-3xl font-black text-ink-700 select-none">
-          N
-        </span>
-        {!thumbFailed && (
-          <img
-            src={video.thumbnailUrl}
-            alt=""
-            loading="lazy"
-            draggable={false}
-            onError={() => setThumbFailed(true)}
-            style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none", userSelect: "none" }}
-            className="absolute inset-0 h-full w-full object-cover opacity-90 group-hover:opacity-100 transition-opacity pointer-events-none"
-          />
-        )}
+        <Thumb video={video} />
         <span
           role="button"
           aria-label={isFav ? "Remove from favorites" : "Add to favorites"}

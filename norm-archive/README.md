@@ -56,6 +56,19 @@ npm install
 npm run dev        # http://localhost:3000
 ```
 
+## Test
+
+```sh
+npm run test:e2e   # build, then library-building + full-app checks on an emulated iPhone
+npm run screens    # after a build: screenshot every screen into e2e/.screens/ for review
+```
+
+Both run offline: `e2e/fixtures.mjs` stands in for archive.org with a couple
+hundred realistically messy clips across all sources (date-stamped episode
+dumps, channel-rip folders, per-episode items, cross-source re-uploads,
+clips with no thumbnail of their own). Chromium comes from
+`PLAYWRIGHT_BROWSERS_PATH`, or set `CHROMIUM_PATH`.
+
 ## Optional: pin a data snapshot
 
 From any machine with internet access:

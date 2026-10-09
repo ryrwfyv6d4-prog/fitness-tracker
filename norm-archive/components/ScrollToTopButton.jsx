@@ -9,7 +9,7 @@ const SHOW_AFTER_PX = 600;
 // the top — iOS's tap-the-status-bar gesture only scrolls the document
 // body, and isn't something every visitor knows about or gets reliably in
 // every browsing mode. A visible button works everywhere.
-export default function ScrollToTopButton() {
+export default function ScrollToTopButton({ raised = false }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function ScrollToTopButton() {
       aria-label="Back to top"
       title="Back to top"
       data-testid="scroll-top-button"
-      className="fixed bottom-[calc(64px+max(env(safe-area-inset-bottom),6px)+10px)] right-4 z-30 flex h-11 w-11 items-center justify-center rounded-full bg-ink-800/90 text-accent-400 shadow-lg ring-1 ring-ink-700 backdrop-blur-md transition active:scale-90"
+      className={`fixed ${raised ? "bottom-[calc(64px+76px+max(env(safe-area-inset-bottom),6px)+10px)]" : "bottom-[calc(64px+max(env(safe-area-inset-bottom),6px)+10px)]"} right-4 z-30 flex h-11 w-11 items-center justify-center rounded-full bg-ink-800/90 text-accent-400 shadow-lg ring-1 ring-ink-700 backdrop-blur-md transition active:scale-90`}
     >
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="h-5 w-5" aria-hidden="true">
         <path d="M12 19V5M5 12l7-7 7 7" strokeLinecap="round" strokeLinejoin="round" />

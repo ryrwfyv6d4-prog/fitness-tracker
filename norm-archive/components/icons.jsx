@@ -143,3 +143,20 @@ export function LibraryIcon({ className }) {
     </svg>
   );
 }
+
+export function ChevronDownIcon({ className }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  );
+}
+
+export function SpeedIcon({ className }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className={className} aria-hidden="true">
+      <path d="M4.5 17a8.5 8.5 0 1 1 15 0" />
+      <path d="m12 13 3.5-4" />
+    </svg>
+  );
+}
