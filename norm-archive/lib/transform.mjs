@@ -400,7 +400,7 @@ function identityMarkers(v) {
 // AND the significant title words strongly overlap — unless both carry
 // identity markers that differ (two different episodes of one series).
 function isFuzzyDuplicate(tokens, markers, dur, accepted) {
-  if (!dur || tokens.size < 2) return false;
+  if (!dur || tokens.size < 2) return null;
   for (let d = dur - 3; d <= dur + 3; d++) {
     const bucket = accepted.get(d);
     if (!bucket) continue;
@@ -408,10 +408,10 @@ function isFuzzyDuplicate(tokens, markers, dur, accepted) {
       if (markers && other.markers && markers !== other.markers) continue;
       let overlap = 0;
       for (const t of tokens) if (other.tokens.has(t)) overlap++;
-      if (overlap >= 2 && overlap / Math.min(tokens.size, other.tokens.size) >= 0.6) return true;
+      if (overlap >= 2 && overlap / Math.min(tokens.size, other.tokens.size) >= 0.6) return other.video;
     }
   }
-  return false;
+  return null;
 }
 
 // Merges transformMetadata() results from multiple archive.org items into
@@ -426,32 +426,45 @@ function isFuzzyDuplicate(tokens, markers, dur, accepted) {
 // preserving existing favorites/watch-progress keys for the original
 // single-source app) and dedup precedence — list the primary/original
 // source first.
-export function mergeLibraries(results, labelsByIdentifier = {}) {
-  const seenMd5 = new Set();
-  const seenTitleKey = new Set();
+//
+// onDrop(dropped, reason, matchedVideo) is called for every video dropped as
+// a duplicate — used by scripts/audit-library.mjs to verify each drop.
+export function mergeLibraries(results, labelsByIdentifier = {}, { onDrop } = {}) {
+  const seenMd5 = new Map(); // md5 → first video seen with it
+  const seenTitleKey = new Map(); // title+duration key → first video seen with it
   const seenIds = new Set();
-  const acceptedTokensByDuration = new Map(); // durationSeconds → [Set(tokens)]
+  const acceptedTokensByDuration = new Map(); // durationSeconds → [{ tokens, markers, video }]
   const videos = [];
 
   for (const result of results) {
     for (const v of result.videos) {
       if (v.md5) {
-        if (seenMd5.has(v.md5)) continue;
-        seenMd5.add(v.md5);
+        if (seenMd5.has(v.md5)) {
+          onDrop?.(v, "same file (md5)", seenMd5.get(v.md5));
+          continue;
+        }
+        seenMd5.set(v.md5, v);
       }
       const key = v.durationSeconds
         ? `${normalizeTitleKey(v.title)}::${Math.round(v.durationSeconds / 5) * 5}`
         : null;
       if (key) {
-        if (seenTitleKey.has(key)) continue;
-        seenTitleKey.add(key);
+        if (seenTitleKey.has(key)) {
+          onDrop?.(v, "same title + length", seenTitleKey.get(key));
+          continue;
+        }
+        seenTitleKey.set(key, v);
       }
       const tokens = titleTokens(v.title);
       const markers = identityMarkers(v);
-      if (isFuzzyDuplicate(tokens, markers, v.durationSeconds, acceptedTokensByDuration)) continue;
+      const fuzzyMatch = isFuzzyDuplicate(tokens, markers, v.durationSeconds, acceptedTokensByDuration);
+      if (fuzzyMatch) {
+        onDrop?.(v, "reworded title, same length (±3s)", fuzzyMatch);
+        continue;
+      }
       if (v.durationSeconds && tokens.size >= 2) {
         if (!acceptedTokensByDuration.has(v.durationSeconds)) acceptedTokensByDuration.set(v.durationSeconds, []);
-        acceptedTokensByDuration.get(v.durationSeconds).push({ tokens, markers });
+        acceptedTokensByDuration.get(v.durationSeconds).push({ tokens, markers, video: v });
       }
 
       let id = v.id;

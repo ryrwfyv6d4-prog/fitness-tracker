@@ -2,3 +2,5 @@ node_modules/
 .next/
 out/
 e2e/.screens/
+.audit-cache/
+audit-report.md
