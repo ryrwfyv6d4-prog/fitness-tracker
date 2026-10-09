@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { transformMetadata, mergeLibraries } from "./transform.mjs";
-import { BULK_ITEMS, EXPLICIT_ITEMS, SEARCH_PREFIXES } from "./sources.mjs";
+import { BULK_ITEMS, EXPLICIT_ITEMS, SEARCH_PREFIXES, sourceOptions } from "./sources.mjs";
 
 export const ARCHIVE_IDENTIFIER = "NormMacDonaldArchive1"; // primary source; cache key + fallback id-space
 
-const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v8`;
+const CACHE_KEY = `norm-archive:library:${ARCHIVE_IDENTIFIER}:v9`;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // refresh from IA once a day
 
 function readCache() {
@@ -97,7 +97,7 @@ async function loadAllSources() {
   const settled = await Promise.allSettled(
     targets.map(async ({ identifier, label }) => {
       const meta = await fetchItemMetadata(identifier);
-      const result = transformMetadata(meta, identifier);
+      const result = transformMetadata(meta, identifier, sourceOptions(identifier));
       return { result, label };
     })
   );

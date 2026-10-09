@@ -27,12 +27,12 @@ export function matchesQuery(video, tokens) {
 }
 
 // "The Norm Show S01E03 …", "Weekend Update (Sep 28, 1996)",
-// "Norm Macdonald Live S2E4 …" → the series they belong to, so the player
-// can offer the actual next episode first.
+// "Weekend Update #12", "Norm Macdonald Live S2E4 …" → the series they
+// belong to, so the player can offer the actual next episode first.
 // Keyed by collection label, not archive.org item: some shows (Sports Show)
 // are uploaded as one item per episode.
 export function seriesKey(video) {
-  const m = video.title.match(/^(.*?)\s*(?:\bS\d{1,2}E\d{1,3}\b|\bEp\s*\d+\b|\(\w{3} \d{1,2}, \d{4}\)|\bPart \d+\b)/i);
+  const m = video.title.match(/^(.*?)\s*(?:\bS\d{1,2}E\d{1,3}\b|\bEp\s*\d+\b|\(\w{3} \d{1,2}, \d{4}\)|\bPart \d+\b|#\d+\b)/i);
   return m && m[1] ? `${video.sourceLabel || video.sourceIdentifier}::${m[1].toLowerCase()}` : null;
 }
 

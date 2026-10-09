@@ -14,6 +14,10 @@ const HUES = {
   "TV & Movies": 200,
   "Game Shows": 300,
   Interviews: 140,
+  "Awards & Hosting": 50,
+  "Fan Clips": 75,
+  Commercials: 110,
+  "About Norm": 245,
 };
 
 function cardStyle(category) {

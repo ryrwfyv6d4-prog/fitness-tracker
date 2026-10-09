@@ -12,7 +12,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { transformMetadata, mergeLibraries } from "../lib/transform.mjs";
-import { BULK_ITEMS, EXPLICIT_ITEMS, SEARCH_PREFIXES } from "../lib/sources.mjs";
+import { BULK_ITEMS, EXPLICIT_ITEMS, SEARCH_PREFIXES, sourceOptions } from "../lib/sources.mjs";
 
 const args = process.argv.slice(2);
 const OUT = args.includes("--out") ? args[args.indexOf("--out") + 1] : "audit-report.md";
@@ -66,7 +66,7 @@ const results = [];
 for (const t of targets) {
   try {
     const meta = await cachedJson(t.identifier, `https://archive.org/metadata/${encodeURIComponent(t.identifier)}`);
-    const r = transformMetadata(meta, t.identifier);
+    const r = transformMetadata(meta, t.identifier, sourceOptions(t.identifier));
     results.push({ result: r, label: t.label });
     sourceRows.push({ ...t, ok: true, raw: r.videoCount });
     console.log(`✓ ${t.identifier}: ${r.videoCount}`);

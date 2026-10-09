@@ -22,20 +22,27 @@ const fmt = (sec) => {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 };
 
-// [filename, durationSeconds, { thumb, ageDays, md5 }]
+// [filename, durationSeconds, { thumb, ageDays, md5, ia }]
+// `ia`: the file is an MPEG4 upload that archive.org also re-encoded into a
+// "<name>.ia.mp4" derivative (same video, different bytes) — as most of the
+// real SNL collection is.
 function item(identifier, title, entries) {
   const files = [];
   for (const [name, dur, opts = {}] of entries) {
     const ageDays = opts.ageDays ?? Math.floor(rand() * 900) + 30;
     files.push({
       name,
-      format: "h.264",
-      source: "derivative",
+      format: opts.ia ? "MPEG4" : "h.264",
+      source: opts.ia ? "original" : "derivative",
       size: String(Math.round(dur * 160000)),
       length: fmt(dur),
       md5: opts.md5 || md5For(identifier + name),
       mtime: String(NOW - ageDays * DAY),
     });
+    if (opts.ia) {
+      const ia = `${name.replace(/\.mp4$/, "")}.ia.mp4`;
+      files.push({ name: ia, format: "h.264 IA", source: "derivative", original: name, size: String(Math.round(dur * 90000)), length: `${dur}.04`, md5: md5For(identifier + ia) });
+    }
     if (opts.thumb) {
       const stem = name.replace(/\.[^./]+$/, "");
       for (const n of [2, 6, 10]) {
@@ -48,6 +55,13 @@ function item(identifier, title, entries) {
 }
 
 const yes = { thumb: true };
+
+// The real "the-norm-show" item is empty; episodes live in the main archive.
+const normShowEps = [
+  "Pilot", "Norm vs the Boss", "Norm vs Love", "Norm vs the Kid", "Norm and the Hockey Game", "Norm vs Fear",
+  "Norm vs the Sacrifice", "Norm vs Christmas", "Norm vs the Cough", "Norm vs the Bike", "Norm vs the Ex",
+  "Norm vs the Gambler", "Norm vs Wedding", "Norm vs Laurie's Parents", "Norm vs Halloween", "Norm vs the Boxer",
+];
 
 const MAIN = item("NormMacDonaldArchive1", "Norm Macdonald Archive", [
   ["SNL Celebrity Jeopardy Burt Reynolds 1996.mp4", 464, { ...yes, md5: "jeopardy-shared-md5" }],
@@ -100,6 +114,14 @@ const MAIN = item("NormMacDonaldArchive1", "Norm Macdonald Archive", [
   ["Norm Macdonald Q&A Toronto 2017.mp4", 2902],
   ["Norm Macdonald Sit Down with Bob Costas.mp4", 1388, { ...yes, ageDays: 3 }],
   ["Norm Macdonald Golf Talk Clip.mp4", 330, { ageDays: 9 }],
+  ["Norm Macdonald Nothing Special 2022.mp4", 3680],
+  // Different clips whose titles differ only in the show, a second apart.
+  ["Norm Macdonald First Appearance on Letterman.mp4", 313],
+  ["Norm Macdonald First Appearance on Conan.mp4", 312],
+  // Download-copy counters, a numeric mid-title date, a year range.
+  ["Norm Macdonald - Comic Strip Live - 01-27-1991 (Better Audio)-56.mp4", 1404],
+  ["Norm Macdonald Collection On Letterman, Part 1 Of 5 The Early Years, 1990-95 (2)-144.mp4", 1733],
+  ...normShowEps.map((t, i) => [`The Norm Show S${Math.floor(i / 8) + 1}ep${(i % 8) + 1} ${t}.mp4`, 1290 + Math.floor(rand() * 60)]),
 ]);
 
 const snlUpdates = [];
@@ -125,6 +147,12 @@ const SNL = item("NormMacDonaldSNL", "Norm Macdonald SNL", [
   ["SNL Weekend Update Best Of 1994.mp4", 1210],
   ["SNL Germans Would Have Us Believe.mp4", 75],
   ["SNL Note to Self Compilation.mp4", 410, yes],
+  // The real collection names clips by season/episode code, and most have
+  // an archive.org re-encode alongside.
+  ["Norm SNL/S19 E03 #1.mp4", 186, { ...yes, ia: true }],
+  ["Norm SNL/S19 E03 #2.mp4", 214, { ia: true }],
+  ["Norm SNL/S20 E11 #1.mp4", 251, { ia: true }],
+  ["Norm SNL/S23 E05 # 4.mp4", 199, {}],
 ]);
 
 const WEEKEND = item("NormMacdonaldWeekendUpdate", "Norm Macdonald Weekend Update", [
@@ -132,6 +160,8 @@ const WEEKEND = item("NormMacdonaldWeekendUpdate", "Norm Macdonald Weekend Updat
   ["Weekend Update Complete Run Part 1.mp4", 3610],
   ["Weekend Update Complete Run Part 2.mp4", 3588],
   ["Weekend Update Complete Run Part 3.mp4", 3402],
+  // "Norm1" … "Norm12": numbered news reads.
+  ...Array.from({ length: 12 }, (_, i) => [`Norm${i + 1}.mp4`, 280 + i * 9]),
 ]);
 
 const nmlGuests = [
@@ -147,17 +177,6 @@ const NML = item(
     const ep = (i % 6) + 1;
     return [`Norm Macdonald Live S${season}E${ep} ${g}.mp4`, 2900 + Math.floor(rand() * 1700), rand() > 0.6 ? yes : {}];
   })
-);
-
-const normShowEps = [
-  "Pilot", "Norm vs the Boss", "Norm vs Love", "Norm vs the Kid", "Norm and the Hockey Game", "Norm vs Fear",
-  "Norm vs the Sacrifice", "Norm vs Christmas", "Norm vs the Cough", "Norm vs the Bike", "Norm vs the Ex",
-  "Norm vs the Gambler", "Norm vs Wedding", "Norm vs Laurie's Parents", "Norm vs Halloween", "Norm vs the Boxer",
-];
-const NORMSHOW = item(
-  "the-norm-show",
-  "The Norm Show",
-  normShowEps.map((t, i) => [`The Norm Show S${Math.floor(i / 8) + 1}ep${(i % 8) + 1} ${t}.mp4`, 1290 + Math.floor(rand() * 60)])
 );
 
 const ripFolder = "20210918 Im Not Norm Ucjnky9lm9wx0cmwfrg5eucw";
@@ -182,7 +201,6 @@ const IMNOTNORM = item(
 );
 
 const BOOTLEGS = item("NORMBOOTLEGS", "Norm Bootlegs", [
-  ...Array.from({ length: 9 }, (_, i) => [`S19 #${i + 1}.mp4`, 300 + Math.floor(rand() * 900)]),
   ["Bootleg Standup Set Chicago.mp4", 2840],
   ["Norm Live at the Comedy Store 1993.mp4", 1820],
   ["VTS_01_1.mp4", 1500],
@@ -209,7 +227,6 @@ export const METADATA = {
   NormMacDonaldSNL: SNL,
   NormMacdonaldWeekendUpdate: WEEKEND,
   Norm_Macdonald_Live: NML,
-  "the-norm-show": NORMSHOW,
   "20210918_im_not_norm": IMNOTNORM,
   NORMBOOTLEGS: BOOTLEGS,
   [CONAN_ID]: CONAN,

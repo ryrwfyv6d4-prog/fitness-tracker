@@ -41,13 +41,24 @@ CORS-enabled, so the app needs **no backend and no build-time data**:
    and merges them client-side.
 
 Both the snapshot script and the client use the same logic
-(`lib/transform.mjs`): filter to playable `.mp4` derivatives, build direct
-`archive.org/download/...` URLs, pick per-video thumbnail stills from IA's
-`.thumbs/` derivatives (matched via each thumbnail's `original` field), derive
-clean titles from filenames (stripping date stamps, track numbers, upload
-counters), flag famous moments as `iconic`, and categorize by keyword (SNL,
-Talk Shows, Radio & Podcasts, Game Shows, TV & Movies, Stand-Up, Roasts, Norm
-Macdonald Live, Interviews, Other — rules in `CATEGORY_RULES`).
+(`lib/transform.mjs`): filter to playable `.mp4` files, fold archive.org's
+`.ia.mp4` re-encodes into the upload they were made from (one entry, streaming
+the re-encode), build direct `archive.org/download/...` URLs, pick per-video
+thumbnail stills from IA's `.thumbs/` derivatives (matched via each
+thumbnail's `original` field), derive clean titles from filenames (stripping
+date stamps, track numbers, upload counters, hashtags and quality tags;
+spelling out numeric dates), flag famous moments as `iconic`, and categorize
+by keyword (SNL, Norm Macdonald Live, About Norm, Roasts, Game Shows,
+Commercials, Awards & Hosting, Radio & Podcasts, Talk Shows, TV & Movies,
+Stand-Up, Interviews — rules in `CATEGORY_RULES`). Clips no rule matches take
+their source's default category from `lib/sources.mjs` (e.g. the "I'm Not
+Norm" channel rip → Fan Clips), then Other. Per-source options there also
+rewrite code-named files ("S19 E03 #1" → "SNL S19E03 · Clip 1", "Norm12" →
+"Weekend Update #12") and keep YouTube upload dates out of `year`.
+
+Duplicates across and within sources are dropped by md5 (of the upload or its
+re-encode), then by identical title and length, then by reworded title at the
+same length (±1s) unless the two name different episodes, parts or shows.
 
 ## Develop
 
@@ -77,9 +88,14 @@ From any machine with internet access:
 npm run fetch:archive    # writes public/data/videos.json
 ```
 
-Commit the file. The app then skips the runtime API call. After a real run,
-skim the JSON for clips that landed in `"Other"` and extend `CATEGORY_RULES`
-in `lib/transform.mjs` for any filename patterns worth their own category.
+Commit the file. The app then skips the runtime API call.
+
+To check labelling and de-duplication against the live collections, run
+`npm run audit:library` (or the "Norm library audit" GitHub Action, which
+publishes its report to the `audit-data` branch). The report lists every
+dropped duplicate with what it matched, look-alikes that survived, titles
+that need a look, and the clips that landed in Other — extend
+`CATEGORY_RULES` for any patterns worth their own category.
 
 ## Deploy (static)
 

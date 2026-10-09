@@ -15,7 +15,7 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { transformMetadata, mergeLibraries } from "../lib/transform.mjs";
-import { BULK_ITEMS, EXPLICIT_ITEMS, SEARCH_PREFIXES } from "../lib/sources.mjs";
+import { BULK_ITEMS, EXPLICIT_ITEMS, SEARCH_PREFIXES, sourceOptions } from "../lib/sources.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -67,7 +67,7 @@ async function main() {
   const settled = await Promise.allSettled(
     targets.map(async ({ identifier, label }) => {
       const meta = await fetchItemMetadata(identifier);
-      return { result: transformMetadata(meta, identifier), label };
+      return { result: transformMetadata(meta, identifier, sourceOptions(identifier)), label };
     })
   );
 

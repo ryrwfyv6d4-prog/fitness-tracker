@@ -1,6 +1,7 @@
 // End-to-end checks of the built app (out/) on an emulated iPhone, with
 // archive.org mocked from fixtures.mjs. Run `npm run build` first.
 import { transformMetadata, mergeLibraries } from "../lib/transform.mjs";
+import { sourceOptions } from "../lib/sources.mjs";
 import { METADATA } from "./fixtures.mjs";
 import { startServer, launch, routeArchive, makeChecker, IPHONE } from "./harness.mjs";
 
@@ -8,7 +9,7 @@ const PORT = 4191;
 const URL = `http://localhost:${PORT}/`;
 const { check, finish } = makeChecker("app");
 
-const lib = mergeLibraries(Object.entries(METADATA).map(([id, m]) => transformMetadata(m, id)));
+const lib = mergeLibraries(Object.entries(METADATA).map(([id, m]) => transformMetadata(m, id, sourceOptions(id))));
 const TOTAL = lib.videoCount;
 const ICONIC = lib.videos.filter((v) => v.iconic).length;
 const BOOTLEGS = lib.videos.filter((v) => v.sourceIdentifier === "NORMBOOTLEGS").length;
@@ -56,7 +57,7 @@ await routeArchive(page, { onRequest: (r) => requests.push(r) });
 await page.goto(URL);
 await page.waitForSelector('[data-testid="tab-bar"]', { timeout: 20000 });
 
-check(`all 17 archive.org items fetched (got ${requests.filter((r) => r.startsWith("metadata:")).length})`, requests.filter((r) => r.startsWith("metadata:")).length === 17);
+check(`all 16 archive.org items fetched (got ${requests.filter((r) => r.startsWith("metadata:")).length})`, requests.filter((r) => r.startsWith("metadata:")).length === 16);
 
 // Home
 check("Home tab active on load", (await page.getAttribute('[data-testid="tab-home"]', "aria-current")) === "page");
@@ -97,7 +98,7 @@ await search(page, "snl 1996");
 const snl96 = await page.locator('[data-testid="video-grid"] [data-testid="video-card"]').allTextContents();
 check(`"snl 1996" matches category + year (got ${snl96.length})`, snl96.length >= 3 && snl96.every((t) => t.includes("1996")));
 await search(page, "obrien");
-check("punctuation-insensitive search (obrien → O'Brien)", (await gridTitles(page)).includes("Conan O'Brien Norm Macdonald"));
+check("punctuation-insensitive search (obrien → O'Brien)", (await gridTitles(page)).includes("Conan O'Brien Norm Macdonald (Jun 11, 2009)"));
 await search(page, "zzqx");
 check("empty search state shown", (await page.locator('[data-testid="empty"]').count()) === 1);
 await page.click('[data-testid="clear-search"]');
@@ -150,7 +151,7 @@ await search(page, "the norm show s01e03");
 await cards(page).first().click();
 await page.waitForSelector('[data-testid="player-modal"]');
 check("native video with controls + playsinline", (await page.locator('[data-testid="player"][controls][playsinline]').count()) === 1);
-check("video streams from archive.org", (await page.getAttribute('[data-testid="player"]', "src")).startsWith("https://archive.org/download/the-norm-show/"));
+check("video streams from archive.org", (await page.getAttribute('[data-testid="player"]', "src")).startsWith("https://archive.org/download/NormMacDonaldArchive1/The%20Norm%20Show"));
 const related = page.locator('[data-testid="related-item"]');
 check(`"More like this" list under the player (got ${await related.count()})`, (await related.count()) >= 4);
 const firstRelated = await related.first().textContent();
