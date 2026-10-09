@@ -6,6 +6,11 @@ name: Norm library audit
 
 on:
   workflow_dispatch:
+  push:
+    branches: [claude/norm-macdonald-archive-library-3o5eb3]
+    paths:
+      - norm-archive/scripts/audit-library.mjs
+      - .github/workflows/norm-library-audit.yml
 
 permissions:
   contents: write
