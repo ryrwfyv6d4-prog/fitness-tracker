@@ -3,6 +3,8 @@
 // script (scripts/fetch-archive.mjs) and the client-side runtime fetch, so the
 // two paths always produce identical data.
 
+import { TITLE_FIXES, DUPLICATES } from "./corrections.mjs";
+
 // Category rules, checked in order; first match wins for `category`, all
 // matches are recorded in `tags`. `keywords` are plain substrings, `patterns`
 // regexes (for words that would otherwise false-positive). Specific shows
@@ -157,6 +159,10 @@ const ACRONYMS = new Map(
     aids: "AIDS", espy: "ESPY", espys: "ESPYs", nhl: "NHL", nba: "NBA", wnba: "WNBA", usa: "USA",
     tmz: "TMZ", gma: "GMA", wgn: "WGN", axs: "AXS", rip: "RIP", wsop: "WSOP", whcd: "WHCD",
     goat: "GOAT", wbur: "WBUR", kdkb: "KDKB", wrif: "WRIF", jamz: "JAMZ", kissfm: "KISS FM",
+    tbs: "TBS", dc: "DC", gdl: "GDL", ri: "RI",
+    // Names styled with inner capitals, which title-casing would flatten.
+    youtube: "YouTube", huffpost: "HuffPost", newsradio: "NewsRadio", normcast: "NormCast",
+    pokernews: "PokerNews", pokerstars: "PokerStars",
   })
 );
 // Short words a shouting YouTube title capitalizes along with the rest
@@ -213,6 +219,19 @@ export function titleFromFilename(filename, identifier) {
   // archive.org's own re-encodes are named "<original>.ia.mp4"; some uploads
   // doubled the extension ("… 2003.mp4.mp4").
   base = base.replace(/(?:\.ia|\.mp4)+$/i, "");
+  // A filename with spaces (besides a " (1)" copy marker) is a real title,
+  // not a slug, so its hyphens are real ("Swedish-German", "Pre-Interview").
+  const spaced = /\s/.test(base.replace(/\s*\(\d+\)$/, ""));
+  // Channel rips ("20200911_9_11.mp4") put "_" where the YouTube title had a
+  // character filenames can't hold — "9/11", "w/", "Frost/Nixon", "F*ck".
+  if (/^(?:19|20)\d{6}_/.test(base)) {
+    base = base
+      .replace(/^((?:19|20)\d{6})_/, "$1 ")
+      .replace(/(\d)_(?=\d)/g, "$1/")
+      .replace(/\bw_(?=\s)/gi, "w/")
+      .replace(/([A-Za-z])_(?=[A-Z])/g, "$1/")
+      .replace(/([A-Za-z])_(?=[a-z])/g, "$1*");
+  }
   // Strip a leading item-identifier prefix some IA uploads carry.
   base = base.replace(new RegExp(`^${identifier}[_\\-\\s]*`, "i"), "");
   // Scene-release names use dots as word separators
@@ -228,6 +247,9 @@ export function titleFromFilename(filename, identifier) {
   });
   base = base.replace(/\bO\s+Brien\b/gi, "O'Brien");
   base = base.replace(/[_]+/g, " ");
+  // A run of three or more spaces is where a "|" separator was dropped
+  // ("Norm Macdonald Hates Oscar Pistorius   Conan On Tbs").
+  base = base.replace(/\s{3,}/g, " - ");
   // Leading date stamps: "1996.09.30 - ", "1999 09 22 ", "20181025 " → drop
   // (year is extracted separately into the `year` field).
   base = base.replace(/^\s*(?:19|20)\d{2}[ ._-]+\d{1,2}[ ._-]+\d{1,2}\s*[-–—]?\s*/, "");
@@ -275,11 +297,11 @@ export function titleFromFilename(filename, identifier) {
   // A dash glued to the word before it but spaced after ("The Middle- In
   // Loving Memory", "Seattle WA- 2 9 2016") is title punctuation.
   base = base.replace(/(\S)-\s+/g, "$1 - ");
-  // Word-joining hyphens ("norm-on-letterman") → spaces, but leave spaced
-  // dashes (" - ") alone — those are real title punctuation, not slug glue.
-  // Must run before YouTube-ID stripping, or "Millionaire-1" (id already
-  // handled above) and hyphenated slugs read as one long junk token.
-  base = base.replace(/([a-zA-Z0-9])-(?=[a-zA-Z0-9])/g, "$1 ");
+  // Word-joining hyphens in slugs ("norm-on-letterman") → spaces, but leave
+  // spaced dashes (" - ") alone — those are real title punctuation, not slug
+  // glue. Must run before YouTube-ID stripping, or hyphenated slugs read as
+  // one long junk token.
+  if (!spaced) base = base.replace(/([a-zA-Z0-9])-(?=[a-zA-Z0-9])/g, "$1 ");
   // YouTube channel/video ID tokens ("Ucjnky9lm9wx0cmwfrg5eucw", "4cj0om3mh4e"):
   // long pure-alphanumeric runs with ≥2 interspersed digits. Real-word tokens
   // survive: punctuation breaks the run, and tokens ending in a year
@@ -290,15 +312,17 @@ export function titleFromFilename(filename, identifier) {
   );
   // Season/episode markers → canonical form: "S01ep13" / "s1 ep 3" → "S01E13".
   base = base.replace(/\bs(\d{1,2})\s*[.\- ]?\s*ep?\.?\s*(\d{1,3})\b/gi, (m, s, e) => `S${s.padStart(2, "0")}E${e.padStart(2, "0")}`);
-  base = base.replace(/\s{2,}/g, " ").trim();
+  base = base.replace(/\s{2,}/g, " ").replace(/\s+,/g, ",").trim();
   // Trailing year duplicated in the year tag ("Moth Joke 1997" → "Moth Joke")
   // — but keep it when it's part of the phrase ("Best of 1994").
   const ym = base.match(/^(.*[^\s\-–—])[\s\-–—]+(?:19[4-9]|20[0-2])\d$/);
-  // Nor when it ends a date ("on the Tonight Show December 20, 1999").
+  // Nor when it ends a date ("on the Tonight Show December 20, 1999") or a
+  // range or numbered part ("1999-2000", "Part 3 Of 5 1998").
   if (
     ym &&
     ym[1].trim().split(/\s+/).length >= 2 &&
     !/\b(of|in|from|since|circa)$/i.test(ym[1].trim()) &&
+    !/\d$/.test(ym[1].trim()) &&
     !/(?:\d,|\b(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?)$/i.test(ym[1].trim())
   ) {
     base = ym[1].trim().replace(/,$/, "");
@@ -309,24 +333,33 @@ export function titleFromFilename(filename, identifier) {
   return words
     .map((word, i) => {
       const core = word.replace(/[^a-zA-Z0-9']/g, "");
-      const acronym = ACRONYMS.get(core.toLowerCase());
-      if (acronym) return word.replace(core, acronym);
+      // "Snl's" → "SNL's".
+      const stem = core.replace(/'s$/i, "");
+      const acronym = ACRONYMS.get(stem.toLowerCase());
+      if (acronym) return word.replace(stem, acronym);
       // Preserve existing all-caps tokens (S01E13, HDTV) as-is.
       if (!shouted.has(i) && word === word.toUpperCase() && /[A-Z]/.test(word) && core.length > 1) return word;
       // Filenames can't hold "/", so "w/ Guest" arrives as "w Guest".
-      if (i !== 0 && core.toLowerCase() === "w" && word.length === 1) return "w/";
+      if (i !== 0 && /^w\/?$/i.test(word)) return "w/";
       const startsPhrase = i === 0 || /^[-–—:]$/.test(words[i - 1]);
       if (!startsPhrase && i !== words.length - 1 && SMALL_WORDS.has(core.toLowerCase())) return word.toLowerCase();
       // Capitalize the first LETTER (not first char — handles "(second Time)"),
-      // plus the letter after an Irish "O'" prefix (O'Brien).
+      // plus the letter after an Irish "O'" or Scottish "Mc" prefix (O'Brien,
+      // McGrath), a hyphen (Half-Hour) or a slash (Frost/Nixon).
       // First letter only when the word starts with one ("27th", not "27Th").
       return word
         .toLowerCase()
         .replace(/^([^a-z0-9]*)([a-z])/, (m, lead, c) => lead + c.toUpperCase())
-        .replace(/^O'([a-z])/, (m, c) => `O'${c.toUpperCase()}`);
+        .replace(/^O(['’])([a-z])/, (m, q, c) => `O${q}${c.toUpperCase()}`)
+        .replace(/^Mc([a-z]{2})/, (m, c) => `Mc${c[0].toUpperCase()}${c[1]}`)
+        .replace(/([-/])([a-z])/g, (m, sep, c) => `${sep}${c.toUpperCase()}`);
     })
     .join(" ")
-    .replace(/ - /g, " – ");
+    .replace(/ - /g, " – ")
+    // His name, however the uploader spelled it ("Norm Mcdonald").
+    .replace(/\bNorm Mc ?Donald\b/g, "Norm Macdonald")
+    // State after a city ("Austin, Tx").
+    .replace(/, (Az|Co|Il|Ma|Tx)\b/g, (m, s) => `, ${s.toUpperCase()}`);
 }
 
 // "1996.09.28 - …" / "1996 09 28 …" / "19960928 …" → "1996-09-28".
@@ -425,21 +458,61 @@ function buildThumbnailIndex(files, identifier) {
   return pick;
 }
 
+// Who hosted each episode of the SNL seasons Norm was in (plus season 25,
+// which he hosted himself), in episode order — so "S20 E05" can say whose
+// episode it was.
+const SNL_HOSTS = {
+  19: [
+    "Charles Barkley", "Shannen Doherty", "Jeff Goldblum", "John Malkovich", "Christian Slater", "Rosie O'Donnell",
+    "Nicole Kidman", "Charlton Heston", "Sally Field", "Jason Patric", "Sara Gilbert", "Patrick Stewart",
+    "Alec Baldwin & Kim Basinger", "Martin Lawrence", "Nancy Kerrigan", "Helen Hunt", "Kelsey Grammer",
+    "Emilio Estevez", "John Goodman", "Heather Locklear",
+  ],
+  20: [
+    "Steve Martin", "Marisa Tomei", "John Travolta", "Dana Carvey", "Sarah Jessica Parker", "John Turturro",
+    "Roseanne", "Alec Baldwin", "George Foreman", "Jeff Daniels", "David Hyde Pierce", "Bob Newhart",
+    "Deion Sanders", "George Clooney", "Paul Reiser", "John Goodman", "Damon Wayans", "Courteney Cox",
+    "Bob Saget", "David Duchovny",
+  ],
+  21: [
+    "Mariel Hemingway", "Chevy Chase", "David Schwimmer", "Gabriel Byrne", "Quentin Tarantino", "Laura Leighton",
+    "Anthony Edwards", "David Alan Grier", "Madeline Kahn", "Christopher Walken", "Alec Baldwin", "Danny Aiello",
+    "Tom Arnold", "Elle Macpherson", "John Goodman", "Phil Hartman", "Steve Forbes", "Teri Hatcher",
+    "Christine Baranski", "Jim Carrey",
+  ],
+  22: [
+    "Tom Hanks", "Lisa Kudrow", "Bill Pullman", "Dana Carvey", "Chris Rock", "Robert Downey Jr.", "Phil Hartman",
+    "Martin Short", "Rosie O'Donnell", "Kevin Spacey", "David Alan Grier", "Neve Campbell", "Chevy Chase",
+    "Alec Baldwin", "Sting", "Mike Myers", "Rob Lowe", "Pamela Lee", "John Goodman", "Jeff Goldblum",
+  ],
+  23: [
+    "Sylvester Stallone", "Matthew Perry", "Brendan Fraser", "Chris Farley", "Jon Lovitz", "Claire Danes",
+    "Rudy Giuliani", "Nathan Lane", "Helen Hunt", "Samuel L. Jackson", "Sarah Michelle Gellar", "John Goodman",
+    "Roma Downey", "Garth Brooks", "Scott Wolf", "Julianne Moore", "Steve Buscemi", "Greg Kinnear",
+    "Matthew Broderick", "David Duchovny",
+  ],
+  25: [undefined, undefined, "Norm Macdonald"],
+};
+
 // Collections whose filenames are codes rather than titles. Each returns the
 // display title (and the year, when the code implies one) or null to leave
 // the cleaned filename as-is.
 const STYLE_REWRITES = {
-  // "S19 E11 #1" / "S19 #4 E3" → "SNL S19E11 · Clip 1". SNL season N
-  // premiered in the fall of 1974 + N (S19 is 1993–94); about ten episodes
-  // air before the new year.
+  // "S19 E11 #1" / "S19 #4 E3" → "SNL S19E11 (host Sara Gilbert) · Clip 1".
+  // SNL season N premiered in the fall of 1974 + N (S19 is 1993–94); in
+  // seasons 19–23 the first nine episodes aired before the new year. "S40"
+  // is the 40th Anniversary Special (Feb 2015), not a season.
   "snl-codes": (title) => {
     const m = title.match(/^S(\d{1,2})(?:\s*E(\d{1,3}))?(?:\s*#\s*(\d+))?(?:\s*E(\d{1,3}))?\s*(.*)$/i);
     if (!m) return null;
     const [, season, epA, clip, epB, rest] = m;
     const ep = epA || epB;
+    const tail = `${clip ? ` · Clip ${clip}` : ""}${rest ? ` – ${rest}` : ""}`;
+    if (season === "40" && !ep) return { title: `SNL 40th Anniversary Special${tail}`, year: "2015" };
     const code = `S${season.padStart(2, "0")}${ep ? `E${ep.padStart(2, "0")}` : ""}`;
-    const year = 1974 + Number(season) + (ep && Number(ep) > 10 ? 1 : 0);
-    return { title: `SNL ${code}${clip ? ` · Clip ${clip}` : ""}${rest ? ` – ${rest}` : ""}`, year: String(year) };
+    const host = ep && SNL_HOSTS[season]?.[Number(ep) - 1];
+    const year = 1974 + Number(season) + (ep && Number(ep) > 9 ? 1 : 0);
+    return { title: `SNL ${code}${host ? ` (host ${host})` : ""}${tail}`, year: String(year) };
   },
   // "Norm12" → "Weekend Update #12" (the item is "All of Norm Macdonald's
   // Weekend Update news reads", numbered).
@@ -506,14 +579,20 @@ export function transformMetadata(meta, identifier, opts = {}) {
       let title = titleFromFilename(file.name, identifier);
       const styled = rewrite?.(title);
       if (styled) title = styled.title;
+      // Hand-checked corrections (lib/corrections.mjs) have the last word.
+      title = TITLE_FIXES[identifier]?.[baseName] || title;
       const { category, tags } = categorize(`${baseName} ${title}`, opts.defaultCategory);
       let year;
       if (opts.year) year = opts.year;
       else if (styled?.year) year = styled.year;
       else if (opts.uploadDated) {
-        // Only a date the uploader wrote into the title, e.g. "(Mar 20, 2020)" —
-        // never the upload date stamped on the filename.
-        year = (title.match(/\([^)]*\b(19[4-9]\d|20[0-2]\d)\)/) || [])[1] || null;
+        // Only a date the uploader wrote into the title, e.g. "(Mar 20, 2020)"
+        // or "… Jon Stewart 1996" — never the upload date stamped on the
+        // filename.
+        year =
+          (title.match(/\([^)]*\b(19[4-9]\d|20[0-2]\d)\)/) || [])[1] ||
+          (baseName.match(/\s(19[4-9]\d|20[0-2]\d)\.[^.]+$/) || [])[1] ||
+          null;
       } else {
         // Prefer the year from a leading date stamp ("1996.09.30", "20181025");
         // fall back to any year-like number in the filename.
@@ -554,10 +633,14 @@ export function transformMetadata(meta, identifier, opts = {}) {
   // Date-stamped episode dumps ("1996.09.28 - Weekend Update.mp4") all clean
   // down to the same title once the stamp is stripped — put the air date
   // back so twenty cards don't all just say "Weekend Update".
+  // A channel that reused a title for a different cut gets the upload date.
   const titleCounts = {};
   for (const v of videos) titleCounts[v.title] = (titleCounts[v.title] || 0) + 1;
   for (const v of videos) {
-    if (titleCounts[v.title] > 1 && v.airDate) v.title = `${v.title} (${formatAirDate(v.airDate)})`;
+    if (titleCounts[v.title] < 2) continue;
+    const uploaded = opts.uploadDated && leadingDate(v.filename.split("/").pop());
+    if (v.airDate) v.title = `${v.title} (${formatAirDate(v.airDate)})`;
+    else if (uploaded) v.title = `${v.title} (uploaded ${formatAirDate(uploaded)})`;
   }
   videos.sort(compareVideos);
 
@@ -668,6 +751,9 @@ function isFuzzyDuplicate(tokens, markers, shows, dur, accepted) {
 // single-source app) and dedup precedence — list the primary/original
 // source first.
 //
+// Before all that, clips lib/corrections.mjs lists as the same video as
+// another are dropped — as long as the copy it keeps actually loaded.
+//
 // onDrop(dropped, reason, matchedVideo) is called for every video dropped as
 // a duplicate — used by scripts/audit-library.mjs to verify each drop.
 export function mergeLibraries(results, labelsByIdentifier = {}, { onDrop } = {}) {
@@ -676,9 +762,15 @@ export function mergeLibraries(results, labelsByIdentifier = {}, { onDrop } = {}
   const seenIds = new Set();
   const acceptedTokensByDuration = new Map(); // durationSeconds → [{ tokens, markers, video }]
   const videos = [];
+  const byFile = new Map(results.flatMap((r) => r.videos.map((v) => [`${v.sourceIdentifier}/${v.filename.split("/").pop()}`, v])));
 
   for (const result of results) {
     for (const v of result.videos) {
+      const listedKeep = byFile.get(DUPLICATES[v.sourceIdentifier]?.[v.filename.split("/").pop()]);
+      if (listedKeep) {
+        onDrop?.(v, "listed duplicate", listedKeep);
+        continue;
+      }
       // Both the uploaded file and archive.org's re-encode of it: either one
       // turning up again in another item is the same video.
       const hashes = [v.md5, v.altMd5].filter(Boolean);

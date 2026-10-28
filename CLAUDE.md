@@ -36,7 +36,7 @@ In cloud sessions, always set `CHROMIUM_PATH` as above. The sandbox's installed 
 
 - `npm run audit:library` checks labels and duplicates against the live archive.org collections. It needs internet access to archive.org.
 - The "Norm library audit" GitHub Action runs the same check (start it by hand from the Actions tab) and publishes the report to the `audit-data` branch.
-- New categories go in `CATEGORY_RULES` in `lib/transform.mjs`; sources go in `lib/sources.mjs`.
+- New categories go in `CATEGORY_RULES` in `lib/transform.mjs`; sources go in `lib/sources.mjs`; one-off title fixes and hand-checked duplicates go in `lib/corrections.mjs`.
 
 ## Rules
 

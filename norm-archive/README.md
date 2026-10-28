@@ -53,12 +53,17 @@ Commercials, Awards & Hosting, Radio & Podcasts, Talk Shows, TV & Movies,
 Stand-Up, Interviews — rules in `CATEGORY_RULES`). Clips no rule matches take
 their source's default category from `lib/sources.mjs` (e.g. the "I'm Not
 Norm" channel rip → Fan Clips), then Other. Per-source options there also
-rewrite code-named files ("S19 E03 #1" → "SNL S19E03 · Clip 1", "Norm12" →
-"Weekend Update #12") and keep YouTube upload dates out of `year`.
+rewrite code-named files ("S19 E03 #1" → "SNL S19E03 (host Jeff Goldblum) ·
+Clip 1", "Norm12" → "Weekend Update #12") and keep YouTube upload dates out of
+`year`.
 
 Duplicates across and within sources are dropped by md5 (of the upload or its
 re-encode), then by identical title and length, then by reworded title at the
 same length (±1s) unless the two name different episodes, parts or shows.
+
+What the rules can't work out is listed by hand in `lib/corrections.mjs`:
+titles to replace (misspellings, cryptic codes, album tracks), and clips that
+are the same video as another under a different name.
 
 ## Develop
 
