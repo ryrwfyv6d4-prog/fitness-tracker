@@ -22,12 +22,15 @@ Run these from `norm-archive/`:
 
 ```sh
 npm install
-npm run test:e2e    # builds, then runs the data and app checks offline against e2e/fixtures.mjs
+CHROMIUM_PATH=/opt/pw-browsers/chromium npm run test:e2e    # in a Claude Code cloud session
+npm run test:e2e                                            # on Phil's own computer
 ```
 
-Both checks must pass. The app check needs a Chromium (`PLAYWRIGHT_BROWSERS_PATH` or `CHROMIUM_PATH`).
+This builds, then runs the data and app checks offline against `e2e/fixtures.mjs`. Both must pass.
 
-`npm run screens` (after a build) saves a screenshot of every screen to `e2e/.screens/` for review.
+In cloud sessions, always set `CHROMIUM_PATH` as above. The sandbox's installed browser build doesn't match the one the pinned `playwright-core` looks for, so without it the app check fails with "Executable doesn't exist". `/opt/pw-browsers/chromium` points at whatever browser is installed. Don't run `playwright install`, and don't treat that error as a failing test.
+
+`npm run screens` (after a build, with the same `CHROMIUM_PATH` in cloud sessions) saves a screenshot of every screen to `e2e/.screens/` for review.
 
 ## Library checks
 
